@@ -5,7 +5,7 @@
 #ifndef MC_PRICER_PERFORMANCEOPTION_H
 #define MC_PRICER_PERFORMANCEOPTION_H
 
-#include "Option.hpp"
+#include "Option.h"
 #include "pnl/pnl_vector.h"
 #include "pnl/pnl_matrix.h"
 /// \brief Classe de l'option performance
@@ -16,32 +16,32 @@ public:
     /**
 * Constructeur de l'option performance
 *
-* @param[in] T maturitÃ© de l'option
+* @param[in] T maturité de l'option
 * @param[in] nbTimeSteps  nombre de jours de simulation
 * @param[in] size nombre des sous-jacents
  * @param[in] payOffCoeffs vecteur des coefficients de payoffs
 */
-    PerformanceOption(double T, int nbTimeSteps, int size, PnlVect * payOffCoeffs) {
+    PerformanceOption(double T, int nbTimeSteps, int size, PnlVect* payOffCoeffs) {
         T_ = T;
         nbTimeSteps_ = nbTimeSteps;
         size_ = size;
         payOffCoeffs_ = payOffCoeffs;
     }
     /**
-* Payoff de l'option performance Ã  partir du marchÃ©
+* Payoff de l'option performance à partir du marché
 *
 * @param[in] path matrices des trajectoires des sous-jacents
 */
-    double payoff(const PnlMat *path);
+    double payoff(const PnlMat* path);
     /**
-    * Version optimisÃ©e du calcul du payoff
+    * Version optimisée du calcul du payoff
     *
-    * @param[in] path contient les trajectoires simulÃ©es des sous-jacents
-    * @param[in] past_payoff  contient la partie constante du payoff(calculÃ©e Ã  partir
-     * des donnÃ©es du marchÃ©)
-    * @param[in] past_len nombres de dates disponibles sur le marchÃ©.
+    * @param[in] path contient les trajectoires simulées des sous-jacents
+    * @param[in] past_payoff  contient la partie constante du payoff(calculée à partir
+     * des données du marché)
+    * @param[in] past_len nombres de dates disponibles sur le marché.
     */
-    double payoff(const PnlMat *path, double past_payoff, int past_len);
+    double payoff(const PnlMat* path, double past_payoff, int past_len);
 };
 
 #endif //MC_PRICER_PERFORMANCEOPTION_H

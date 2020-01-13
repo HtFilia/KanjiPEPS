@@ -5,7 +5,7 @@
 #ifndef MC_PRICER_VANILLACALLOPTION_H
 #define MC_PRICER_VANILLACALLOPTION_H
 
-#include "Option.hpp"
+#include "Option.h"
 #include "pnl/pnl_vector.h"
 #include "pnl/pnl_matrix.h"
 /// \brief Classe de l'option performance
@@ -35,8 +35,8 @@ public:
 */
 	double payoff(double S_T);
 
-	double payoff(const PnlMat *path, double past_payoff, int past_len);
-	double payoff(const PnlMat *path);
+	double payoff(const PnlMat* path, double past_payoff, int past_len);
+	double payoff(const PnlMat* path);
 };
 
 #endif //MC_PRICER_PERFORMANCEOPTION_H
