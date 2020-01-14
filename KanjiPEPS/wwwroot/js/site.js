@@ -17,11 +17,6 @@ function activateLink() {
     }
 }
 
-// Draw graph of kanji's price on sidebars
-function createGraph() {
-    //TODO
-}
-
 // Print current date on index page
 function printDate() {
     n = new Date();
@@ -34,8 +29,6 @@ function printDate() {
 function main() {
     // Event on click on link on sidebars
     $("body").on('click', '.nav-link', activateLink);
-    // Draw graph of kanji's price over time
-    createGraph();
     // Print current date on index page
     printDate();
 }
