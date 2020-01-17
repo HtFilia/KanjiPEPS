@@ -32,7 +32,6 @@ void validatePrice(PnlMat* simulated_path, VanillaCall* call, double r, double s
 	}
 	std::cout << count << " / " << 13 << "sont dans l'intervalle de confiance" << std::endl;
 
-
 }
 
 void validateDelta(PnlMat* simulated_path, VanillaCall* call, double r, double sigma_, double T, double strike, MonteCarlo* mc,
@@ -111,4 +110,11 @@ void main() {
 	std::cout << std::endl;
 	validateDelta(simulated_path, call, r, sigma_, T, strike, mc,
 		past, prix_mc, ic, model, nbTimeSteps, H);
+	PnlVect* option_values = pnl_vect_create(H + 1);
+	PnlVect* portfolio_values = pnl_vect_create(H + 1);
+	Hedge hedge(mc);
+	double error= 0;
+	double ic0 = 0;
+	hedge.PnL(simulated_path, nbTimeSteps + 1, portfolio_values, option_values, error, ic0);
+	PnlMat *comparaison = pnl_mat_create(H + 1, 2);
 }
