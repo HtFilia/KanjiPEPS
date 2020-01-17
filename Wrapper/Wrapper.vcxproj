@@ -77,7 +77,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\anas\Desktop\ProjetTest\Computations;C:\Users\ensimag\source\repos\ProjetTest\Computations;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\anas\source\repos\PEPS\Computations;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAsManaged>true</CompileAsManaged>
     </ClCompile>
     <Link>

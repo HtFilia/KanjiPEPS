@@ -56,7 +56,10 @@ void MonteCarlo::price(const PnlMat *past, double t, double &prix, double &ic) {
 
 
 void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic){
-    PnlMat* path =  pnl_mat_create (opt_->nbTimeSteps_ + 1, opt_->size_); //creation path, matrice ou on simule
+	//std::cout << "DEBUG " << std::endl;
+	//pnl_mat_print(past);
+	//std::cout << "DEBUG " << std::endl;
+	PnlMat* path =  pnl_mat_create (opt_->nbTimeSteps_ + 1, opt_->size_); //creation path, matrice ou on simule
     double timestep = opt_->T_/opt_->nbTimeSteps_; //pas de discretisation
     PnlMat* shifted_pathp =  pnl_mat_create (opt_->nbTimeSteps_ + 1, opt_->size_);
     PnlMat* shifted_pathm =  pnl_mat_create (opt_->nbTimeSteps_ + 1, opt_->size_); //creation de deux paths deviés
@@ -120,8 +123,6 @@ void MonteCarlo::price_and_delta(const PnlMat *past, double t,double &prix, doub
     double prev_payoff = opt_->payoff(past);
     for (int m = 0; m < nbSamples_; m++) {
         mod_->asset(path, t, opt_->T_, opt_->nbTimeSteps_, rng_, past);
-        //pnl_mat_print(path);
-        //payoff = opt_->payoff(path, prev_payoff, past->m);
         payoff = opt_->payoff(path);
         payoffs += payoff;
         payoffs_squared += pnl_pow_i(payoff, 2);

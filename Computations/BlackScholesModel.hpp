@@ -78,6 +78,8 @@ public:         /// nombre d'actifs du modèle
      */
     void asset(PnlMat *path, double t, double T, int nbTimeSteps, PnlRng *rng, const PnlMat *past);
 
+	void asset2(PnlMat * path, double t, double T, int nbTimeSteps, PnlRng * rng, const PnlMat * past, PnlMat * G);
+
     /**
      * Shift d'une trajectoire du sous-jacent
      *
@@ -99,9 +101,23 @@ public:         /// nombre d'actifs du modèle
  * @param[out]  path contient en output la trajectoire
  * des sous-jacents
  * @param[in] T maturité de l'option
- * @param[in] heg_dates_number nombres de dates de rebalancement
+ * @param[in] H nombres de dates de constatation - 1
  * @param[in] rng generéateur aleatoire de pnl
  */
-    void simul_market(PnlMat *path,double T, int heg_dates_number, PnlRng *rng);
+    void simul_market(PnlMat *path,double T, int H, PnlRng *rng);
 
-};
+
+	/**
+ * Simule le marché (trajectoires des sous-jacents) à partir du vecteur des tendances.
+ *
+ * @param[out]  past contient en output la trajectoire
+ * des sous-jacents jusqu'à la date t
+ * @param[in] T maturité de l'option
+ * @param[in] path trajectoire complète des sous-jascents
+ * @param[in] n_time_steps nombres de dates de discrétisation
+ * @param[in] H nombres de dates de constatation - 1
+ * @param[in] T maturité
+ */
+	void getPast(PnlMat *past, PnlMat *path, double t, int n_time_steps, int H, double T);
+
+	};

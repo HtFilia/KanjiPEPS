@@ -8,6 +8,8 @@
 #include "Option.hpp"
 #include "pnl/pnl_vector.h"
 #include "pnl/pnl_matrix.h"
+#include "pnl/pnl_cdf.h"
+#include "pnl/pnl_specfun.h"
 /// \brief Classe de l'option performance
 
 class VanillaCall : public Option {
@@ -37,6 +39,10 @@ public:
 
 	double payoff(const PnlMat *path, double past_payoff, int past_len);
 	double payoff(const PnlMat *path);
+	double price(double t, double spot, double r, double sigma, double maturity, double strike);
+	double delta(double t, double spot, double r, double sigma, double maturity, double strike);
 };
+
+
 
 #endif //MC_PRICER_PERFORMANCEOPTION_H
