@@ -67,22 +67,22 @@ void validateDelta(PnlMat* simulated_path, VanillaCall* call, double r, double s
 }
 
 
-void main() {
+int main() {
 	// initializing the random number generator 
 	PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
 	pnl_rng_sseed(rng, time(NULL));
 
 	// initializing the model and the call option
 	double r = 0.02;
-	double spot_ = 100;
+	double spot_ = 109;
 	double sigma_ = 0.2;
 	PnlVect *spot = pnl_vect_create_from_scalar(1, spot_);
 	PnlVect *sigma = pnl_vect_create_from_scalar(1, sigma_);
 	PnlVect *trend = pnl_vect_create_from_scalar(1, r);
 	double T = 1;
-	double strike = 110;
+	double strike = 100;
 	BlackScholesModel* model = new BlackScholesModel(1, r, 0, sigma, spot, trend);
-	int nbTimeSteps = 3;
+	int nbTimeSteps = 10;
 	VanillaCall* call = new VanillaCall(T, nbTimeSteps, 1, strike);
 
 	// initializing the montecarlo tool
@@ -95,7 +95,7 @@ void main() {
 	double ic = 0;
 
 	// simulating the data
-	int H = 12;
+	int H = 30;
 	PnlMat* simulated_path = pnl_mat_create(H, 1);
 	model->simul_market(simulated_path, T, H, rng);
 	std::cout << "\n simulated path \n";
@@ -105,11 +105,9 @@ void main() {
 	PnlMat *past = pnl_mat_create(1, 1);
 	std::cout << std::endl;
 	PnlMat *path = pnl_mat_create_from_scalar(nbTimeSteps + 1, 1, spot_);
-	validatePrice(simulated_path, call, r, sigma_, T, strike, mc,
-		past, prix_mc, ic, model, nbTimeSteps, H);
+	//validatePrice(simulated_path, call, r, sigma_, T, strike, mc,past, prix_mc, ic, model, nbTimeSteps, H);
 	std::cout << std::endl;
-	validateDelta(simulated_path, call, r, sigma_, T, strike, mc,
-		past, prix_mc, ic, model, nbTimeSteps, H);
+	//validateDelta(simulated_path, call, r, sigma_, T, strike, mc,past, prix_mc, ic, model, nbTimeSteps, H);
 	PnlVect* option_values = pnl_vect_create(H + 1);
 	PnlVect* portfolio_values = pnl_vect_create(H + 1);
 	Hedge hedge(mc);
@@ -117,4 +115,5 @@ void main() {
 	double ic0 = 0;
 	hedge.PnL(simulated_path, nbTimeSteps + 1, portfolio_values, option_values, error, ic0);
 	PnlMat *comparaison = pnl_mat_create(H + 1, 2);
+	return 0;
 }

@@ -32,8 +32,7 @@ public:              /// pointeur vers l'estimateur de monte carlo
      */
     void PnL(PnlMat *path, double N, PnlVect *portfolio_values, PnlVect* option_prices, double& error, double ic0);
 
-	void rebalance(PnlVect * spots_at_t, PnlMat * path, int index, double t, int N, int H, double T, PnlVect * option_prices, PnlVect * delta_difference, PnlVect * delta_prev, PnlVect * delta, PnlVect * ic_delta, PnlVect * portfolio_values, PnlVect * risk_free_part);
-
+	PnlVect * rebalance(PnlMat * path, int index, double t, int N, int H, double T, PnlVect * option_prices, PnlVect * portfolio_values, PnlVect * delta_prev);
 };
 
 
