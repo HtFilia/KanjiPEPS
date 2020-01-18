@@ -130,8 +130,9 @@ void BlackScholesModel::simul_market(PnlMat *path, double T, int H, PnlRng *rng)
 	}
 }
 
-void BlackScholesModel::getPast(PnlMat *past, PnlMat *path, double t, int n_time_steps, int H, double T)
+void BlackScholesModel::getPast(PnlMat *past, PnlMat *path, double t, int n_time_steps,  double T)
 {
+	int H = path->m - 1;
 	double timespan = T / n_time_steps;
 	int dates_till_t = ceil(t / timespan) + 1;
 	pnl_mat_resize(past, dates_till_t , size_);

@@ -118,6 +118,6 @@ public:         /// nombre d'actifs du modèle
  * @param[in] H nombres de dates de constatation - 1
  * @param[in] T maturité
  */
-	void getPast(PnlMat *past, PnlMat *path, double t, int n_time_steps, int H, double T);
+	void getPast(PnlMat *past, PnlMat *path, double t, int n_time_steps, double T);
 
 	};

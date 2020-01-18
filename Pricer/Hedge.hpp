@@ -30,9 +30,9 @@ public:              /// pointeur vers l'estimateur de monte carlo
      * @param[out] option_prices contient les prix de l'option
      * @param[out] error contient l'erreur de couverture
      */
-    void PnL(PnlMat *path, double N, PnlVect *portfolio_values, PnlVect* option_prices, double& error, double ic0);
+    void PnL(PnlMat *path, int n_time_steps, int H, PnlVect *portfolio_values, PnlVect* option_prices, double& error);
 
-	PnlVect * rebalance(PnlMat * path, int index, double t, int N, int H, double T, PnlVect * option_prices, PnlVect * portfolio_values, PnlVect * delta_prev);
+	PnlVect * rebalance(PnlMat* path, int path_index, int hedging_index, double t, int N, int H, double T, PnlVect* option_prices, PnlVect* portfolio_values, PnlVect *delta_prev);
 };
 
 
