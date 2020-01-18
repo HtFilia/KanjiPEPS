@@ -126,11 +126,6 @@
   <ItemGroup>
     <ClCompile Include="Wrapper.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Computations\Computations.vcxproj">
-      <Project>{07e92c7d-cc38-4bfe-8a79-8edafb50aa56}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
