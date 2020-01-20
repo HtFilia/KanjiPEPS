@@ -148,7 +148,7 @@ void validate_price_kanji(PnlRng *rng) {
 	int n_time_steps = 10;
 	double T = 1.0;
 	double r = 0.02;
-	double spot_ = 109;
+	double spot_ = 100;
 	double sigma_ = 0.2;
 	int size = 3;
 	PnlVect *spot = pnl_vect_create_from_scalar(size, spot_);
@@ -163,7 +163,8 @@ void validate_price_kanji(PnlRng *rng) {
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
 	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, n_samples, epsilon_n);
 	int H = 50;
-	PnlMat* simulated_path = pnl_mat_create(M, 1);
+	PnlMat* simulated_path = pnl_mat_create(M+1, 1);
+	model->simul_market(simulated_path, T, M, rng);
 	int n_scenarios = 10;
 	double prix_mc = 0, ic=0,t=0, error = 0;
 	PnlMat* past = pnl_mat_create(1, 1);
@@ -172,7 +173,7 @@ void validate_price_kanji(PnlRng *rng) {
 		t = i / (double)M;
 		model->getPast(past, simulated_path, t, n_time_steps, T);
 		mc->price(past, t, prix_mc, ic);
-		myfile << "prix en t = " << t << " Monte-Carlo : " << prix_mc;
+		myfile << "prix en t = " << t << " Monte-Carlo : " << prix_mc << "\n";
 	}
 	myfile.close();
 }
@@ -186,7 +187,7 @@ void validate_delta_kanji(PnlRng *rng) {
 	int n_time_steps = 10;
 	double T = 1.0;
 	double r = 0.02;
-	double spot_ = 109;
+	double spot_ = 100;
 	double sigma_ = 0.2;
 	int size = 3;
 	PnlVect *spot = pnl_vect_create_from_scalar(size, spot_);
@@ -201,7 +202,8 @@ void validate_delta_kanji(PnlRng *rng) {
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
 	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, n_samples, epsilon_n);
 	int H = 50;
-	PnlMat* simulated_path = pnl_mat_create(M, 1);
+	PnlMat* simulated_path = pnl_mat_create(M+1, 1);
+	model->simul_market(simulated_path, T, M, rng);
 	int n_scenarios = 10;
 	double t = 0, error = 0;
 	PnlMat* past = pnl_mat_create(1, 1);
@@ -215,6 +217,7 @@ void validate_delta_kanji(PnlRng *rng) {
 		for (int i = 0; i < size; i++)
 		{
 			myfile << pnl_vect_get(delta, i) << " " ;
+			pnl_vect_print(delta); std::cout << "\n";
 		}
 		myfile << std::endl;
 	}
@@ -265,7 +268,7 @@ int main() {
 
 	validate_price_kanji(rng);
 	
-	//validate_delta_kanji(rng);
+	validate_delta_kanji(rng);
 	
 	//validate_mean_error_kanji(rng);
 
