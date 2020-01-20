@@ -21,7 +21,7 @@ void validate_price_call(PnlMat* simulated_path, VanillaCall* call, double r, do
 	myfile << " Validation price" << std::endl;
 	for (double i = 0.0; i <= double(M); i++)
 	{
-		t = i / (double)M;
+		t = T*i / (double)M;
 		model->getPast(past, simulated_path, t, n_time_steps,T);
 		spot_at_t = MGET(simulated_path, int(i), 0);
 		prix = call->price(t, spot_at_t, r, sigma_, T, strike);
@@ -59,7 +59,7 @@ void validate_delta_call(PnlMat* simulated_path, VanillaCall* call, double r, do
 	myfile << " Validation delta " << std::endl;
 	for (double i = 0.0; i <= (double)M; i++)
 	{
-		t = i / (double)M;
+		t = T*i / (double)M;
 		model->getPast(past, simulated_path, t, n_time_steps, T);
 		spot_at_t = MGET(simulated_path, (int)i, 0);
 		delta_ferme = call->delta(t, spot_at_t, r, sigma_, T, strike);
@@ -144,9 +144,9 @@ void validate_mean_error_kanji(PnlRng *rng) {
 void validate_price_kanji(PnlRng *rng) {
 	std::ofstream myfile;
 	myfile.open("../Validation/price_kanji.txt");
-	int M = 100;
-	int n_time_steps = 10;
-	double T = 1.0;
+	int M = 160;
+	int n_time_steps = 16;
+	double T = 345;
 	double r = 0.02;
 	double spot_ = 100;
 	double sigma_ = 0.2;
@@ -162,15 +162,13 @@ void validate_price_kanji(PnlRng *rng) {
 	double gamma = -1.0 / 4.0;
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
 	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, n_samples, epsilon_n);
-	int H = 50;
 	PnlMat* simulated_path = pnl_mat_create(M+1, 1);
 	model->simul_market(simulated_path, T, M, rng);
-	int n_scenarios = 10;
 	double prix_mc = 0, ic=0,t=0, error = 0;
 	PnlMat* past = pnl_mat_create(1, 1);
 	for (double i = 0.0; i <= double(M); i++)
 	{
-		t = i / (double)M;
+		t = T*i / (double)M;
 		model->getPast(past, simulated_path, t, n_time_steps, T);
 		mc->price(past, t, prix_mc, ic);
 		myfile << "prix en t = " << t << " Monte-Carlo : " << prix_mc << "\n";
@@ -210,7 +208,7 @@ void validate_delta_kanji(PnlRng *rng) {
 	PnlVect* delta = pnl_vect_create(size), *ic= pnl_vect_create(size);
 	for (double i = 0.0; i <= double(M); i++)
 	{
-		t = i / (double)M;
+		t = T*i / (double)M;
 		model->getPast(past, simulated_path, t, n_time_steps, T);
 		mc->delta(past, t, delta, ic);
 		pnl_vect_print(delta); std::cout << "\n";
@@ -268,7 +266,7 @@ int main() {
 
 	//validate_price_kanji(rng);
 	
-	validate_delta_kanji(rng);
+	//validate_delta_kanji(rng);
 	
 	//validate_mean_error_kanji(rng);
 

@@ -3,6 +3,7 @@
 #include "pnl/pnl_vector.h"
 #include "pnl/pnl_matrix.h"
 #include "pnl/pnl_mathtools.h"
+
 /// \brief Classe Option abstraite
 class Option
 {
