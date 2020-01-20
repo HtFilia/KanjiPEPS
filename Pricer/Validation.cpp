@@ -175,7 +175,34 @@ void validate_price_kanji(PnlRng *rng) {
 	}
 	myfile.close();
 }
+double price0(PnlRng *rng) {
+	double prix = 0.0;
+	double ic = 0.0;
+	PnlVect * deltas = pnl_vect_create(3);
+	PnlVect * ic_deltas = pnl_vect_create(3);
 
+	int M = 50000;
+	int n_time_steps = 16;
+	double T = 2;
+	double r = 0.07;
+	double spot_ = 2681;
+	double sigma_ = 0.2;
+	double correlation = 0.5;
+	int size = 3;
+	PnlVect *spot = pnl_vect_create_from_scalar(size, spot_);
+	PnlVect *sigma = pnl_vect_create_from_scalar(size, sigma_);
+	PnlVect *trend = pnl_vect_create_from_scalar(size, r);
+	BlackScholesModel* model = new BlackScholesModel(size, r, correlation, sigma, spot, trend);
+	KanjiOption *kanji = new KanjiOption(T, n_time_steps, size);
+	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, M,  0.1);
+	PnlMat *past = pnl_mat_create_from_double(1, 3, 0);
+	pnl_mat_set_row(past, spot, 0);
+	mc->price_and_delta(past, 0, prix, ic, deltas, ic_deltas);
+	std::cout << prix;
+	return prix;
+
+
+}
 
 
 void validate_delta_kanji(PnlRng *rng) {
@@ -228,47 +255,48 @@ int main() {
 	PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
 	pnl_rng_sseed(rng, time(NULL));
 
-	// initializing the model and the call option
-	double r = 0.02;
-	double spot_ = 109;
-	double sigma_ = 0.2;
-	PnlVect *spot = pnl_vect_create_from_scalar(1, spot_);
-	PnlVect *sigma = pnl_vect_create_from_scalar(1, sigma_);
-	PnlVect *trend = pnl_vect_create_from_scalar(1, r);
-	double T = 1;
-	double strike = 100;
-	BlackScholesModel* model = new BlackScholesModel(1, r, 0, sigma, spot, trend);
-	int n_time_steps = 10;
-	VanillaCall* call = new VanillaCall(T, n_time_steps, 1, strike);
+	price0(rng);
+	//// initializing the model and the call option
+	//double r = 0.02;
+	//double spot_ = 109;
+	//double sigma_ = 0.2;
+	//PnlVect *spot = pnl_vect_create_from_scalar(1, spot_);
+	//PnlVect *sigma = pnl_vect_create_from_scalar(1, sigma_);
+	//PnlVect *trend = pnl_vect_create_from_scalar(1, r);
+	//double T = 1;
+	//double strike = 100;
+	//BlackScholesModel* model = new BlackScholesModel(1, r, 0, sigma, spot, trend);
+	//int n_time_steps = 10;
+	//VanillaCall* call = new VanillaCall(T, n_time_steps, 1, strike);
 
-	// initializing the montecarlo tool
-	int n_samples = 50000;
-	double epsilon = 0.000001;
-	double gamma = -1.0 / 4.0;
-	double epsilon_n = epsilon*pow(n_samples, -gamma);
-	MonteCarlo* mc = new MonteCarlo(model, call, rng, T / n_time_steps, n_samples, epsilon_n);
-	double ic = 0;
+	//// initializing the montecarlo tool
+	//int n_samples = 50000;
+	//double epsilon = 0.000001;
+	//double gamma = -1.0 / 4.0;
+	//double epsilon_n = epsilon*pow(n_samples, -gamma);
+	//MonteCarlo* mc = new MonteCarlo(model, call, rng, T / n_time_steps, n_samples, epsilon_n);
+	//double ic = 0;
 
-	// simulating the data
-	int M = 100;
-	PnlMat* simulated_path = pnl_mat_create(M, 1);
-	model->simul_market(simulated_path, T, M, rng);
-	// computing the price 
-	PnlMat *past = pnl_mat_create(1, 1);
-	PnlMat *path = pnl_mat_create_from_scalar(n_time_steps + 1, 1, spot_);
+	//// simulating the data
+	//int M = 100;
+	//PnlMat* simulated_path = pnl_mat_create(M, 1);
+	//model->simul_market(simulated_path, T, M, rng);
+	//// computing the price 
+	//PnlMat *past = pnl_mat_create(1, 1);
+	//PnlMat *path = pnl_mat_create_from_scalar(n_time_steps + 1, 1, spot_);
 
 
-	//validate_price_call(simulated_path, call, r, sigma_, T, strike, mc,past, model, n_time_steps);
+	////validate_price_call(simulated_path, call, r, sigma_, T, strike, mc,past, model, n_time_steps);
 
-	//validate_delta_call(simulated_path, call, r, sigma_, T, strike, mc,past, model, n_time_steps);
+	////validate_delta_call(simulated_path, call, r, sigma_, T, strike, mc,past, model, n_time_steps);
 
-	//validate_hedging_frequency_call(mc, simulated_path, n_time_steps, strike);
+	////validate_hedging_frequency_call(mc, simulated_path, n_time_steps, strike);
 
-	validate_price_kanji(rng);
-	
-	//validate_delta_kanji(rng);
-	
-	//validate_mean_error_kanji(rng);
+	//validate_price_kanji(rng);
+	//
+	////validate_delta_kanji(rng);
+	//
+	////validate_mean_error_kanji(rng);
 
 	return 0;
 }
