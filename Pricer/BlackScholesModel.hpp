@@ -101,10 +101,10 @@ public:         /// nombre d'actifs du modèle
  * @param[out]  path contient en output la trajectoire
  * des sous-jacents
  * @param[in] T maturité de l'option
- * @param[in] H nombres de dates de constatation - 1
+ * @param[in] M nombres de dates de constatation - 1 ( M+1 dates en comptant 0)
  * @param[in] rng generéateur aleatoire de pnl
  */
-    void simul_market(PnlMat *path,double T, int H, PnlRng *rng);
+    void simul_market(PnlMat *path,double T, int M, PnlRng *rng);
 
 
 	/**

@@ -105,23 +105,23 @@ void BlackScholesModel::shiftAsset(PnlMat *shift_path, const PnlMat *path, int d
 }
 
 
-void BlackScholesModel::simul_market(PnlMat *path, double T, int H, PnlRng *rng) {
+void BlackScholesModel::simul_market(PnlMat *path, double T, int M, PnlRng *rng) {
 	
-	pnl_mat_resize(path, H + 1, size_);
+	pnl_mat_resize(path, M + 1, size_);
 	pnl_mat_set_row(path, spot_, 0);
-	PnlMat* G = pnl_mat_create(H+1, size_);
-	pnl_mat_rng_normal(G, H+1, size_, rng);
+	PnlMat* G = pnl_mat_create(M+1, size_);
+	pnl_mat_rng_normal(G, M+1, size_, rng);
 
 	double expo = 0;
 
-	double timeSpan = T / H;
+	double timeSpan = T / M;
 
 	PnlVect* Ld = pnl_vect_create(size_);
 	PnlVect* Gi = pnl_vect_create(size_);
 
 	for (int d = 0; d < size_; d++) {
 		pnl_mat_get_row(Ld, corr, d);
-		for (int i = 1; i < H+1; i++) {
+		for (int i = 1; i < M+1; i++) {
 			pnl_mat_get_row(Gi, G, i - 1);
 			expo = pnl_expm1((GET(trend_, d) - pnl_pow_i(GET(sigma_, d), 2) / 2)  * i * timeSpan +
 				GET(sigma_, d) * sqrt(timeSpan) * pnl_vect_scalar_prod(Ld, Gi)) + 1;
