@@ -8,24 +8,18 @@ double KanjiOption::payoff(const PnlMat *path) {
 
     double payoff = 0;
 	double perf = 0;
-    PnlVect *values = pnl_vect_create(size_);
-	int N = 16;
-	double timestep = T_ / (double)N;
-    pnl_mat_get_row(values, path, 0);
+    PnlVect *initial_values = pnl_vect_create(size_);
+	pnl_mat_get_row(initial_values, path, 0);
+	double timestep = T_ / (double)nbTimeSteps_;
     double mean = 0, t = 0;
-	int index;
-    for (int i = 1; i <= 16; i++) {
-		t = i * timestep;
-		index = 
+    for (int i = 1; i <= nbTimeSteps_; i++) {
 		for (int d = 0; d < size_; d++)
 		{
-			perf = perf + pnl_mat_get(path, index, d);
+			perf = perf + pnl_mat_get(path, i, d)/pnl_vect_get(initial_values,d) - 1;
 		}
-        pnl_mat_get_row(values, path, i);
-        mean = pnl_vect_scalar_prod(weights_, values);
-        payoff += (mean < prev_mean) ? 0 : (mean/prev_mean - 1);
-        prev_mean = mean;
+		payoff = MAX(perf, 0);
+		perf = 0;
     }
-    pnl_vect_free(&values);
+    pnl_vect_free(&initial_values);
     return payoff;
 }
