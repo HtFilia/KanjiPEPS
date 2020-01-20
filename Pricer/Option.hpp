@@ -9,8 +9,7 @@ class Option
 public:  /// maturité
     double T_;     /// nombre de pas de temps de discrétisation
     int nbTimeSteps_;  /// dimension du modèle, redondant avec BlackScholesModel::size_
-    int size_;  /// vecteur des poids figurant dans le payoff
-    PnlVect * weights_;
+    int size_;
 
     /**
      * Calcule la valeur du payoff sur la trajectoire

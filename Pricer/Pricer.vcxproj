@@ -127,7 +127,7 @@
     <ClCompile Include="Hedge.cpp" />
     <ClCompile Include="MonteCarlo.cpp" />
     <ClCompile Include="Option.cpp" />
-    <ClCompile Include="PerformanceOption.cpp" />
+    <ClCompile Include="KanjiOption.cpp" />
     <ClCompile Include="VanillaCall.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -135,7 +135,7 @@
     <ClInclude Include="Hedge.hpp" />
     <ClInclude Include="MonteCarlo.hpp" />
     <ClInclude Include="Option.hpp" />
-    <ClInclude Include="PerformanceOption.hpp" />
+    <ClInclude Include="KanjiOption.hpp" />
     <ClInclude Include="VanillaCall.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

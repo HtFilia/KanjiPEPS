@@ -10,7 +10,7 @@
 #include "pnl/pnl_matrix.h"
 /// \brief Classe de l'option performance
 
-class PerformanceOption : public Option {
+class KanjiOption : public Option {
 
 public:
     /**
@@ -21,11 +21,10 @@ public:
 * @param[in] size nombre des sous-jacents
  * @param[in] payOffCoeffs vecteur des coefficients de payoffs
 */
-    PerformanceOption(double T, int nbTimeSteps, int size, PnlVect * weights) {
+	KanjiOption(double T, int nbTimeSteps, int size) {
         T_ = T;
         nbTimeSteps_ = nbTimeSteps;
         size_ = size;
-		weights_ = weights;
     }
     /**
 * Payoff de l'option performance à partir du marché
