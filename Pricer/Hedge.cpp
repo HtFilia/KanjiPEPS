@@ -11,6 +11,8 @@ void Hedge::PnL(PnlMat *path, int n_time_steps, int H, PnlVect *portfolio_values
     double T = mc_->opt_->T_;
     double prix = 0;
     double ic_prix = 0;
+	pnl_vect_resize(portfolio_values, H + 1);
+	pnl_vect_resize(option_prices, H + 1);
     PnlMat *past = pnl_mat_create(1,1);;
     PnlVect *delta_prev = pnl_vect_create_from_scalar(size, 0);
     PnlVect *ic_delta = pnl_vect_create(size);

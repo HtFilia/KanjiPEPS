@@ -10,7 +10,7 @@
 #include "pnl/pnl_matrix.h"
 /// \brief Classe de l'option performance
 
-class PerformanceOption : public Option {
+class KanjiOption : public Option {
 
 public:
     /**
@@ -21,11 +21,10 @@ public:
 * @param[in] size nombre des sous-jacents
  * @param[in] payOffCoeffs vecteur des coefficients de payoffs
 */
-    PerformanceOption(double T, int nbTimeSteps, int size, PnlVect * payOffCoeffs) {
+	KanjiOption(double T, int nbTimeSteps, int size) {
         T_ = T;
         nbTimeSteps_ = nbTimeSteps;
         size_ = size;
-        payOffCoeffs_ = payOffCoeffs;
     }
     /**
 * Payoff de l'option performance à partir du marché
@@ -33,15 +32,6 @@ public:
 * @param[in] path matrices des trajectoires des sous-jacents
 */
     double payoff(const PnlMat *path);
-    /**
-    * Version optimisée du calcul du payoff
-    *
-    * @param[in] path contient les trajectoires simulées des sous-jacents
-    * @param[in] past_payoff  contient la partie constante du payoff(calculée à partir
-     * des données du marché)
-    * @param[in] past_len nombres de dates disponibles sur le marché.
-    */
-    double payoff(const PnlMat *path, double past_payoff, int past_len);
 };
 
 #endif //MC_PRICER_PERFORMANCEOPTION_H
