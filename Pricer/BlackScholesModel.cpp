@@ -99,7 +99,7 @@ void BlackScholesModel::asset(PnlMat *path, double t, double T, int nbTimeSteps,
 void BlackScholesModel::shiftAsset(PnlMat *shift_path, const PnlMat *path, int d, double h, double t, double timestep){
     int i = ceil(t/timestep);
     pnl_mat_clone(shift_path, path);
-    for (int k = i; k < path->m; ++k) {
+    for (int k = i+1; k < path->m; ++k) {
         pnl_mat_set(shift_path,k,d, (1+h)*pnl_mat_get(path,k,d));
     }
 }
