@@ -270,6 +270,7 @@ void validate_delta_kanji(PnlRng *rng) {
 }
 
 
+
 int main() {
 	// initializing the random number generator 
 	PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
@@ -310,7 +311,7 @@ int main() {
 
 	//validate_delta_call(simulated_path, call, r, sigma_, T, strike, mc,past, model, n_time_steps);
 
-	validate_hedging_frequency_call(rng);
+	//validate_hedging_frequency_call(rng);
 
 	//validate_price_kanji(rng);
 	
