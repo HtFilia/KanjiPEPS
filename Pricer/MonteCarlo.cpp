@@ -125,8 +125,8 @@ void MonteCarlo::price_and_delta(const PnlMat *past, double t,double &prix, doub
         payoffs += payoff;
         payoffs_squared += pnl_pow_i(payoff, 2);
         for (int d = 0; d < opt_->size_ ; ++d) {
-            mod_->shiftAsset(shifted_pathp, path, d, fdStep_, t, timestep);
-            mod_->shiftAsset(shifted_pathm, path, d, -fdStep_, t, timestep);
+            mod_->shiftAsset(shifted_pathp, path, d, h, t, timestep);
+            mod_->shiftAsset(shifted_pathm, path, d, -h, t, timestep);
             difference = opt_->payoff(shifted_pathp) - opt_->payoff(shifted_pathm);
             pnl_vect_set(delta, d, difference + pnl_vect_get(delta, d));
             pnl_vect_set(differences, d, difference + pnl_vect_get(differences,d));

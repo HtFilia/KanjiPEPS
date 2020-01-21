@@ -80,6 +80,8 @@ void validate_delta_call(PnlMat* simulated_path, VanillaCall* call, double r, do
 		myfile  << "   [" << delta_ - ic_delta_ / 2 << ", " << delta_ + ic_delta_ / 2 << "] " << std::endl;
 	}
 	myfile << std::endl << count << " / " << int(M+1) << "sont dans l'intervalle de confiance" << std::endl;
+	pnl_vect_free(&ic_delta);
+	pnl_vect_free(&delta);
 }
 
 void validate_hedging_frequency_call(MonteCarlo* mc, PnlMat* simulated_path, int nbTimeSteps, double strike) {
@@ -97,13 +99,15 @@ void validate_hedging_frequency_call(MonteCarlo* mc, PnlMat* simulated_path, int
 		myfile << "Erreur pour " << H << " dates de rebalancement : " << error << std::endl;
 	}
 	myfile.close();
+	pnl_vect_free(&option_values);
+	pnl_vect_free(&portfolio_values);
 }
 
 void validate_mean_error_kanji(PnlRng *rng) {
 	std::ofstream myfile;
 	myfile.open("../Validation/mean_error_kanji.txt");
-	int M = 100;
-	int n_time_steps = 10;
+	int M = 32;
+	int n_time_steps = 4;
 	double T = 1.0;
 	double r = 0.02;
 	double spot_ = 109;
@@ -112,15 +116,16 @@ void validate_mean_error_kanji(PnlRng *rng) {
 	PnlVect *spot = pnl_vect_create_from_scalar(size, spot_);
 	PnlVect *sigma = pnl_vect_create_from_scalar(size, sigma_);
 	PnlVect *trend = pnl_vect_create_from_scalar(size, r);
-	BlackScholesModel* model = new BlackScholesModel(1, r, 0, sigma, spot, trend);
+	BlackScholesModel* model = new BlackScholesModel(size, r, 0, sigma, spot, trend);
 	KanjiOption *kanji = new KanjiOption(T, n_time_steps, size);
 	int n_samples = 50000;
 	double epsilon = 0.000001;
 	double gamma = -1.0 / 4.0;
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
 	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, n_samples, epsilon_n);
-	int H = 50;
-	PnlMat* simulated_path = pnl_mat_create(M, 1);
+	int H = 8 ;
+	PnlMat* simulated_path = pnl_mat_create(M+1, 1);
+	model->simul_market(simulated_path, T, M, rng);
 	double error = 0;
 	int n_scenarios = 10;
 	PnlVect* option_values = pnl_vect_create(1);
@@ -138,15 +143,21 @@ void validate_mean_error_kanji(PnlRng *rng) {
 	mean_error = mean_error / n_scenarios;
 	myfile << "Erreur moyenne sur " << n_scenarios << " scénarios : " << mean_error;
 	myfile.close();
+	pnl_vect_free(&spot);
+	pnl_vect_free(&trend);
+	pnl_vect_free(&sigma);
+	pnl_vect_free(&portfolio_values);
+	pnl_vect_free(&portfolio_values);
+	pnl_mat_free(&simulated_path);
 }
 
 
 void validate_price_kanji(PnlRng *rng) {
 	std::ofstream myfile;
 	myfile.open("../Validation/price_kanji.txt");
-	int M = 160;
-	int n_time_steps = 16;
-	double T = 345;
+	int M = 32;
+	int n_time_steps = 4;
+	double T = 1;
 	double r = 0.02;
 	double spot_ = 100;
 	double sigma_ = 0.2;
@@ -155,7 +166,7 @@ void validate_price_kanji(PnlRng *rng) {
 	PnlVect *sigma = pnl_vect_create_from_scalar(size, sigma_);
 	PnlVect *trend = pnl_vect_create_from_scalar(size, r);
 	PnlVect *weights = pnl_vect_create_from_scalar(size, 1.0 / 3.0);
-	BlackScholesModel* model = new BlackScholesModel(1, r, 0, sigma, spot, trend);
+	BlackScholesModel* model = new BlackScholesModel(size, r, 0, sigma, spot, trend);
 	KanjiOption *kanji = new KanjiOption(T, n_time_steps, size);
 	int n_samples = 50000;
 	double epsilon = 0.000001;
@@ -171,18 +182,26 @@ void validate_price_kanji(PnlRng *rng) {
 		t = T*i / (double)M;
 		model->getPast(past, simulated_path, t, n_time_steps, T);
 		mc->price(past, t, prix_mc, ic);
+
 		myfile << "prix en t = " << t << " Monte-Carlo : " << prix_mc << "\n";
 	}
 	myfile.close();
+	pnl_vect_free(&spot);
+	pnl_vect_free(&trend);
+	pnl_vect_free(&sigma);
+	pnl_vect_free(&weights);
+	pnl_mat_free(&simulated_path);
+	pnl_mat_free(&past);
+
 }
 
 
 
 void validate_delta_kanji(PnlRng *rng) {
 	std::ofstream myfile;
-	myfile.open("../Validation/price_kanji.txt");
-	int M = 160;
-	int n_time_steps = 16;
+	myfile.open("../Validation/delta_kanji.txt");
+	int M = 32;
+	int n_time_steps = 4;
 	double T = 1.0;
 	double r = 0.02;
 	double spot_ = 100;
@@ -211,7 +230,6 @@ void validate_delta_kanji(PnlRng *rng) {
 		t = T*i / (double)M;
 		model->getPast(past, simulated_path, t, n_time_steps, T);
 		mc->delta(past, t, delta, ic);
-		pnl_vect_print(delta); std::cout << "\n";
 		myfile << "delta en t = " << t << " Monte-Carlo : ";
 		for (int i = 0; i < size; i++)
 		{
@@ -220,6 +238,13 @@ void validate_delta_kanji(PnlRng *rng) {
 		myfile << std::endl;
 	}
 	myfile.close();
+	pnl_vect_free(&spot);
+	pnl_vect_free(&sigma);
+	pnl_vect_free(&trend);
+	pnl_vect_free(&weights);
+	pnl_vect_free(&delta);
+	pnl_mat_free(&simulated_path);
+	pnl_mat_free(&past);
 }
 
 
@@ -268,7 +293,7 @@ int main() {
 	
 	//validate_delta_kanji(rng);
 	
-	//validate_mean_error_kanji(rng);
+	validate_mean_error_kanji(rng);
 
 	return 0;
 }
