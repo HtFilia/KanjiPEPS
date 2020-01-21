@@ -16,11 +16,11 @@ double KanjiOption::payoff(const PnlMat *path) {
 		for (int d = 0; d < size_; d++)
 		{
 			perf += (pnl_mat_get(path, i, d) / pnl_vect_get(initial_values, d)) - 1;
-			
+
 		}
 		payoff += MAX(perf, 0);
 		perf = 0;
 	}
 	pnl_vect_free(&initial_values);
-	return 1 + (double)(60.0/(300.0*16.0))* payoff;
+	return 1 + (double)(60.0 / (300.0*16.0))* payoff;
 }
