@@ -65,7 +65,11 @@ void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic
     PnlVect *differences = pnl_vect_create_from_scalar(opt_->size_, 0);
     for (int m = 0; m < nbSamples_; ++m) {
         mod_->asset(path,t, opt_->T_, opt_->nbTimeSteps_, rng_, past); //simule le reste du path a partir de past
-        for (int d = 0; d < opt_->size_ ; ++d) {
+		if (t == 0.75) { 
+			//std::cout << "\n";
+			//pnl_mat_print(path); std::cout << "\n";
+		} //TEST
+		for (int d = 0; d < opt_->size_ ; ++d) {
             mod_->shiftAsset(shifted_pathp, path, d, h, t, timestep); //on shift le path sur la d eme composante
             mod_->shiftAsset(shifted_pathm, path, d, -h, t, timestep);
 			difference = opt_->payoff(shifted_pathp) - opt_->payoff(shifted_pathm);//difference des payoffs des deux paths shiftes

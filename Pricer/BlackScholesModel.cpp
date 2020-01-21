@@ -47,11 +47,9 @@ void BlackScholesModel::asset(PnlMat *path, double T, int nbTimeSteps, PnlRng *r
 
 void BlackScholesModel::asset(PnlMat *path, double t, double T, int nbTimeSteps, PnlRng *rng, const PnlMat *past) {
 	double timespan = T / nbTimeSteps;
-	PnlVect *tmp = pnl_vect_create(size_);
 	PnlMat *G;
 	PnlVect *Ld = pnl_vect_create(size_);
 	PnlVect *Gi = pnl_vect_create(size_);
-	PnlVect *row = pnl_vect_create(size_);
 	double expo;
 	int i = int(t/timespan);
 	double t_i = i * timespan;
@@ -92,6 +90,9 @@ void BlackScholesModel::asset(PnlMat *path, double t, double T, int nbTimeSteps,
 			pnl_mat_set(path, k, d, s);
 	    }
 	}
+	pnl_mat_free(&G);
+	pnl_vect_free(&Ld);
+	pnl_vect_free(&Gi);
 }
 
 
@@ -99,7 +100,7 @@ void BlackScholesModel::asset(PnlMat *path, double t, double T, int nbTimeSteps,
 void BlackScholesModel::shiftAsset(PnlMat *shift_path, const PnlMat *path, int d, double h, double t, double timestep){
     int i = ceil(t/timestep);
     pnl_mat_clone(shift_path, path);
-    for (int k = i+1; k < path->m; ++k) {
+    for (int k = i; k < path->m; ++k) {
         pnl_mat_set(shift_path,k,d, (1+h)*pnl_mat_get(path,k,d));
     }
 }
@@ -128,6 +129,9 @@ void BlackScholesModel::simul_market(PnlMat *path, double T, int M, PnlRng *rng)
 			pnl_mat_set(path, i, d, pnl_mat_get(path, 0, d) * expo);
 		}
 	}
+	pnl_mat_free(&G);
+	pnl_vect_free(&Ld);
+	pnl_vect_free(&Gi);
 }
 
 void BlackScholesModel::getPast(PnlMat *past, PnlMat *path, double t, int n_time_steps,  double T)
