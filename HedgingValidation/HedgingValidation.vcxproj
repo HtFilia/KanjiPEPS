@@ -79,9 +79,12 @@
       <AdditionalIncludeDirectories>..\pnl-win64-1.10.4\include;..\Pricer</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>..\pnl-win64-1.10.4\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libpnl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\pnl-win64-1.10.4\lib;C:\Users\anas\source\repos\PEPS\Pricer\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>MonteCarlo.obj;VanillaCall.obj;BlackScholesModel.obj;libpnl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -119,9 +122,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Hedging.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

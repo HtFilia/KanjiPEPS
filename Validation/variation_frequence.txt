@@ -1,5 +1,2 @@
-Variation de la fréquence de rebalancement pour 20 dates fournies
+Variation de la fréquence de rebalancement pour 2000 dates fournies
 Option vanille de spot 110 de strike 100 de maturité 1
-Erreur pour 20 dates de rebalancement : 11.1154
-Erreur pour 10 dates de rebalancement : 11.1519
-Erreur pour 5 dates de rebalancement : 10.9593

@@ -122,7 +122,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlackScholesModel.cpp" />
-    <ClCompile Include="Computations.cpp" />
     <ClCompile Include="Computations.hpp" />
     <ClCompile Include="Hedge.cpp" />
     <ClCompile Include="MonteCarlo.cpp" />

@@ -120,12 +120,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Pricer\Validation.cpp" />
+    <ClCompile Include="..\HedgingValidation\TestHedging.cpp" />
+    <ClCompile Include="CallValidation.cpp" />
+    <ClCompile Include="KanjiValidation.cpp" />
+    <ClCompile Include="Validation.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pricer\Pricer.vcxproj">
-      <Project>{9a74cb3d-f466-441b-a564-655317d7bf45}</Project>
-    </ProjectReference>
+    <ClInclude Include="CallValidation.hpp" />
+    <ClInclude Include="KanjiValidation.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

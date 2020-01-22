@@ -65,10 +65,6 @@ void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic
     PnlVect *differences = pnl_vect_create_from_scalar(opt_->size_, 0);
     for (int m = 0; m < nbSamples_; ++m) {
         mod_->asset(path,t, opt_->T_, opt_->nbTimeSteps_, rng_, past); //simule le reste du path a partir de past
-		if (t == 0.75) { 
-			//std::cout << "\n";
-			//pnl_mat_print(path); std::cout << "\n";
-		} //TEST
 		for (int d = 0; d < opt_->size_ ; ++d) {
             mod_->shiftAsset(shifted_pathp, path, d, h, t, timestep); //on shift le path sur la d eme composante
             mod_->shiftAsset(shifted_pathm, path, d, -h, t, timestep);
@@ -79,7 +75,7 @@ void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic
         }
     }
 
-    pnl_vect_mult_scalar(delta, (pnl_expm1(- mod_->r_ *(opt_->T_-t))+1)/(2*nbSamples_*h));
+    pnl_vect_mult_scalar(delta, exp(- mod_->r_ *(opt_->T_-t))/(2*nbSamples_*h));
     PnlVect *spot_t = pnl_vect_create(opt_->size_);
     pnl_mat_get_row(spot_t, past, past->m-1);
     pnl_vect_div_vect_term(delta, spot_t);

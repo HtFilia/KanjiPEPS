@@ -18,9 +18,6 @@
     <ClCompile Include="Computations.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClCompile>
-    <ClCompile Include="Computations.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="BlackScholesModel.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
