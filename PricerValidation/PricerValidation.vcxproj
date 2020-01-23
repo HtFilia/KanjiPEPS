@@ -120,14 +120,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\HedgingValidation\TestHedging.cpp" />
     <ClCompile Include="CallValidation.cpp" />
     <ClCompile Include="KanjiValidation.cpp" />
+    <ClCompile Include="ValidateHedging.cpp" />
     <ClCompile Include="Validation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CallValidation.hpp" />
     <ClInclude Include="KanjiValidation.hpp" />
+    <ClInclude Include="ValidateHedging.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

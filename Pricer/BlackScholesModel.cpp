@@ -179,12 +179,15 @@ void BlackScholesModel::asset(PnlMat *path, double t, double T, int nbTimeSteps,
 }
 
 
-void BlackScholesModel::shiftAsset(PnlMat *shift_path, const PnlMat *path, int d, double h, double t, double timestep){
-    int i = ceil(t/timestep);
-    pnl_mat_clone(shift_path, path);
-    for (int k = i; k < path->m; ++k) {
-        pnl_mat_set(shift_path,k,d, (1+h)*pnl_mat_get(path,k,d));
-    }
+void BlackScholesModel::shiftAsset(PnlMat *shift_path, const PnlMat *path, int d, double h, double t, double timestep) {
+
+	// Copy shift-path
+	pnl_mat_set_subblock(shift_path, path, 0, 0);
+
+	// Shifting Start
+	for (int i = floor(t / timestep) + 1; i < path->m; i++) {
+		pnl_mat_set(shift_path, i, d, pnl_mat_get(shift_path, i, d) * (1 + h));
+	}
 }
 
 
@@ -230,7 +233,7 @@ void BlackScholesModel::getPast(PnlMat *past, PnlMat *path, double t, int n_time
 		pnl_mat_get_row(tmp, path, index);
 		pnl_mat_set_row(past, tmp, i);
 	}
-	index = int(t*H / T);
+	index = std::round(t*H / T);
 	pnl_mat_get_row(tmp, path, index);
 	pnl_mat_set_row(past, tmp, dates_till_t - 1);
 	pnl_vect_free(&tmp);

@@ -168,3 +168,44 @@ void MonteCarlo::price_and_delta(const PnlMat *past, double t,double &prix, doub
     pnl_vect_free(&spot_t);
 }
 
+
+void MonteCarlo::profitAndLoss(const PnlMat *path, double &prix, double &icPrix, double &error) {
+
+	int H = path->m - 1;
+	double timeStep = opt_->T_/ (double)H;
+	PnlVect *spots = pnl_vect_create(opt_->size_);
+	PnlVect *delta = pnl_vect_create(opt_->size_);
+	PnlVect *varDelta = pnl_vect_new();
+	PnlVect *icDelta = pnl_vect_create(opt_->size_);
+	PnlMat *past = pnl_mat_create(1, opt_->size_);
+
+	pnl_mat_get_row(spots, path, 0);
+	pnl_mat_set_row(past, spots, 0);
+	MonteCarlo::price(past, 0, prix, icPrix);
+	MonteCarlo::delta(past, 0, delta, icDelta);
+	double delta0 = prix - pnl_vect_scalar_prod(delta, spots);
+
+	for (int i = 1; i <= H; i++) {
+		pnl_mat_get_row(spots, path, i);
+		if (floor((i - 1) * opt_->nbTimeSteps_ / (double)H) < (i - 1) * opt_->nbTimeSteps_/ (double)H) {
+			pnl_mat_set_row(past, spots, past->m - 1);
+		}
+		else {
+			pnl_mat_add_row(past, past->m, spots);
+		}
+
+		pnl_vect_clone(varDelta, delta);
+		MonteCarlo::delta(past, i * timeStep, delta, icDelta);
+		pnl_vect_minus_vect(varDelta, delta);
+
+		delta0 = delta0 * exp(mod_->r_ * timeStep) + pnl_vect_scalar_prod(varDelta, spots);
+	}
+
+	error = delta0 + pnl_vect_scalar_prod(delta, spots) - opt_->payoff(past);
+
+	pnl_vect_free(&spots);
+	pnl_vect_free(&delta);
+	pnl_vect_free(&varDelta);
+	pnl_vect_free(&icDelta);
+	pnl_mat_free(&past);
+}

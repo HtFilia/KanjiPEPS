@@ -1,9 +1,4 @@
-#include "pnl/pnl_matrix.h"
-#include "MonteCarlo.hpp"
-#include "VanillaCall.hpp"
-#include <ctime>
-#include <iostream>
-
+#include 
 double rebalance(VanillaCall* call, MonteCarlo* mc_, PnlMat* path, int path_index, int hedging_index, double t, int n_time_steps, int H, double T, PnlVect* option_prices, PnlVect* portfolio_values, double delta_prev, double sigma)
 {
 	//initializing necessary variables

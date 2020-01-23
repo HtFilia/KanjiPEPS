@@ -3,34 +3,34 @@
 void validate_call(PnlRng* rng) {
 
 	// initializing the model and the call option
-	double r = 0.02;
-	double spot_ = 109;
+	double r = 0.04879;
+	double spot_ = 100;
 	double sigma_ = 0.2;
 	PnlVect *spot = pnl_vect_create_from_scalar(1, spot_);
 	PnlVect *sigma = pnl_vect_create_from_scalar(1, sigma_);
 	PnlVect *trend = pnl_vect_create_from_scalar(1, r);
-	double T = 1;
+	double T = 0.1;
 	double strike = 100;
 	BlackScholesModel* model = new BlackScholesModel(1, r, 0, sigma, spot, trend);
-	int n_time_steps = 20;
+	int n_time_steps = 1;
 	VanillaCall* call = new VanillaCall(T, n_time_steps, 1, strike);
 
 	// initializing the montecarlo tool
 	int n_samples = 50000;
-	double epsilon = 0.000001;
+	double epsilon = 0.00001;
 	double gamma = -1.0 / 4.0;
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
 	MonteCarlo* mc = new MonteCarlo(model, call, rng, T / n_time_steps, n_samples, epsilon_n);
-	int M = 2000;
+	int M = 64;
 	int H = M;
-	int n_scenarios = 20;
+	int n_scenarios = 100;
 	PnlMat* simulated_path = pnl_mat_create(1, 1);
 	model->simul_market(simulated_path, T, M, rng);
-	validate_price_call(simulated_path, mc, model);
-	validate_delta_call(simulated_path, mc, model);
+	//validate_price_call(simulated_path, mc, model);
+	//validate_delta_call(simulated_path, mc, model);
 	validate_hedging_frequency_call(mc, model, rng, M);
-	validate_mean_error_call(mc, model, rng, M, H, n_scenarios);
-
+	//validate_mean_error_call(mc, model, rng, M, n_scenarios);
+	//histogram_errors_call(mc, model, rng, M, H, n_scenarios);
 	pnl_mat_free(&simulated_path);
 
 }
@@ -140,13 +140,11 @@ void validate_hedging_frequency_call(MonteCarlo* mc, BlackScholesModel* model, P
 	double error = 0;
 	std::ofstream myfile;
 	myfile.open("../Validation/variation_frequence_call.txt");
-	myfile << "Variation de la fréquence de rebalancement pour " << M << " dates fournies" << std::endl;
-	myfile << "Option vanille de spot " << MGET(simulated_path, 0, 0) << " de strike " << strike << " de maturité " << mc->opt_->T_ << std::endl;
 	PnlVect* option_values = pnl_vect_create(1);
 	PnlVect* portfolio_values = pnl_vect_create(1);
-	for (int H = M; H >= M; H /= 2) {
+	for (int H = M; H >= 2; H /= 2) {
 		hedge.PnL(simulated_path, n_time_steps, H, portfolio_values, option_values, error);
-		myfile << "Erreur pour " << H << " dates de rebalancement : " << error << std::endl;
+		myfile << H << ";" << error << std::endl;
 	}
 	myfile.close();
 	pnl_mat_free(&simulated_path);
@@ -156,7 +154,7 @@ void validate_hedging_frequency_call(MonteCarlo* mc, BlackScholesModel* model, P
 }
 
 
-void validate_mean_error_call(MonteCarlo* mc, BlackScholesModel* model, PnlRng *rng, int M, int H, int n_scenarios) {
+void validate_mean_error_call(MonteCarlo* mc, BlackScholesModel* model, PnlRng *rng, int M, int n_scenarios) {
 	std::ofstream myfile;
 	myfile.open("../Validation/mean_error_call.txt");
 	double r = model->r_;
@@ -171,12 +169,27 @@ void validate_mean_error_call(MonteCarlo* mc, BlackScholesModel* model, PnlRng *
 	Hedge hedge(mc);
 	double mean_error = 0, error = 0;
 	myfile << " Calcul de l'erreur moyenne sur la couverture d'un produit kanji de maturité " << T << " ans sur des indices de spot initials " << pnl_vect_get(model->spot_,0) << std::endl;
-	myfile << " Avec " << M + 1 << " dates de constatations et " << H << " dates de rebalancement" << std::endl;
-	for (int i = 0; i < n_scenarios; i++) {
-		mc->mod_->simul_market(simulated_path, T, M, rng);
-		hedge.PnL(simulated_path, n_time_steps, H, portfolio_values, option_values, error);
-		myfile << " Erreur sur le scénario " << i << " : " << error << std::endl;
-		mean_error += error;
+	double prix = 0, ic_prix = 0;
+	for (int H = M; H >= H/4; H/=2)
+	{
+		myfile << H << ";";
+		for (int i = 0; i < n_scenarios; i++) {
+			pnl_vect_resize(portfolio_values, H + 1);
+			pnl_vect_resize(option_values, H + 1);
+			mc->mod_->simul_market(simulated_path, T, M, rng);
+			//mc->profitAndLoss(simulated_path, prix, ic_prix, error);
+			pnl_mat_print(simulated_path);
+			//hedge.PnL(simulated_path, n_time_steps, H, portfolio_values, option_values, error);
+			hedge.PnL(simulated_path, n_time_steps+1, portfolio_values, option_values, error, ic_prix);
+			PnlMat* comparaison = pnl_mat_create(H + 1, 2);
+			pnl_mat_set_col(comparaison, portfolio_values, 0);
+			pnl_mat_set_col(comparaison, option_values, 1);
+			pnl_mat_print(comparaison);
+			myfile << error << ";";
+			//myfile << " Erreur sur le scénario " << i << " : " << error << std::endl;
+			mean_error += error;
+		}
+		myfile << std::endl;
 	}
 	mean_error = mean_error / n_scenarios;
 	myfile << "Erreur moyenne sur " << n_scenarios << " scénarios : " << mean_error;
@@ -186,3 +199,31 @@ void validate_mean_error_call(MonteCarlo* mc, BlackScholesModel* model, PnlRng *
 	pnl_mat_free(&simulated_path);
 }
 
+
+void histogram_errors_call(MonteCarlo* mc, BlackScholesModel* model, PnlRng* rng, int M, int H, int scenarios) {
+	double r = model->r_;
+	VanillaCall* call = (VanillaCall*)mc->opt_;
+	double sigma_ = pnl_vect_get(model->sigma_, 0);
+	PnlMat* past = pnl_mat_create(1, 1);
+	double strike = call->strike_;
+	int n_time_steps = call->nbTimeSteps_;
+	double T = call->T_;
+	PnlMat* simulated_path = pnl_mat_create(1, 1);
+	model->simul_market(simulated_path, T, M, rng);
+	Hedge hedge(mc);
+	double error = 0;
+	std::ofstream myfile;
+	myfile.open("../Validation/histogram_errors.csv");
+	PnlVect* option_values = pnl_vect_create(1);
+	PnlVect* portfolio_values = pnl_vect_create(1);
+	for (int i = 0; i < scenarios; i++) {
+		model->simul_market(simulated_path, T, M, rng);
+		hedge.PnL(simulated_path, n_time_steps, H, portfolio_values, option_values, error);
+		myfile << error << ";"<< std::endl;
+	}
+	myfile.close();
+	pnl_mat_free(&simulated_path);
+	pnl_mat_free(&past);
+	pnl_vect_free(&option_values);
+	pnl_vect_free(&portfolio_values);
+}

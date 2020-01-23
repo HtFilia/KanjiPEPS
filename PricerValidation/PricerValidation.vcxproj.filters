@@ -18,13 +18,13 @@
     <ClCompile Include="CallValidation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\HedgingValidation\TestHedging.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="KanjiValidation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Validation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ValidateHedging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -33,6 +33,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="KanjiValidation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ValidateHedging.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

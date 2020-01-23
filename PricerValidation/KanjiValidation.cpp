@@ -18,12 +18,12 @@ void validate_kanji(PnlRng* rng) {
 	double gamma = -1.0 / 4.0;
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
 	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, n_samples, epsilon_n);
-	int M = 2000;
+	int M = 64;
 	int H = M;
 	int n_scenarios = 20;
 	PnlMat* simulated_path = pnl_mat_create(1, 1);
-	validate_price_kanji(simulated_path, model, mc, rng);
-	validate_delta_kanji(simulated_path, model, mc, rng);
+	//validate_price_kanji(simulated_path, model, mc, rng);
+	//validate_delta_kanji(simulated_path, model, mc, rng);
 	validate_mean_error_kanji(mc, model, rng, M, H, n_scenarios);
 	pnl_mat_free(&simulated_path);
 
@@ -87,7 +87,7 @@ void validate_delta_kanji(PnlMat* simulated_path, BlackScholesModel* model, Mont
 
 void validate_mean_error_kanji(MonteCarlo* mc, BlackScholesModel* model, PnlRng *rng, int M, int H, int n_scenarios) {
 	std::ofstream myfile;
-	myfile.open("../Validation/mean_error_call.txt");
+	myfile.open("../Validation/mean_error_kanji.txt");
 	KanjiOption* kanji = (KanjiOption*)mc->opt_;
 	int size = kanji->size_;
 	int n_time_steps = kanji->nbTimeSteps_;
@@ -101,16 +101,17 @@ void validate_mean_error_kanji(MonteCarlo* mc, BlackScholesModel* model, PnlRng 
 	PnlVect* portfolio_values = pnl_vect_create(1);
 	Hedge hedge(mc);
 	double mean_error = 0, error = 0;
-	myfile << " Calcul de l'erreur moyenne sur la couverture d'un produit kanji de maturité " << T << " ans sur des indices de spot initials " << pnl_vect_get(model->spot_, 0) << std::endl;
-	myfile << " Avec " << M + 1 << " dates de constatations et " << H << " dates de rebalancement" << std::endl;
-	for (int i = 0; i < n_scenarios; i++) {
-		mc->mod_->simul_market(simulated_path, T, M, rng);
-		hedge.PnL(simulated_path, n_time_steps, H, portfolio_values, option_values, error);
-		myfile << " Erreur sur le scénario " << i << " : " << error << std::endl;
-		mean_error += error;
+	for (int H = M; H >= 2; H /= 2) {
+		for (int i = 0; i < n_scenarios; i++) {
+			mc->mod_->simul_market(simulated_path, T, M, rng);
+			hedge.PnL(simulated_path, n_time_steps, H, portfolio_values, option_values, error);
+			myfile << H << ";" << error;
+			mean_error += error;
+		}
+		myfile << std::endl;
+		mean_error = mean_error / n_scenarios;
+		myfile << H << ";" << mean_error << std::endl;
 	}
-	mean_error = mean_error / n_scenarios;
-	myfile << "Erreur moyenne sur " << n_scenarios << " scénarios : " << mean_error;
 	myfile.close();
 	pnl_vect_free(&portfolio_values);
 	pnl_vect_free(&portfolio_values);
