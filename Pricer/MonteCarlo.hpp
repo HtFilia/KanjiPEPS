@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Option.hpp"
+#include "VanillaCall.hpp"
 #include "BlackScholesModel.hpp"
 #include "pnl/pnl_random.h"
 

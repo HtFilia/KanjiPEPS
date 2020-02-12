@@ -29,6 +29,7 @@ public:
 		nbTimeSteps_ = nbTimeSteps;
 		size_ = size;
 		strike_ = strike;
+		type_ = call;
 	}
 	/**
 * Payoff de l'option performance à partir du marché

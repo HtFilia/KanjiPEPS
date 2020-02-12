@@ -209,9 +209,9 @@ void BlackScholesModel::simul_market(PnlMat *path, double T, int M, PnlRng *rng)
 		pnl_mat_get_row(Ld, corr, d);
 		for (int i = 1; i < M+1; i++) {
 			pnl_mat_get_row(Gi, G, i - 1);
-			expo = pnl_expm1((GET(trend_, d) - pnl_pow_i(GET(sigma_, d), 2) / 2)  * i * timeSpan +
-				GET(sigma_, d) * sqrt(timeSpan) * pnl_vect_scalar_prod(Ld, Gi)) + 1;
-			pnl_mat_set(path, i, d, pnl_mat_get(path, 0, d) * expo);
+			expo = exp((GET(trend_, d) - pnl_pow_i(GET(sigma_, d), 2) / 2)  * timeSpan +
+				GET(sigma_, d) * sqrt(timeSpan) * pnl_vect_scalar_prod(Ld, Gi));
+			pnl_mat_set(path, i, d, pnl_mat_get(path, i-1, d) * expo);
 		}
 	}
 	pnl_mat_free(&G);

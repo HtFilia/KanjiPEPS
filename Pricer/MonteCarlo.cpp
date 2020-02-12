@@ -5,6 +5,7 @@
 #include "MonteCarlo.hpp"
 #include <cmath>
 #include <iostream>
+#include <typeinfo>
 
 MonteCarlo::~MonteCarlo() {
     delete mod_;
@@ -35,6 +36,12 @@ void MonteCarlo::price(double &prix, double &ic) {
 }
 
 void MonteCarlo::price(const PnlMat *past, double t, double &prix, double &ic) {
+	if (opt_->type_ == call) {
+		VanillaCall* call = dynamic_cast<VanillaCall*> (opt_);
+		double spot = MGET(past, past->m - 1, 0);
+		prix = call->price(t, spot, mod_->r_, GET(mod_->sigma_,0), opt_->T_, call->strike_);
+		return;
+	}
 
     PnlMat* path =  pnl_mat_create (opt_->nbTimeSteps_ + 1, opt_->size_);
     double payoffs_squared = 0;
@@ -56,6 +63,14 @@ void MonteCarlo::price(const PnlMat *past, double t, double &prix, double &ic) {
 
 
 void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic){
+	if (opt_->type_ == call) {
+		VanillaCall* call = dynamic_cast<VanillaCall*> (opt_);
+		double spot = MGET(past, past->m - 1, 0);
+		double delta_ = call->delta(t, spot, mod_->r_, GET(mod_->sigma_, 0), opt_->T_, call->strike_);
+		pnl_vect_set(delta, 0, delta_);
+		return;
+	}
+
 	PnlMat* path =  pnl_mat_create (opt_->nbTimeSteps_ + 1, opt_->size_); //creation path, matrice ou on simule
     double timestep = opt_->T_/opt_->nbTimeSteps_; //pas de discretisation
     PnlMat* shifted_pathp =  pnl_mat_create (opt_->nbTimeSteps_ + 1, opt_->size_);

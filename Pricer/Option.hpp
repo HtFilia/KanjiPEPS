@@ -4,13 +4,17 @@
 #include "pnl/pnl_matrix.h"
 #include "pnl/pnl_mathtools.h"
 
+enum optionType { call, kanji };
+
 /// \brief Classe Option abstraite
 class Option
 {
 public:  /// maturité
     double T_;     /// nombre de pas de temps de discrétisation
     int nbTimeSteps_;  /// dimension du modèle, redondant avec BlackScholesModel::size_
-    int size_;
+    int size_; /// type de l'option
+	optionType type_;
+
 
     /**
      * Calcule la valeur du payoff sur la trajectoire
@@ -21,6 +25,7 @@ public:  /// maturité
      * @return phi(trajectoire)
      */
     virtual double payoff(const PnlMat *path) = 0;
+
 };
 
 

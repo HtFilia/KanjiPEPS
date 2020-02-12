@@ -53,7 +53,7 @@ def plot_error_H():
     plt.plot(x, ysmoothed, '--r', marker=cut_star, markersize=8 )
     plt.ylabel('Erreur de couverture')
     plt.xlabel('Nombre de dates de rebalancement')
-    plt.title("Histogram de l'erreur de couverture")
+    plt.title("Erreur de couverture en fonction de la fréquence de rebalancement")
     plt.grid(True)
     plt.savefig("hedging_error_f(H)")
 
