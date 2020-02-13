@@ -1,1 +1,307 @@
  Validation delta 
+delta en t = 0 Monte-Carlo : 0.637042 formule fermee: 0.634558 in    [0.631988, 0.642096]  ic = 0.0101083
+delta en t = 0 Monte-Carlo : 0.634335 formule fermee: 0.634558 in    [0.629283, 0.639386]  ic = 0.0101033
+delta en t = 0 Monte-Carlo : 0.634679 formule fermee: 0.634558 in    [0.629628, 0.63973]  ic = 0.0101017
+delta en t = 0 Monte-Carlo : 0.631661 formule fermee: 0.634558 in    [0.6266, 0.636721]  ic = 0.0101203
+delta en t = 0 Monte-Carlo : 0.632963 formule fermee: 0.634558 in    [0.62791, 0.638015]  ic = 0.0101051
+delta en t = 0 Monte-Carlo : 0.628368 formule fermee: 0.634558 not in    [0.623306, 0.633429]  ic = 0.0101232
+delta en t = 0 Monte-Carlo : 0.633745 formule fermee: 0.634558 in    [0.628693, 0.638796]  ic = 0.0101031
+delta en t = 0 Monte-Carlo : 0.633098 formule fermee: 0.634558 in    [0.628037, 0.638159]  ic = 0.0101227
+delta en t = 0 Monte-Carlo : 0.638811 formule fermee: 0.634558 in    [0.633746, 0.643876]  ic = 0.0101297
+delta en t = 0 Monte-Carlo : 0.639117 formule fermee: 0.634558 in    [0.634064, 0.64417]  ic = 0.0101066
+delta en t = 0 Monte-Carlo : 0.636332 formule fermee: 0.634558 in    [0.631274, 0.64139]  ic = 0.0101159
+delta en t = 0 Monte-Carlo : 0.629721 formule fermee: 0.634558 in    [0.624665, 0.634776]  ic = 0.0101104
+delta en t = 0 Monte-Carlo : 0.639025 formule fermee: 0.634558 in    [0.633972, 0.644079]  ic = 0.0101076
+delta en t = 0 Monte-Carlo : 0.637692 formule fermee: 0.634558 in    [0.632635, 0.642749]  ic = 0.0101142
+delta en t = 0 Monte-Carlo : 0.634182 formule fermee: 0.634558 in    [0.629122, 0.639242]  ic = 0.0101204
+delta en t = 0 Monte-Carlo : 0.635284 formule fermee: 0.634558 in    [0.630228, 0.64034]  ic = 0.0101115
+delta en t = 0 Monte-Carlo : 0.636044 formule fermee: 0.634558 in    [0.63099, 0.641097]  ic = 0.0101068
+delta en t = 0 Monte-Carlo : 0.635079 formule fermee: 0.634558 in    [0.63002, 0.640138]  ic = 0.010118
+delta en t = 0 Monte-Carlo : 0.63938 formule fermee: 0.634558 in    [0.634333, 0.644427]  ic = 0.0100937
+delta en t = 0 Monte-Carlo : 0.633527 formule fermee: 0.634558 in    [0.628466, 0.638588]  ic = 0.0101213
+delta en t = 0 Monte-Carlo : 0.63146 formule fermee: 0.634558 in    [0.6264, 0.63652]  ic = 0.0101204
+delta en t = 0 Monte-Carlo : 0.633058 formule fermee: 0.634558 in    [0.628001, 0.638115]  ic = 0.010114
+delta en t = 0 Monte-Carlo : 0.633533 formule fermee: 0.634558 in    [0.628471, 0.638595]  ic = 0.0101247
+delta en t = 0 Monte-Carlo : 0.634651 formule fermee: 0.634558 in    [0.629591, 0.639712]  ic = 0.010121
+delta en t = 0 Monte-Carlo : 0.632353 formule fermee: 0.634558 in    [0.627288, 0.637417]  ic = 0.0101286
+delta en t = 0 Monte-Carlo : 0.630676 formule fermee: 0.634558 in    [0.625619, 0.635733]  ic = 0.0101146
+delta en t = 0 Monte-Carlo : 0.642168 formule fermee: 0.634558 not in    [0.63712, 0.647215]  ic = 0.0100945
+delta en t = 0 Monte-Carlo : 0.635393 formule fermee: 0.634558 in    [0.630333, 0.640453]  ic = 0.0101205
+delta en t = 0 Monte-Carlo : 0.635839 formule fermee: 0.634558 in    [0.630786, 0.640892]  ic = 0.0101061
+delta en t = 0 Monte-Carlo : 0.628817 formule fermee: 0.634558 not in    [0.623754, 0.633879]  ic = 0.0101254
+delta en t = 0 Monte-Carlo : 0.637072 formule fermee: 0.634558 in    [0.632016, 0.642128]  ic = 0.0101111
+delta en t = 0 Monte-Carlo : 0.634136 formule fermee: 0.634558 in    [0.629078, 0.639195]  ic = 0.0101179
+delta en t = 0 Monte-Carlo : 0.635352 formule fermee: 0.634558 in    [0.630294, 0.640411]  ic = 0.0101169
+delta en t = 0 Monte-Carlo : 0.634158 formule fermee: 0.634558 in    [0.629103, 0.639212]  ic = 0.0101089
+delta en t = 0 Monte-Carlo : 0.637437 formule fermee: 0.634558 in    [0.632376, 0.642498]  ic = 0.0101223
+delta en t = 0 Monte-Carlo : 0.632144 formule fermee: 0.634558 in    [0.627085, 0.637203]  ic = 0.010118
+delta en t = 0 Monte-Carlo : 0.630637 formule fermee: 0.634558 in    [0.625586, 0.635687]  ic = 0.0101011
+delta en t = 0 Monte-Carlo : 0.636654 formule fermee: 0.634558 in    [0.631595, 0.641712]  ic = 0.0101169
+delta en t = 0 Monte-Carlo : 0.634127 formule fermee: 0.634558 in    [0.629061, 0.639194]  ic = 0.0101327
+delta en t = 0 Monte-Carlo : 0.636563 formule fermee: 0.634558 in    [0.631501, 0.641624]  ic = 0.0101223
+delta en t = 0 Monte-Carlo : 0.634707 formule fermee: 0.634558 in    [0.629654, 0.639761]  ic = 0.0101075
+delta en t = 0 Monte-Carlo : 0.632728 formule fermee: 0.634558 in    [0.627666, 0.63779]  ic = 0.0101242
+delta en t = 0 Monte-Carlo : 0.635395 formule fermee: 0.634558 in    [0.630333, 0.640456]  ic = 0.0101227
+delta en t = 0 Monte-Carlo : 0.634531 formule fermee: 0.634558 in    [0.629477, 0.639585]  ic = 0.0101084
+delta en t = 0 Monte-Carlo : 0.632025 formule fermee: 0.634558 in    [0.626963, 0.637087]  ic = 0.0101242
+delta en t = 0 Monte-Carlo : 0.632389 formule fermee: 0.634558 in    [0.627338, 0.637439]  ic = 0.0101014
+delta en t = 0 Monte-Carlo : 0.632622 formule fermee: 0.634558 in    [0.627573, 0.637671]  ic = 0.0100979
+delta en t = 0 Monte-Carlo : 0.636358 formule fermee: 0.634558 in    [0.631306, 0.641409]  ic = 0.0101034
+delta en t = 0 Monte-Carlo : 0.639262 formule fermee: 0.634558 in    [0.634206, 0.644319]  ic = 0.0101127
+delta en t = 0 Monte-Carlo : 0.63467 formule fermee: 0.634558 in    [0.629614, 0.639726]  ic = 0.010112
+delta en t = 0 Monte-Carlo : 0.632814 formule fermee: 0.634558 in    [0.627761, 0.637867]  ic = 0.0101054
+delta en t = 0 Monte-Carlo : 0.635263 formule fermee: 0.634558 in    [0.630205, 0.640321]  ic = 0.0101157
+delta en t = 0 Monte-Carlo : 0.629734 formule fermee: 0.634558 in    [0.62468, 0.634788]  ic = 0.0101083
+delta en t = 0 Monte-Carlo : 0.635144 formule fermee: 0.634558 in    [0.630097, 0.640191]  ic = 0.010094
+delta en t = 0 Monte-Carlo : 0.637179 formule fermee: 0.634558 in    [0.632125, 0.642233]  ic = 0.0101087
+delta en t = 0 Monte-Carlo : 0.6332 formule fermee: 0.634558 in    [0.628135, 0.638265]  ic = 0.0101305
+delta en t = 0 Monte-Carlo : 0.634076 formule fermee: 0.634558 in    [0.629017, 0.639135]  ic = 0.0101183
+delta en t = 0 Monte-Carlo : 0.636695 formule fermee: 0.634558 in    [0.631651, 0.641738]  ic = 0.0100866
+delta en t = 0 Monte-Carlo : 0.637058 formule fermee: 0.634558 in    [0.632002, 0.642114]  ic = 0.0101121
+delta en t = 0 Monte-Carlo : 0.63875 formule fermee: 0.634558 in    [0.633698, 0.643801]  ic = 0.0101036
+delta en t = 0 Monte-Carlo : 0.637548 formule fermee: 0.634558 in    [0.632495, 0.642602]  ic = 0.010107
+delta en t = 0 Monte-Carlo : 0.63254 formule fermee: 0.634558 in    [0.627479, 0.637601]  ic = 0.0101217
+delta en t = 0 Monte-Carlo : 0.639425 formule fermee: 0.634558 in    [0.634373, 0.644478]  ic = 0.0101052
+delta en t = 0 Monte-Carlo : 0.635961 formule fermee: 0.634558 in    [0.630903, 0.641019]  ic = 0.0101159
+delta en t = 0 Monte-Carlo : 0.631547 formule fermee: 0.634558 in    [0.626495, 0.6366]  ic = 0.0101051
+delta en t = 0 Monte-Carlo : 0.638539 formule fermee: 0.634558 in    [0.633492, 0.643586]  ic = 0.0100941
+delta en t = 0 Monte-Carlo : 0.634658 formule fermee: 0.634558 in    [0.6296, 0.639716]  ic = 0.0101158
+delta en t = 0 Monte-Carlo : 0.634175 formule fermee: 0.634558 in    [0.62912, 0.63923]  ic = 0.0101098
+delta en t = 0 Monte-Carlo : 0.637343 formule fermee: 0.634558 in    [0.63229, 0.642397]  ic = 0.0101071
+delta en t = 0 Monte-Carlo : 0.639084 formule fermee: 0.634558 in    [0.63403, 0.644138]  ic = 0.0101082
+delta en t = 0 Monte-Carlo : 0.636812 formule fermee: 0.634558 in    [0.631762, 0.641862]  ic = 0.0100996
+delta en t = 0 Monte-Carlo : 0.629569 formule fermee: 0.634558 in    [0.62451, 0.634628]  ic = 0.0101176
+delta en t = 0 Monte-Carlo : 0.631459 formule fermee: 0.634558 in    [0.626406, 0.636513]  ic = 0.0101066
+delta en t = 0 Monte-Carlo : 0.638154 formule fermee: 0.634558 in    [0.633099, 0.64321]  ic = 0.0101108
+delta en t = 0 Monte-Carlo : 0.635778 formule fermee: 0.634558 in    [0.630729, 0.640828]  ic = 0.0100983
+delta en t = 0 Monte-Carlo : 0.631836 formule fermee: 0.634558 in    [0.626771, 0.6369]  ic = 0.0101296
+delta en t = 0 Monte-Carlo : 0.635884 formule fermee: 0.634558 in    [0.630829, 0.640938]  ic = 0.0101082
+delta en t = 0 Monte-Carlo : 0.631091 formule fermee: 0.634558 in    [0.626034, 0.636147]  ic = 0.0101125
+delta en t = 0 Monte-Carlo : 0.634798 formule fermee: 0.634558 in    [0.629736, 0.63986]  ic = 0.0101234
+delta en t = 0 Monte-Carlo : 0.631088 formule fermee: 0.634558 in    [0.626029, 0.636148]  ic = 0.0101191
+delta en t = 0 Monte-Carlo : 0.636113 formule fermee: 0.634558 in    [0.631061, 0.641164]  ic = 0.0101029
+delta en t = 0 Monte-Carlo : 0.633561 formule fermee: 0.634558 in    [0.6285, 0.638622]  ic = 0.0101216
+delta en t = 0 Monte-Carlo : 0.634219 formule fermee: 0.634558 in    [0.629161, 0.639278]  ic = 0.0101164
+delta en t = 0 Monte-Carlo : 0.636904 formule fermee: 0.634558 in    [0.631842, 0.641965]  ic = 0.0101233
+delta en t = 0 Monte-Carlo : 0.632136 formule fermee: 0.634558 in    [0.627088, 0.637184]  ic = 0.0100955
+delta en t = 0 Monte-Carlo : 0.634199 formule fermee: 0.634558 in    [0.629144, 0.639255]  ic = 0.0101106
+delta en t = 0 Monte-Carlo : 0.642308 formule fermee: 0.634558 not in    [0.637242, 0.647374]  ic = 0.0101316
+delta en t = 0 Monte-Carlo : 0.634179 formule fermee: 0.634558 in    [0.629119, 0.639239]  ic = 0.0101199
+delta en t = 0 Monte-Carlo : 0.634491 formule fermee: 0.634558 in    [0.629437, 0.639544]  ic = 0.0101064
+delta en t = 0 Monte-Carlo : 0.629751 formule fermee: 0.634558 in    [0.624698, 0.634803]  ic = 0.0101046
+delta en t = 0 Monte-Carlo : 0.632675 formule fermee: 0.634558 in    [0.62761, 0.637739]  ic = 0.0101296
+delta en t = 0 Monte-Carlo : 0.636452 formule fermee: 0.634558 in    [0.631394, 0.641509]  ic = 0.0101152
+delta en t = 0 Monte-Carlo : 0.637987 formule fermee: 0.634558 in    [0.632932, 0.643043]  ic = 0.0101102
+delta en t = 0 Monte-Carlo : 0.63205 formule fermee: 0.634558 in    [0.626995, 0.637104]  ic = 0.0101089
+delta en t = 0 Monte-Carlo : 0.640609 formule fermee: 0.634558 not in    [0.635554, 0.645663]  ic = 0.0101084
+delta en t = 0 Monte-Carlo : 0.631577 formule fermee: 0.634558 in    [0.626518, 0.636635]  ic = 0.010117
+delta en t = 0 Monte-Carlo : 0.633575 formule fermee: 0.634558 in    [0.62851, 0.63864]  ic = 0.0101295
+delta en t = 0 Monte-Carlo : 0.633364 formule fermee: 0.634558 in    [0.628308, 0.63842]  ic = 0.0101121
+delta en t = 0 Monte-Carlo : 0.631341 formule fermee: 0.634558 in    [0.626276, 0.636406]  ic = 0.0101301
+delta en t = 0 Monte-Carlo : 0.639414 formule fermee: 0.634558 in    [0.634352, 0.644476]  ic = 0.0101238
+
+95 sur 100 sont dans l'intervalle de confiance pour t = 0
+delta en t = 0.333333 Monte-Carlo : 0.428879 formule fermee: 0.472666 not in    [0.423904, 0.433854]  ic = 0.00994975
+delta en t = 0.333333 Monte-Carlo : 0.430846 formule fermee: 0.472666 not in    [0.425859, 0.435833]  ic = 0.00997433
+delta en t = 0.333333 Monte-Carlo : 0.436793 formule fermee: 0.472666 not in    [0.431795, 0.441791]  ic = 0.0099968
+delta en t = 0.333333 Monte-Carlo : 0.43324 formule fermee: 0.472666 not in    [0.428247, 0.438233]  ic = 0.00998576
+delta en t = 0.333333 Monte-Carlo : 0.434113 formule fermee: 0.472666 not in    [0.42912, 0.439106]  ic = 0.00998587
+delta en t = 0.333333 Monte-Carlo : 0.431751 formule fermee: 0.472666 not in    [0.426765, 0.436738]  ic = 0.00997246
+delta en t = 0.333333 Monte-Carlo : 0.430751 formule fermee: 0.472666 not in    [0.425771, 0.43573]  ic = 0.00995884
+delta en t = 0.333333 Monte-Carlo : 0.428959 formule fermee: 0.472666 not in    [0.423984, 0.433934]  ic = 0.00994968
+delta en t = 0.333333 Monte-Carlo : 0.437008 formule fermee: 0.472666 not in    [0.432015, 0.442]  ic = 0.00998477
+delta en t = 0.333333 Monte-Carlo : 0.431471 formule fermee: 0.472666 not in    [0.426488, 0.436454]  ic = 0.00996663
+delta en t = 0.333333 Monte-Carlo : 0.433137 formule fermee: 0.472666 not in    [0.428151, 0.438124]  ic = 0.00997244
+delta en t = 0.333333 Monte-Carlo : 0.431289 formule fermee: 0.472666 not in    [0.426311, 0.436267]  ic = 0.00995663
+delta en t = 0.333333 Monte-Carlo : 0.435232 formule fermee: 0.472666 not in    [0.430242, 0.440222]  ic = 0.00997909
+delta en t = 0.333333 Monte-Carlo : 0.432246 formule fermee: 0.472666 not in    [0.427262, 0.437229]  ic = 0.00996676
+delta en t = 0.333333 Monte-Carlo : 0.433414 formule fermee: 0.472666 not in    [0.428429, 0.438399]  ic = 0.00997066
+delta en t = 0.333333 Monte-Carlo : 0.431886 formule fermee: 0.472666 not in    [0.426906, 0.436866]  ic = 0.00995978
+delta en t = 0.333333 Monte-Carlo : 0.433187 formule fermee: 0.472666 not in    [0.428203, 0.438171]  ic = 0.0099675
+delta en t = 0.333333 Monte-Carlo : 0.430634 formule fermee: 0.472666 not in    [0.425654, 0.435614]  ic = 0.00995979
+delta en t = 0.333333 Monte-Carlo : 0.428012 formule fermee: 0.472666 not in    [0.423043, 0.43298]  ic = 0.00993721
+delta en t = 0.333333 Monte-Carlo : 0.434118 formule fermee: 0.472666 not in    [0.42913, 0.439107]  ic = 0.00997716
+delta en t = 0.333333 Monte-Carlo : 0.430857 formule fermee: 0.472666 not in    [0.425878, 0.435835]  ic = 0.00995681
+delta en t = 0.333333 Monte-Carlo : 0.433178 formule fermee: 0.472666 not in    [0.428188, 0.438168]  ic = 0.00997972
+delta en t = 0.333333 Monte-Carlo : 0.433961 formule fermee: 0.472666 not in    [0.428969, 0.438954]  ic = 0.00998465
+delta en t = 0.333333 Monte-Carlo : 0.436661 formule fermee: 0.472666 not in    [0.431666, 0.441656]  ic = 0.00998994
+delta en t = 0.333333 Monte-Carlo : 0.429591 formule fermee: 0.472666 not in    [0.424611, 0.434572]  ic = 0.00996095
+delta en t = 0.333333 Monte-Carlo : 0.432226 formule fermee: 0.472666 not in    [0.427242, 0.43721]  ic = 0.00996816
+delta en t = 0.333333 Monte-Carlo : 0.428764 formule fermee: 0.472666 not in    [0.423791, 0.433737]  ic = 0.00994648
+delta en t = 0.333333 Monte-Carlo : 0.432985 formule fermee: 0.472666 not in    [0.427996, 0.437975]  ic = 0.00997803
+delta en t = 0.333333 Monte-Carlo : 0.434585 formule fermee: 0.472666 not in    [0.429591, 0.43958]  ic = 0.0099889
+delta en t = 0.333333 Monte-Carlo : 0.433066 formule fermee: 0.472666 not in    [0.428073, 0.438058]  ic = 0.00998444
+delta en t = 0.333333 Monte-Carlo : 0.433545 formule fermee: 0.472666 not in    [0.428554, 0.438536]  ic = 0.0099819
+delta en t = 0.333333 Monte-Carlo : 0.432788 formule fermee: 0.472666 not in    [0.427805, 0.43777]  ic = 0.00996443
+delta en t = 0.333333 Monte-Carlo : 0.433758 formule fermee: 0.472666 not in    [0.428768, 0.438748]  ic = 0.00998014
+delta en t = 0.333333 Monte-Carlo : 0.432694 formule fermee: 0.472666 not in    [0.42771, 0.437678]  ic = 0.00996767
+delta en t = 0.333333 Monte-Carlo : 0.431728 formule fermee: 0.472666 not in    [0.426749, 0.436707]  ic = 0.00995803
+delta en t = 0.333333 Monte-Carlo : 0.436056 formule fermee: 0.472666 not in    [0.43106, 0.441053]  ic = 0.00999354
+delta en t = 0.333333 Monte-Carlo : 0.440119 formule fermee: 0.472666 not in    [0.435119, 0.445118]  ic = 0.00999921
+delta en t = 0.333333 Monte-Carlo : 0.433221 formule fermee: 0.472666 not in    [0.428236, 0.438206]  ic = 0.00996976
+delta en t = 0.333333 Monte-Carlo : 0.434659 formule fermee: 0.472666 not in    [0.429672, 0.439646]  ic = 0.00997379
+delta en t = 0.333333 Monte-Carlo : 0.436035 formule fermee: 0.472666 not in    [0.431046, 0.441024]  ic = 0.00997793
+delta en t = 0.333333 Monte-Carlo : 0.430478 formule fermee: 0.472666 not in    [0.425498, 0.435458]  ic = 0.00996005
+delta en t = 0.333333 Monte-Carlo : 0.436023 formule fermee: 0.472666 not in    [0.431027, 0.44102]  ic = 0.00999313
+delta en t = 0.333333 Monte-Carlo : 0.432957 formule fermee: 0.472666 not in    [0.427974, 0.437941]  ic = 0.00996651
+delta en t = 0.333333 Monte-Carlo : 0.434429 formule fermee: 0.472666 not in    [0.429442, 0.439415]  ic = 0.0099734
+delta en t = 0.333333 Monte-Carlo : 0.438347 formule fermee: 0.472666 not in    [0.433351, 0.443343]  ic = 0.00999186
+delta en t = 0.333333 Monte-Carlo : 0.431121 formule fermee: 0.472666 not in    [0.426143, 0.436099]  ic = 0.00995664
+delta en t = 0.333333 Monte-Carlo : 0.430717 formule fermee: 0.472666 not in    [0.425736, 0.435699]  ic = 0.00996231
+delta en t = 0.333333 Monte-Carlo : 0.432466 formule fermee: 0.472666 not in    [0.427482, 0.43745]  ic = 0.00996796
+delta en t = 0.333333 Monte-Carlo : 0.430507 formule fermee: 0.472666 not in    [0.425529, 0.435486]  ic = 0.00995688
+delta en t = 0.333333 Monte-Carlo : 0.430341 formule fermee: 0.472666 not in    [0.425363, 0.435318]  ic = 0.00995461
+delta en t = 0.333333 Monte-Carlo : 0.426971 formule fermee: 0.472666 not in    [0.422004, 0.431938]  ic = 0.00993366
+delta en t = 0.333333 Monte-Carlo : 0.431836 formule fermee: 0.472666 not in    [0.426858, 0.436813]  ic = 0.00995509
+delta en t = 0.333333 Monte-Carlo : 0.424847 formule fermee: 0.472666 not in    [0.419882, 0.429813]  ic = 0.0099307
+delta en t = 0.333333 Monte-Carlo : 0.437584 formule fermee: 0.472666 not in    [0.432583, 0.442585]  ic = 0.010002
+delta en t = 0.333333 Monte-Carlo : 0.432874 formule fermee: 0.472666 not in    [0.427887, 0.437861]  ic = 0.00997389
+delta en t = 0.333333 Monte-Carlo : 0.430799 formule fermee: 0.472666 not in    [0.425822, 0.435777]  ic = 0.00995497
+delta en t = 0.333333 Monte-Carlo : 0.434033 formule fermee: 0.472666 not in    [0.429043, 0.439023]  ic = 0.00997979
+delta en t = 0.333333 Monte-Carlo : 0.433153 formule fermee: 0.472666 not in    [0.428165, 0.43814]  ic = 0.00997515
+delta en t = 0.333333 Monte-Carlo : 0.430756 formule fermee: 0.472666 not in    [0.425774, 0.435737]  ic = 0.00996319
+delta en t = 0.333333 Monte-Carlo : 0.432754 formule fermee: 0.472666 not in    [0.427765, 0.437743]  ic = 0.00997769
+delta en t = 0.333333 Monte-Carlo : 0.434848 formule fermee: 0.472666 not in    [0.429859, 0.439838]  ic = 0.00997891
+delta en t = 0.333333 Monte-Carlo : 0.434536 formule fermee: 0.472666 not in    [0.42955, 0.439522]  ic = 0.00997222
+delta en t = 0.333333 Monte-Carlo : 0.436343 formule fermee: 0.472666 not in    [0.431347, 0.44134]  ic = 0.00999287
+delta en t = 0.333333 Monte-Carlo : 0.43637 formule fermee: 0.472666 not in    [0.43137, 0.441369]  ic = 0.00999935
+delta en t = 0.333333 Monte-Carlo : 0.43406 formule fermee: 0.472666 not in    [0.429072, 0.439048]  ic = 0.00997568
+delta en t = 0.333333 Monte-Carlo : 0.436431 formule fermee: 0.472666 not in    [0.431437, 0.441425]  ic = 0.0099881
+delta en t = 0.333333 Monte-Carlo : 0.434875 formule fermee: 0.472666 not in    [0.429882, 0.439867]  ic = 0.00998495
+delta en t = 0.333333 Monte-Carlo : 0.430596 formule fermee: 0.472666 not in    [0.425615, 0.435578]  ic = 0.00996317
+delta en t = 0.333333 Monte-Carlo : 0.433463 formule fermee: 0.472666 not in    [0.428474, 0.438452]  ic = 0.00997851
+delta en t = 0.333333 Monte-Carlo : 0.427008 formule fermee: 0.472666 not in    [0.422041, 0.431975]  ic = 0.00993337
+delta en t = 0.333333 Monte-Carlo : 0.433187 formule fermee: 0.472666 not in    [0.428201, 0.438172]  ic = 0.00997069
+delta en t = 0.333333 Monte-Carlo : 0.433837 formule fermee: 0.472666 not in    [0.428848, 0.438826]  ic = 0.00997791
+delta en t = 0.333333 Monte-Carlo : 0.435877 formule fermee: 0.472666 not in    [0.430886, 0.440867]  ic = 0.00998159
+delta en t = 0.333333 Monte-Carlo : 0.433469 formule fermee: 0.472666 not in    [0.428482, 0.438457]  ic = 0.00997521
+delta en t = 0.333333 Monte-Carlo : 0.431864 formule fermee: 0.472666 not in    [0.426878, 0.436849]  ic = 0.00997095
+delta en t = 0.333333 Monte-Carlo : 0.43038 formule fermee: 0.472666 not in    [0.425401, 0.435358]  ic = 0.00995663
+delta en t = 0.333333 Monte-Carlo : 0.435999 formule fermee: 0.472666 not in    [0.431003, 0.440996]  ic = 0.00999225
+delta en t = 0.333333 Monte-Carlo : 0.428247 formule fermee: 0.472666 not in    [0.423275, 0.43322]  ic = 0.00994518
+delta en t = 0.333333 Monte-Carlo : 0.432363 formule fermee: 0.472666 not in    [0.427378, 0.437347]  ic = 0.009969
+delta en t = 0.333333 Monte-Carlo : 0.433776 formule fermee: 0.472666 not in    [0.428794, 0.438758]  ic = 0.00996425
+delta en t = 0.333333 Monte-Carlo : 0.43358 formule fermee: 0.472666 not in    [0.428592, 0.438569]  ic = 0.00997671
+delta en t = 0.333333 Monte-Carlo : 0.43664 formule fermee: 0.472666 not in    [0.431647, 0.441632]  ic = 0.00998495
+delta en t = 0.333333 Monte-Carlo : 0.434524 formule fermee: 0.472666 not in    [0.429533, 0.439514]  ic = 0.00998043
+delta en t = 0.333333 Monte-Carlo : 0.430203 formule fermee: 0.472666 not in    [0.425225, 0.435181]  ic = 0.00995564
+delta en t = 0.333333 Monte-Carlo : 0.431632 formule fermee: 0.472666 not in    [0.426647, 0.436617]  ic = 0.00997011
+delta en t = 0.333333 Monte-Carlo : 0.433897 formule fermee: 0.472666 not in    [0.428911, 0.438883]  ic = 0.0099717
+delta en t = 0.333333 Monte-Carlo : 0.433827 formule fermee: 0.472666 not in    [0.428841, 0.438812]  ic = 0.00997158
+delta en t = 0.333333 Monte-Carlo : 0.434021 formule fermee: 0.472666 not in    [0.429035, 0.439007]  ic = 0.0099717
+delta en t = 0.333333 Monte-Carlo : 0.430751 formule fermee: 0.472666 not in    [0.425768, 0.435734]  ic = 0.00996565
+delta en t = 0.333333 Monte-Carlo : 0.432871 formule fermee: 0.472666 not in    [0.427877, 0.437865]  ic = 0.00998805
+delta en t = 0.333333 Monte-Carlo : 0.432518 formule fermee: 0.472666 not in    [0.427536, 0.4375]  ic = 0.00996362
+delta en t = 0.333333 Monte-Carlo : 0.433462 formule fermee: 0.472666 not in    [0.42848, 0.438445]  ic = 0.00996516
+delta en t = 0.333333 Monte-Carlo : 0.431782 formule fermee: 0.472666 not in    [0.426799, 0.436765]  ic = 0.00996578
+delta en t = 0.333333 Monte-Carlo : 0.435573 formule fermee: 0.472666 not in    [0.430579, 0.440566]  ic = 0.00998726
+delta en t = 0.333333 Monte-Carlo : 0.432885 formule fermee: 0.472666 not in    [0.427895, 0.437874]  ic = 0.00997902
+delta en t = 0.333333 Monte-Carlo : 0.434897 formule fermee: 0.472666 not in    [0.429911, 0.439883]  ic = 0.00997278
+delta en t = 0.333333 Monte-Carlo : 0.430615 formule fermee: 0.472666 not in    [0.425639, 0.435591]  ic = 0.00995194
+delta en t = 0.333333 Monte-Carlo : 0.43338 formule fermee: 0.472666 not in    [0.428391, 0.438369]  ic = 0.00997878
+delta en t = 0.333333 Monte-Carlo : 0.434947 formule fermee: 0.472666 not in    [0.429959, 0.439936]  ic = 0.00997753
+delta en t = 0.333333 Monte-Carlo : 0.432394 formule fermee: 0.472666 not in    [0.42741, 0.437378]  ic = 0.00996752
+
+0 sur 100 sont dans l'intervalle de confiance pour t = 0.333333
+delta en t = 0.666667 Monte-Carlo : 0.137161 formule fermee: 0.208612 not in    [0.133801, 0.14052]  ic = 0.00671887
+delta en t = 0.666667 Monte-Carlo : 0.136397 formule fermee: 0.208612 not in    [0.133042, 0.139752]  ic = 0.00671019
+delta en t = 0.666667 Monte-Carlo : 0.138059 formule fermee: 0.208612 not in    [0.134686, 0.141433]  ic = 0.00674736
+delta en t = 0.666667 Monte-Carlo : 0.137853 formule fermee: 0.208612 not in    [0.134479, 0.141227]  ic = 0.0067487
+delta en t = 0.666667 Monte-Carlo : 0.140255 formule fermee: 0.208612 not in    [0.136858, 0.143653]  ic = 0.00679494
+delta en t = 0.666667 Monte-Carlo : 0.135904 formule fermee: 0.208612 not in    [0.132554, 0.139254]  ic = 0.00669919
+delta en t = 0.666667 Monte-Carlo : 0.138797 formule fermee: 0.208612 not in    [0.135415, 0.142179]  ic = 0.00676423
+delta en t = 0.666667 Monte-Carlo : 0.139075 formule fermee: 0.208612 not in    [0.13569, 0.142461]  ic = 0.00677148
+delta en t = 0.666667 Monte-Carlo : 0.136534 formule fermee: 0.208612 not in    [0.133174, 0.139894]  ic = 0.0067191
+delta en t = 0.666667 Monte-Carlo : 0.140945 formule fermee: 0.208612 not in    [0.137541, 0.144349]  ic = 0.00680738
+delta en t = 0.666667 Monte-Carlo : 0.137626 formule fermee: 0.208612 not in    [0.134257, 0.140995]  ic = 0.00673826
+delta en t = 0.666667 Monte-Carlo : 0.136086 formule fermee: 0.208612 not in    [0.132732, 0.139439]  ic = 0.00670724
+delta en t = 0.666667 Monte-Carlo : 0.136792 formule fermee: 0.208612 not in    [0.133429, 0.140156]  ic = 0.00672709
+delta en t = 0.666667 Monte-Carlo : 0.137785 formule fermee: 0.208612 not in    [0.134415, 0.141154]  ic = 0.00673871
+delta en t = 0.666667 Monte-Carlo : 0.136108 formule fermee: 0.208612 not in    [0.132755, 0.139461]  ic = 0.00670608
+delta en t = 0.666667 Monte-Carlo : 0.138308 formule fermee: 0.208612 not in    [0.134932, 0.141684]  ic = 0.00675161
+delta en t = 0.666667 Monte-Carlo : 0.139598 formule fermee: 0.208612 not in    [0.136206, 0.14299]  ic = 0.00678386
+delta en t = 0.666667 Monte-Carlo : 0.136253 formule fermee: 0.208612 not in    [0.132898, 0.139608]  ic = 0.00671032
+delta en t = 0.666667 Monte-Carlo : 0.135578 formule fermee: 0.208612 not in    [0.132233, 0.138923]  ic = 0.00669044
+delta en t = 0.666667 Monte-Carlo : 0.136824 formule fermee: 0.208612 not in    [0.133463, 0.140184]  ic = 0.00672068
+delta en t = 0.666667 Monte-Carlo : 0.138822 formule fermee: 0.208612 not in    [0.135442, 0.142202]  ic = 0.00675979
+delta en t = 0.666667 Monte-Carlo : 0.135389 formule fermee: 0.208612 not in    [0.132046, 0.138733]  ic = 0.00668749
+delta en t = 0.666667 Monte-Carlo : 0.134613 formule fermee: 0.208612 not in    [0.131277, 0.137949]  ic = 0.00667149
+delta en t = 0.666667 Monte-Carlo : 0.13758 formule fermee: 0.208612 not in    [0.134213, 0.140946]  ic = 0.00673333
+delta en t = 0.666667 Monte-Carlo : 0.137218 formule fermee: 0.208612 not in    [0.133853, 0.140582]  ic = 0.00672871
+delta en t = 0.666667 Monte-Carlo : 0.135752 formule fermee: 0.208612 not in    [0.132404, 0.139099]  ic = 0.00669527
+delta en t = 0.666667 Monte-Carlo : 0.137491 formule fermee: 0.208612 not in    [0.134123, 0.14086]  ic = 0.00673707
+delta en t = 0.666667 Monte-Carlo : 0.13684 formule fermee: 0.208612 not in    [0.133479, 0.140201]  ic = 0.00672183
+delta en t = 0.666667 Monte-Carlo : 0.139 formule fermee: 0.208612 not in    [0.135616, 0.142384]  ic = 0.00676808
+delta en t = 0.666667 Monte-Carlo : 0.138223 formule fermee: 0.208612 not in    [0.134849, 0.141597]  ic = 0.0067486
+delta en t = 0.666667 Monte-Carlo : 0.136838 formule fermee: 0.208612 not in    [0.133478, 0.140198]  ic = 0.0067194
+delta en t = 0.666667 Monte-Carlo : 0.137072 formule fermee: 0.208612 not in    [0.13371, 0.140435]  ic = 0.00672531
+delta en t = 0.666667 Monte-Carlo : 0.137628 formule fermee: 0.208612 not in    [0.134258, 0.140999]  ic = 0.006741
+delta en t = 0.666667 Monte-Carlo : 0.134852 formule fermee: 0.208612 not in    [0.131513, 0.138191]  ic = 0.00667824
+delta en t = 0.666667 Monte-Carlo : 0.13695 formule fermee: 0.208612 not in    [0.133586, 0.140315]  ic = 0.00672889
+delta en t = 0.666667 Monte-Carlo : 0.141814 formule fermee: 0.208612 not in    [0.1384, 0.145227]  ic = 0.006827
+delta en t = 0.666667 Monte-Carlo : 0.134366 formule fermee: 0.208612 not in    [0.131031, 0.1377]  ic = 0.00666863
+delta en t = 0.666667 Monte-Carlo : 0.138342 formule fermee: 0.208612 not in    [0.134965, 0.141718]  ic = 0.00675309
+delta en t = 0.666667 Monte-Carlo : 0.138846 formule fermee: 0.208612 not in    [0.135462, 0.14223]  ic = 0.00676799
+delta en t = 0.666667 Monte-Carlo : 0.134493 formule fermee: 0.208612 not in    [0.131158, 0.137829]  ic = 0.0066706
+delta en t = 0.666667 Monte-Carlo : 0.137824 formule fermee: 0.208612 not in    [0.134452, 0.141196]  ic = 0.00674406
+delta en t = 0.666667 Monte-Carlo : 0.138012 formule fermee: 0.208612 not in    [0.13464, 0.141384]  ic = 0.00674393
+delta en t = 0.666667 Monte-Carlo : 0.13597 formule fermee: 0.208612 not in    [0.13262, 0.139319]  ic = 0.00669866
+delta en t = 0.666667 Monte-Carlo : 0.137945 formule fermee: 0.208612 not in    [0.134575, 0.141315]  ic = 0.00674032
+delta en t = 0.666667 Monte-Carlo : 0.136561 formule fermee: 0.208612 not in    [0.133205, 0.139918]  ic = 0.00671335
+delta en t = 0.666667 Monte-Carlo : 0.135967 formule fermee: 0.208612 not in    [0.132618, 0.139316]  ic = 0.00669757
+delta en t = 0.666667 Monte-Carlo : 0.137393 formule fermee: 0.208612 not in    [0.134025, 0.140761]  ic = 0.00673625
+delta en t = 0.666667 Monte-Carlo : 0.138017 formule fermee: 0.208612 not in    [0.134641, 0.141392]  ic = 0.00675005
+delta en t = 0.666667 Monte-Carlo : 0.13573 formule fermee: 0.208612 not in    [0.132383, 0.139078]  ic = 0.00669472
+delta en t = 0.666667 Monte-Carlo : 0.139349 formule fermee: 0.208612 not in    [0.135961, 0.142737]  ic = 0.00677598
+delta en t = 0.666667 Monte-Carlo : 0.136623 formule fermee: 0.208612 not in    [0.133265, 0.139982]  ic = 0.00671736
+delta en t = 0.666667 Monte-Carlo : 0.138609 formule fermee: 0.208612 not in    [0.135228, 0.141989]  ic = 0.00676073
+delta en t = 0.666667 Monte-Carlo : 0.13899 formule fermee: 0.208612 not in    [0.135607, 0.142373]  ic = 0.00676572
+delta en t = 0.666667 Monte-Carlo : 0.136144 formule fermee: 0.208612 not in    [0.132791, 0.139498]  ic = 0.00670663
+delta en t = 0.666667 Monte-Carlo : 0.136947 formule fermee: 0.208612 not in    [0.133587, 0.140307]  ic = 0.00672069
+delta en t = 0.666667 Monte-Carlo : 0.139209 formule fermee: 0.208612 not in    [0.135825, 0.142592]  ic = 0.00676728
+delta en t = 0.666667 Monte-Carlo : 0.138379 formule fermee: 0.208612 not in    [0.135006, 0.141753]  ic = 0.00674757
+delta en t = 0.666667 Monte-Carlo : 0.13658 formule fermee: 0.208612 not in    [0.133223, 0.139937]  ic = 0.00671393
+delta en t = 0.666667 Monte-Carlo : 0.137704 formule fermee: 0.208612 not in    [0.134335, 0.141074]  ic = 0.00673838
+delta en t = 0.666667 Monte-Carlo : 0.138003 formule fermee: 0.208612 not in    [0.134628, 0.141378]  ic = 0.00674983
+delta en t = 0.666667 Monte-Carlo : 0.134974 formule fermee: 0.208612 not in    [0.131634, 0.138314]  ic = 0.00667912
+delta en t = 0.666667 Monte-Carlo : 0.136067 formule fermee: 0.208612 not in    [0.132714, 0.13942]  ic = 0.00670528
+delta en t = 0.666667 Monte-Carlo : 0.13691 formule fermee: 0.208612 not in    [0.133548, 0.140273]  ic = 0.00672486
+delta en t = 0.666667 Monte-Carlo : 0.139302 formule fermee: 0.208612 not in    [0.135916, 0.142688]  ic = 0.00677163
+delta en t = 0.666667 Monte-Carlo : 0.135338 formule fermee: 0.208612 not in    [0.131992, 0.138684]  ic = 0.00669242
+delta en t = 0.666667 Monte-Carlo : 0.139038 formule fermee: 0.208612 not in    [0.135653, 0.142422]  ic = 0.00676905
+delta en t = 0.666667 Monte-Carlo : 0.135242 formule fermee: 0.208612 not in    [0.131898, 0.138585]  ic = 0.00668713
+delta en t = 0.666667 Monte-Carlo : 0.136901 formule fermee: 0.208612 not in    [0.133541, 0.140261]  ic = 0.00671953
+delta en t = 0.666667 Monte-Carlo : 0.140487 formule fermee: 0.208612 not in    [0.137086, 0.143888]  ic = 0.00680267
+delta en t = 0.666667 Monte-Carlo : 0.137352 formule fermee: 0.208612 not in    [0.133986, 0.140717]  ic = 0.00673066
+delta en t = 0.666667 Monte-Carlo : 0.137845 formule fermee: 0.208612 not in    [0.134473, 0.141218]  ic = 0.00674548
+delta en t = 0.666667 Monte-Carlo : 0.138109 formule fermee: 0.208612 not in    [0.134734, 0.141484]  ic = 0.00675035
+delta en t = 0.666667 Monte-Carlo : 0.136211 formule fermee: 0.208612 not in    [0.13286, 0.139562]  ic = 0.00670242
+delta en t = 0.666667 Monte-Carlo : 0.137074 formule fermee: 0.208612 not in    [0.133711, 0.140437]  ic = 0.00672584
+delta en t = 0.666667 Monte-Carlo : 0.140813 formule fermee: 0.208612 not in    [0.137408, 0.144217]  ic = 0.0068095
+delta en t = 0.666667 Monte-Carlo : 0.145045 formule fermee: 0.208612 not in    [0.141598, 0.148492]  ic = 0.00689394
+delta en t = 0.666667 Monte-Carlo : 0.137366 formule fermee: 0.208612 not in    [0.133998, 0.140733]  ic = 0.00673502
+delta en t = 0.666667 Monte-Carlo : 0.137451 formule fermee: 0.208612 not in    [0.134085, 0.140817]  ic = 0.00673199
+delta en t = 0.666667 Monte-Carlo : 0.136311 formule fermee: 0.208612 not in    [0.132955, 0.139667]  ic = 0.00671227
+delta en t = 0.666667 Monte-Carlo : 0.134739 formule fermee: 0.208612 not in    [0.131402, 0.138077]  ic = 0.00667578
+delta en t = 0.666667 Monte-Carlo : 0.134861 formule fermee: 0.208612 not in    [0.131522, 0.138199]  ic = 0.006677
+delta en t = 0.666667 Monte-Carlo : 0.13554 formule fermee: 0.208612 not in    [0.132196, 0.138885]  ic = 0.00668812
+delta en t = 0.666667 Monte-Carlo : 0.137181 formule fermee: 0.208612 not in    [0.133816, 0.140545]  ic = 0.00672896
+delta en t = 0.666667 Monte-Carlo : 0.137549 formule fermee: 0.208612 not in    [0.134181, 0.140917]  ic = 0.00673651
+delta en t = 0.666667 Monte-Carlo : 0.135629 formule fermee: 0.208612 not in    [0.13228, 0.138978]  ic = 0.00669751
+delta en t = 0.666667 Monte-Carlo : 0.13944 formule fermee: 0.208612 not in    [0.136054, 0.142826]  ic = 0.00677209
+delta en t = 0.666667 Monte-Carlo : 0.139752 formule fermee: 0.208612 not in    [0.136359, 0.143146]  ic = 0.00678682
+delta en t = 0.666667 Monte-Carlo : 0.13869 formule fermee: 0.208612 not in    [0.13531, 0.142071]  ic = 0.00676155
+delta en t = 0.666667 Monte-Carlo : 0.136577 formule fermee: 0.208612 not in    [0.133219, 0.139936]  ic = 0.00671664
+delta en t = 0.666667 Monte-Carlo : 0.136997 formule fermee: 0.208612 not in    [0.133633, 0.140361]  ic = 0.00672751
+delta en t = 0.666667 Monte-Carlo : 0.135424 formule fermee: 0.208612 not in    [0.132078, 0.138771]  ic = 0.00669382
+delta en t = 0.666667 Monte-Carlo : 0.13872 formule fermee: 0.208612 not in    [0.13534, 0.1421]  ic = 0.00675961
+delta en t = 0.666667 Monte-Carlo : 0.137451 formule fermee: 0.208612 not in    [0.134088, 0.140814]  ic = 0.00672587
+delta en t = 0.666667 Monte-Carlo : 0.136344 formule fermee: 0.208612 not in    [0.132988, 0.139699]  ic = 0.00671129
+delta en t = 0.666667 Monte-Carlo : 0.137068 formule fermee: 0.208612 not in    [0.133703, 0.140433]  ic = 0.00673011
+delta en t = 0.666667 Monte-Carlo : 0.13971 formule fermee: 0.208612 not in    [0.136318, 0.143101]  ic = 0.00678297
+delta en t = 0.666667 Monte-Carlo : 0.138899 formule fermee: 0.208612 not in    [0.135517, 0.142281]  ic = 0.00676429
+delta en t = 0.666667 Monte-Carlo : 0.140364 formule fermee: 0.208612 not in    [0.136968, 0.14376]  ic = 0.0067919
+delta en t = 0.666667 Monte-Carlo : 0.13574 formule fermee: 0.208612 not in    [0.132393, 0.139087]  ic = 0.00669361
+delta en t = 0.666667 Monte-Carlo : 0.139806 formule fermee: 0.208612 not in    [0.13641, 0.143202]  ic = 0.00679168
+
+0 sur 100 sont dans l'intervalle de confiance pour t = 0.666667

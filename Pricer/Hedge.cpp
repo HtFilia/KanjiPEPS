@@ -5,6 +5,132 @@
 #include <iostream>
 #include <pnl/pnl_finance.h>
 #include "Hedge.hpp"
+void Hedge::PnLfreq(const PnlMat *path, double N, int freq, PnlVect *portfolio_values, PnlVect* option_prices, double& error) {
+	int size = mc_->opt_->size_;
+	double r = mc_->mod_->r_;
+	double T = mc_->opt_->T_;
+	int H = path->m - 1;
+	double prix;
+	double ic_prix;
+	double capitalised_t_i;
+	PnlMat *past = pnl_mat_create(0, 0);
+	PnlVect *spots_at_t = pnl_vect_create(0);
+	PnlVect *delta = pnl_vect_create(size);
+	PnlVect *delta_prev = pnl_vect_create(size);
+	PnlVect *delta_difference = pnl_vect_create(size);
+	PnlVect *ic_delta = pnl_vect_create(size);
+	PnlVect *tmpVect = pnl_vect_create(size);
+	PnlVect *risk_free_part = pnl_vect_create(H + 1);
+	double* ptprice = new double[1]; double*ptdelta = new double[1];
+	int step = int(H / (N - 1));
+
+	for (int t = 0; t <= N - 1; t++) {
+
+		past = pnl_mat_create(t + 1, size);
+
+		spots_at_t = pnl_vect_create(size);
+		pnl_mat_get_row(spots_at_t, path, t * step); //get spots at t*H/(N-1)
+		//fill past with appropriate market values
+		for (int factor = 0; factor <= t; factor++) {
+			pnl_mat_get_row(tmpVect, path, factor * H / (N - 1));
+			pnl_mat_set_row(past, tmpVect, factor);
+		}
+		//  mc_->price(past, t * T / (N - 1), prix, ic_prix);
+		//  mc_->delta(past, t * T / (N - 1), delta, ic_delta);
+
+		//debug
+		/*
+			   std::cout <<"\nt = "<< t * T / (N - 1)<< "\t our price  " << prix;
+			   std::cout<< "\t our delta  "; pnl_vect_print(delta);
+			   pnl_cf_call_bs (pnl_vect_get(spots_at_t, 0),  100.0, T - t * T / (N - 1), 0.04879, 0, 0.2, ptprice, ptdelta);
+			   std::cout << "pnl price " << *ptprice << " pnl delta "<<*ptdelta << "\n";
+			   */
+			   //end debug
+
+		if (t == 0) {
+			mc_->price_and_delta(past, t * T / (N - 1), prix, ic_prix, delta, ic_delta);
+			pnl_vect_set(option_prices, t *step, prix);
+			pnl_vect_set(risk_free_part, 0, prix - pnl_vect_scalar_prod(delta, spots_at_t));
+			pnl_vect_set(portfolio_values, 0, prix);
+		}
+		else {
+			mc_->price(past, t * T / (N - 1), prix, ic_prix);
+			if (t*step % freq == 0) {
+				mc_->delta(past, t * T / (N - 1), delta, ic_delta);
+			}
+			pnl_vect_set(option_prices, t *step, prix);
+			std::cout << "prix at t = " << t * step << " " << prix << std::endl;
+			pnl_vect_clone(delta_difference, delta);
+			pnl_vect_minus_vect(delta_difference, delta_prev);
+			capitalised_t_i = pnl_vect_get(risk_free_part, t * step - 1) * (pnl_expm1(r * T / H) + 1);
+			pnl_vect_set(risk_free_part, t * step,
+				capitalised_t_i - pnl_vect_scalar_prod(delta_difference, spots_at_t));
+			pnl_vect_set(portfolio_values, t * step, capitalised_t_i + pnl_vect_scalar_prod(delta_prev, spots_at_t));
+			std::cout << "portfolio at t = " << t * step << " " << capitalised_t_i + pnl_vect_scalar_prod(delta_prev, spots_at_t) << std::endl;
+
+		}
+		//std::cout << "error at " << (t*T/(N-1))<<"\t" << (pnl_vect_get(portfolio_values, step* t) - prix)<<"\n";
+		pnl_vect_clone(delta_prev, delta);
+
+		for (int i = 1; i < step && (t*step + i <= H); i++) {
+
+			pnl_mat_get_row(spots_at_t, path, t * step + i); //get spots at t*H/(N-1) + i
+
+			if (i == 1) {
+				pnl_mat_free(&past);
+				past = pnl_mat_create(t + 2, size);
+				//start filling past with market data
+				for (int factor = 0; factor <= t; factor++) {
+					pnl_mat_get_row(tmpVect, path, factor * step);
+					pnl_mat_set_row(past, tmpVect, factor);
+				}
+			}
+			pnl_mat_get_row(tmpVect, path, t * step + i);
+			pnl_mat_set_row(past, tmpVect, t + 1);
+			mc_->price(past, t * T / (N - 1) + i * T / H, prix, ic_prix);
+			//end filling past
+			if ((t*step + i) % freq == 0) {
+				std::cout << t * step + i << std::endl;
+				mc_->delta(past, t * T / (N - 1) + i * T / H, delta, ic_delta);
+				//std::cout << prix << std::endl;
+			}
+			//start debug
+/*
+			std::cout <<"\nt = "<< t * T / (N - 1)+ i*T/H << "\t our price  " << prix;
+			std::cout<< "\t our delta  "; pnl_vect_print(delta);
+			pnl_cf_call_bs (pnl_vect_get(spots_at_t, 0),  100.0, T - t * T / (N - 1) - i*T/H, 0.04879, 0,
+							0.2, ptprice, ptdelta);
+			std::cout << "pnl price " << *ptprice << " pnl delta "<<*ptdelta<<"\n";
+*/
+//end debug
+			pnl_vect_set(option_prices, t * step + i, prix);  //add to option_prices
+			//risk free part calculation start
+			pnl_vect_clone(delta_difference, delta);
+			pnl_vect_minus_vect(delta_difference, delta_prev);
+			capitalised_t_i = pnl_vect_get(risk_free_part, t * step + i - 1) * (pnl_expm1(r * T / H) + 1);
+			pnl_vect_set(risk_free_part, t * step + i, capitalised_t_i - pnl_vect_scalar_prod(delta_difference, spots_at_t));
+			//risk free part calculation end
+			//portfolio value
+			pnl_vect_set(portfolio_values, t * step + i, capitalised_t_i + pnl_vect_scalar_prod(delta_prev, spots_at_t));
+			//std::cout << capitalised_t_i + pnl_vect_scalar_prod(delta_prev, spots_at_t) << std::endl;
+			pnl_vect_clone(delta_prev, delta);
+			//std::cout << "error at " << (t*T/(N-1) + i*T/H)<<"\t" << (pnl_vect_get(portfolio_values, step* t + i) - prix)<<"\n";
+		}
+		if (t != N - 1)
+			pnl_mat_free(&past);
+	}
+
+
+	//debug
+	//  pnl_vect_print(portfolio_values); std::cout << "\n";
+	//pnl_vect_print(option_prices);
+	//
+	error = pnl_vect_get(risk_free_part, H) + pnl_vect_scalar_prod(delta, spots_at_t) - mc_->opt_->payoff(past);
+	std::cout << '\n' << error;
+	std::cout << "\n" << pnl_vect_get(option_prices, H) << "\t" << mc_->opt_->payoff(path);
+}
+
+
 void Hedge::PnL(PnlMat *path, int n_time_steps, int H, PnlVect *portfolio_values, PnlVect* option_prices, double& error) {
     int size = mc_->opt_->size_;
     double r = mc_->mod_->r_;

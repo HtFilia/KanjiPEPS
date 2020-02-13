@@ -3,7 +3,7 @@
 void validate_call(PnlRng* rng) {
 
 	// initializing the model and the call option
-	double r = 0.04879;
+	double r = 0.0001;
 	double spot_ = 100;
 	double sigma_ = 0.2;
 	PnlVect *spot = pnl_vect_create_from_scalar(1, spot_);
@@ -17,26 +17,26 @@ void validate_call(PnlRng* rng) {
 
 	// initializing the montecarlo tool
 	int n_samples = 50000;
-	double epsilon = 0.00001;
+	double epsilon = 0.1;
 	double gamma = -1.0 / 4.0;
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
-	MonteCarlo* mc = new MonteCarlo(model, call, rng, T / n_time_steps, n_samples, epsilon_n);
-	int M = 12;
+	MonteCarlo* mc = new MonteCarlo(model, call, rng, T / n_time_steps, n_samples, 0.0001);
+	int M = 100;
 	int H = M;
-	int n_scenarios = 1000;
+	int n_scenarios = 100;
 	PnlMat* simulated_path = pnl_mat_create(1, 1);
-	model->simul_market(simulated_path, T, M, rng);
-	//validate_price_call(simulated_path, mc, model);
-	validate_delta_call(simulated_path, mc, model, n_scenarios);
+	//model->simul_market(simulated_path, T, M, rng);
+	//validate_price_call(simulated_path, mc, model, n_scenarios);
+	//validate_delta_call(simulated_path, mc, model, n_scenarios);
 	//validate_hedging_frequency_call(mc, model, rng, M);
 	//validate_mean_error_call(mc, model, rng, M, n_scenarios);
-	//histogram_errors_call(mc, model, rng, M, H, n_scenarios);
+	histogram_errors_call(mc, model, rng, M, H, n_scenarios);
 	pnl_mat_free(&simulated_path);
 
 }
 
 
-void validate_price_call(PnlMat* simulated_path, MonteCarlo* mc, BlackScholesModel* model) {
+void validate_price_call(PnlMat* simulated_path, MonteCarlo* mc, BlackScholesModel* model, int n_scenarios) {
 	std::ofstream myfile;
 	double r = model->r_;
 	VanillaCall* call = (VanillaCall*)mc->opt_;
@@ -56,21 +56,24 @@ void validate_price_call(PnlMat* simulated_path, MonteCarlo* mc, BlackScholesMod
 		model->getPast(past, simulated_path, t, n_time_steps, T);
 		spot_at_t = MGET(simulated_path, int(i), 0);
 		prix = call->price(t, spot_at_t, r, sigma_, T, strike);
-		mc->price(past, t, prix_mc, ic);
-		myfile << "prix en t = " << t << " Monte-Carlo : " << prix_mc;
-		myfile << " formule fermee: " << prix;
-		if (prix_mc - ic / 2 <= prix && prix <= prix_mc + ic / 2)
-		{
-			myfile << " in ";
-			count++;
+		for (int k = 0; k < n_scenarios; k++) {
+			mc->price(past, t, prix_mc, ic);
+			//myfile << "prix en t = " << t << " Monte-Carlo : " << prix_mc;
+			//myfile << " formule fermee: " << prix;
+			if (prix_mc - ic / 2 <= prix && prix <= prix_mc + ic / 2)
+			{
+				//myfile << " in ";
+				count++;
+			}
+			else
+			{
+				//myfile << " not in ";
+			}
+			//myfile << "   [" << prix_mc - ic / 2 << ", " << prix_mc + ic / 2 << "] " << " ic = " << ic << std::endl;
 		}
-		else
-		{
-			myfile << " not in ";
-		}
-		myfile << "   [" << prix_mc - ic / 2 << ", " << prix_mc + ic / 2 << "] " << std::endl;
+		myfile << std::endl << count << " / " << n_scenarios << "sont dans l'intervalle de confiance" << std::endl;
+		count = 0;
 	}
-	myfile << std::endl << count << " / " << (int)(M + 1) << "sont dans l'intervalle de confiance" << std::endl;
 	pnl_mat_free(&past);
 	myfile.close();
 }
@@ -101,25 +104,26 @@ void validate_delta_call(PnlMat* simulated_path, MonteCarlo* mc, BlackScholesMod
 		model->getPast(past, simulated_path, t, n_time_steps, T);
 		spot_at_t = MGET(simulated_path, (int)i, 0);
 		delta_ferme = call->delta(t, spot_at_t, r, sigma_, T, strike);
-		for (int k = 0; k < n_scenarios; i++)
+		for (int k = 0; k < n_scenarios; k++)
 		{
 			mc->delta(past, t, delta, ic_delta);
 			delta_ = pnl_vect_get(delta, 0);
 			ic_delta_ = pnl_vect_get(ic_delta, 0);
-			//myfile << "delta en t = " << t << " Monte-Carlo : " << delta_;
-			//myfile << " formule fermee: " << delta_ferme;
+			myfile << "delta en t = " << t << " Monte-Carlo : " << delta_;
+			myfile << " formule fermee: " << delta_ferme;
 			if (delta_ - ic_delta_ / 2 <= delta_ferme && delta_ferme <= delta_ + ic_delta_ / 2)
 			{
-				//myfile << " in ";
+				myfile << " in ";
 				count++;
 			}
 			else
 			{
-				//myfile << " not in ";
+				myfile << " not in ";
 			}
-			//myfile << "   [" << delta_ - ic_delta_ / 2 << ", " << delta_ + ic_delta_ / 2 << "] " << std::endl;
+			myfile << "   [" << delta_ - ic_delta_ / 2 << ", " << delta_ + ic_delta_ / 2 << "] " << " ic = " << ic_delta_ << std::endl;
 		}
-		myfile << std::endl << count / (M + 1) << "sont dans l'intervalle de confiance pour t = " << t << std::endl;
+		myfile << std::endl << count << " sur "<< n_scenarios << " sont dans l'intervalle de confiance pour t = " << t << std::endl;
+		count = 0;
 	}
 	pnl_vect_free(&ic_delta);
 	pnl_vect_free(&delta);
@@ -230,9 +234,11 @@ void histogram_errors_call(MonteCarlo* mc, BlackScholesModel* model, PnlRng* rng
 	myfile.open("../Validation/histogram_errors.csv");
 	PnlVect* option_values = pnl_vect_create(1);
 	PnlVect* portfolio_values = pnl_vect_create(1);
+	double ic = 0;
 	for (int i = 0; i < scenarios; i++) {
 		model->simul_market(simulated_path, T, M, rng);
-		hedge.PnL(simulated_path, n_time_steps, H, portfolio_values, option_values, error);
+		hedge.PnLfreq(simulated_path, n_time_steps+1, 1, portfolio_values, option_values, error);
+		//hedge.PnL(simulated_path, n_time_steps, H, portfolio_values, option_values, error);
 		myfile << error << ";"<< std::endl;
 	}
 	myfile.close();

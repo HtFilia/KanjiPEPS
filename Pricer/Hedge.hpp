@@ -31,6 +31,8 @@ public:              /// pointeur vers l'estimateur de monte carlo
      * @param[out] error contient l'erreur de couverture
      */
     void PnL(PnlMat *path, int n_time_steps, int H, PnlVect *portfolio_values, PnlVect* option_prices, double& error);
+	void PnLfreq(const PnlMat *path, double N, int freq, PnlVect *portfolio_values, PnlVect* option_prices, double& error);
+
 
 	void PnL(PnlMat * path, double N, PnlVect * portfolio_values, PnlVect * option_prices, double & error, double ic0);
 
