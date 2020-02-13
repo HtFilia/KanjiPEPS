@@ -30,7 +30,6 @@ void Hedge::PnL(PnlMat *path, int n_time_steps, int H, PnlVect *portfolio_values
 	{
 		path_index = i * step;
 		t = i * T / H;
-		std::cout << "delta "<< GET(delta_prev,0) << std::endl;
 		delta_prev = rebalance(path, path_index, i, t, n_time_steps, H, T, option_prices, portfolio_values, delta_prev);
     }
 

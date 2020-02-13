@@ -1,13 +1,1 @@
  Validation delta 
-delta en t = 0 Monte-Carlo : 0.542088 formule fermee: 0.78903 not in    [0.53749, 0.546686] 
-delta en t = 0.01 Monte-Carlo : 0.52728 formule fermee: 0.789894 not in    [0.522685, 0.531875] 
-delta en t = 0.02 Monte-Carlo : 0.616649 formule fermee: 0.86047 not in    [0.612182, 0.621116] 
-delta en t = 0.03 Monte-Carlo : 0.308345 formule fermee: 0.639779 not in    [0.304118, 0.312572] 
-delta en t = 0.04 Monte-Carlo : 0.404579 formule fermee: 0.754458 not in    [0.400103, 0.409054] 
-delta en t = 0.05 Monte-Carlo : 0.490236 formule fermee: 0.843351 not in    [0.485695, 0.494777] 
-delta en t = 0.06 Monte-Carlo : 0.185237 formule fermee: 0.609244 not in    [0.181714, 0.18876] 
-delta en t = 0.07 Monte-Carlo : 0.802808 formule fermee: 0.986581 not in    [0.799206, 0.806409] 
-delta en t = 0.08 Monte-Carlo : 0.837439 formule fermee: 0.996294 not in    [0.834117, 0.840762] 
-delta en t = 0.09 Monte-Carlo : 0.732481 formule fermee: 0.998853 not in    [0.72854, 0.736422] 
-
-0 / 11sont dans l'intervalle de confiance

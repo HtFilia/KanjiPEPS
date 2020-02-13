@@ -12,17 +12,19 @@ from scipy.ndimage.filters import gaussian_filter1d
 import csv
 
 def plot_histogram():
-    HValues = ['8','10','20']
+    HValues = ['365']
     colors = ['g', 'blue', 'r', 'black']
     for H, color in zip(HValues, colors):
-        filename = 'histogram_errors_M40_H'+H+'.csv'
+        filename = 'histogram_errors_M365_H'+H+'.csv'
         with open(filename) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=';')
             l = []
             for x in csv_reader:
                 l.append(float(x[0]))
-            n, bins, patches = plt.hist(l, 5, density=True,label = H, facecolor=color, alpha=0.75)
-    
+            n, bins, patches = plt.hist(l, 10, density=True,label = H,\
+                                        facecolor=color, alpha=0.75)
+    bin_centers = 0.5*(bins[1:]+bins[:-1])
+    plt.plot(bin_centers,n) 
     plt.xlabel('Erreur de couverture')
     plt.ylabel('Probabilité')
     plt.legend()
@@ -30,6 +32,7 @@ def plot_histogram():
     plt.grid(True)
     plt.gcf().savefig("call_error_histogram")
     plt.clf()
+    print(sum(l)/len(l))
 
 def plot_error_H():
     with open("variation_frequence_call_M64.txt") as csv_file:
@@ -58,4 +61,4 @@ def plot_error_H():
     plt.savefig("hedging_error_f(H)")
 
 plot_histogram()
-plot_error_H()
+#plot_error_H()

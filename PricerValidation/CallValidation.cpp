@@ -21,14 +21,14 @@ void validate_call(PnlRng* rng) {
 	double gamma = -1.0 / 4.0;
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
 	MonteCarlo* mc = new MonteCarlo(model, call, rng, T / n_time_steps, n_samples, epsilon_n);
-	int M = 365;
+	int M = 12;
 	int H = M;
-	int n_scenarios = 100;
+	int n_scenarios = 1000;
 	PnlMat* simulated_path = pnl_mat_create(1, 1);
 	model->simul_market(simulated_path, T, M, rng);
 	//validate_price_call(simulated_path, mc, model);
-	//validate_delta_call(simulated_path, mc, model);
-	validate_hedging_frequency_call(mc, model, rng, M);
+	validate_delta_call(simulated_path, mc, model, n_scenarios);
+	//validate_hedging_frequency_call(mc, model, rng, M);
 	//validate_mean_error_call(mc, model, rng, M, n_scenarios);
 	//histogram_errors_call(mc, model, rng, M, H, n_scenarios);
 	pnl_mat_free(&simulated_path);
@@ -75,7 +75,7 @@ void validate_price_call(PnlMat* simulated_path, MonteCarlo* mc, BlackScholesMod
 	myfile.close();
 }
 
-void validate_delta_call(PnlMat* simulated_path, MonteCarlo* mc, BlackScholesModel* model) {
+void validate_delta_call(PnlMat* simulated_path, MonteCarlo* mc, BlackScholesModel* model, int n_scenarios) {
 	PnlVect* delta = pnl_vect_create(1);
 	PnlVect* ic_delta = pnl_vect_create(1);
 	double r = model->r_;
@@ -95,31 +95,32 @@ void validate_delta_call(PnlMat* simulated_path, MonteCarlo* mc, BlackScholesMod
 	int count = 0;
 	int M = simulated_path->m - 1;
 	myfile << " Validation delta " << std::endl;
-	pnl_mat_print(simulated_path);  std::cout << std::endl;
 	for (double i = 0.0; i < (double)M; i++)
 	{
 		t = T * i / (double)M;
 		model->getPast(past, simulated_path, t, n_time_steps, T);
 		spot_at_t = MGET(simulated_path, (int)i, 0);
 		delta_ferme = call->delta(t, spot_at_t, r, sigma_, T, strike);
-		pnl_mat_print(past); std::cout << std::endl;
-		mc->delta(past, t, delta, ic_delta);
-		delta_ = pnl_vect_get(delta, 0);
-		ic_delta_ = pnl_vect_get(ic_delta, 0);
-		myfile << "delta en t = " << t << " Monte-Carlo : " << delta_;
-		myfile << " formule fermee: " << delta_ferme;
-		if (delta_ - ic_delta_ / 2 <= delta_ferme && delta_ferme <= delta_ + ic_delta_ / 2)
+		for (int k = 0; k < n_scenarios; i++)
 		{
-			myfile << " in ";
-			count++;
+			mc->delta(past, t, delta, ic_delta);
+			delta_ = pnl_vect_get(delta, 0);
+			ic_delta_ = pnl_vect_get(ic_delta, 0);
+			//myfile << "delta en t = " << t << " Monte-Carlo : " << delta_;
+			//myfile << " formule fermee: " << delta_ferme;
+			if (delta_ - ic_delta_ / 2 <= delta_ferme && delta_ferme <= delta_ + ic_delta_ / 2)
+			{
+				//myfile << " in ";
+				count++;
+			}
+			else
+			{
+				//myfile << " not in ";
+			}
+			//myfile << "   [" << delta_ - ic_delta_ / 2 << ", " << delta_ + ic_delta_ / 2 << "] " << std::endl;
 		}
-		else
-		{
-			myfile << " not in ";
-		}
-		myfile << "   [" << delta_ - ic_delta_ / 2 << ", " << delta_ + ic_delta_ / 2 << "] " << std::endl;
+		myfile << std::endl << count / (M + 1) << "sont dans l'intervalle de confiance pour t = " << t << std::endl;
 	}
-	myfile << std::endl << count << " / " << int(M + 1) << "sont dans l'intervalle de confiance" << std::endl;
 	pnl_vect_free(&ic_delta);
 	pnl_vect_free(&delta);
 	pnl_mat_free(&past);
@@ -145,20 +146,20 @@ void validate_hedging_frequency_call(MonteCarlo* mc, BlackScholesModel* model, P
 	PnlVect* option_values = pnl_vect_create(1);
 	PnlVect* portfolio_values = pnl_vect_create(1);
 	int H = M;
-	pnl_mat_print(simulated_path);
-	std::cout << std::endl;
-	hedge.PnL(simulated_path, n_time_steps, H, portfolio_values, option_values, error);
-	double ic0 = 0;
+	//pnl_mat_print(simulated_path);
+	//std::cout << std::endl;
+	//hedge.PnL(simulated_path, n_time_steps, H, portfolio_values, option_values, error);
+	//double ic0 = 0;
 	//hedge.PnL(simulated_path, n_time_steps+1, portfolio_values, option_values, error, ic0);
-	PnlMat* comparaison = pnl_mat_create(H + 1, 2);
-	pnl_mat_set_col(comparaison, portfolio_values, 0);
-	pnl_mat_set_col(comparaison, option_values, 1);
-	pnl_mat_print(comparaison);
+	//PnlMat* comparaison = pnl_mat_create(H + 1, 2);
+	//pnl_mat_set_col(comparaison, portfolio_values, 0);
+	//pnl_mat_set_col(comparaison, option_values, 1);
+	//pnl_mat_print(comparaison);
 
-	//for (int H = M; H >= 2; H /= 2) {
-	//	hedge.PnL(simulated_path, n_time_steps, H, portfolio_values, option_values, error);
-	//	myfile << H << ";" << error << std::endl;
-	//}
+	for (int H = M; H >= 2; H /= 2) {
+		hedge.PnL(simulated_path, n_time_steps, H, portfolio_values, option_values, error);
+		myfile << H << ";" << error << std::endl;
+	}
 	myfile.close();
 	pnl_mat_free(&simulated_path);
 	pnl_mat_free(&past);
