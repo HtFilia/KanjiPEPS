@@ -7,14 +7,20 @@
 #include <iostream>
 
 MonteCarlo::~MonteCarlo() {
-	std::cout << "destructor montr carlo called here" << std::endl;
 	delete mod_;
 	pnl_rng_free(&rng_);
-
-
 }
 
 void MonteCarlo::price(double &prix, double &ic) {
+	if (opt_->type_ == call) {
+		VanillaCall* call = dynamic_cast<VanillaCall*> (opt_);
+		if (!call->mc_pricing) {
+			double spot = GET(mod_->spot_, 0);
+			prix = call->price(0, spot, mod_->r_, GET(mod_->sigma_, 0), opt_->T_, call->strike_);
+			return;
+		}
+	}
+
 
 	PnlMat* path = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
 	double payoffs_squared = 0;
@@ -37,6 +43,15 @@ void MonteCarlo::price(double &prix, double &ic) {
 }
 
 void MonteCarlo::price(const PnlMat *past, double t, double &prix, double &ic) {
+	if (opt_->type_ == call) {
+	VanillaCall* call = dynamic_cast<VanillaCall*> (opt_);
+	if (!call->mc_pricing)
+	{
+		double spot = MGET(past, past->m - 1, 0);
+		prix = call->price(t, spot, mod_->r_, GET(mod_->sigma_, 0), opt_->T_, call->strike_);
+		return;
+	}
+}
 
 	PnlMat* path = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
 	double payoffs_squared = 0;
@@ -58,6 +73,16 @@ void MonteCarlo::price(const PnlMat *past, double t, double &prix, double &ic) {
 
 
 void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic) {
+	if (opt_->type_ == call) {
+	VanillaCall* call = dynamic_cast<VanillaCall*> (opt_);
+	if (!call->mc_pricing) {
+		double spot = MGET(past, past->m - 1, 0);
+		double delta_ = call->delta(t, spot, mod_->r_, GET(mod_->sigma_, 0), opt_->T_, call->strike_);
+		pnl_vect_set(delta, 0, delta_);
+		return;
+	}
+}
+
 	PnlMat* path = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_); //creation path, matrice ou on simule
 	double timestep = opt_->T_ / opt_->nbTimeSteps_; //pas de discretisation
 	PnlMat* shifted_pathp = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
@@ -109,6 +134,17 @@ void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic
 }
 
 void MonteCarlo::price_and_delta(const PnlMat *past, double t, double &prix, double &ic, PnlVect *delta, PnlVect *icdelta) {
+	if (opt_->type_ == call) {
+		VanillaCall* call = dynamic_cast<VanillaCall*> (opt_);
+		if (!call->mc_pricing) {
+			double spot = MGET(past, past->m - 1, 0);
+			double delta_ = call->delta(t, spot, mod_->r_, GET(mod_->sigma_, 0), opt_->T_, call->strike_);
+			prix = call->price(t, spot, mod_->r_, GET(mod_->sigma_, 0), opt_->T_, call->strike_);
+			pnl_vect_set(delta, 0, delta_);
+			return;
+		}
+	}
+
 	PnlMat* path = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
 	double payoffs_squared = 0;
 	double payoffs = 0;
@@ -122,8 +158,6 @@ void MonteCarlo::price_and_delta(const PnlMat *past, double t, double &prix, dou
 	double prev_payoff = opt_->payoff(past);
 	for (int m = 0; m < nbSamples_; m++) {
 		mod_->asset(path, t, opt_->T_, opt_->nbTimeSteps_, rng_, past);
-		//pnl_mat_print(path);
-		//payoff = opt_->payoff(path, prev_payoff, past->m);
 		payoff = opt_->payoff(path);
 		payoffs += payoff;
 		payoffs_squared += pnl_pow_i(payoff, 2);

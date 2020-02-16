@@ -1,1 +1,85 @@
  Validation delta 
+
+9 sur 10 sont dans l'intervalle de confiance pour t = 0
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.01
+
+9 sur 10 sont dans l'intervalle de confiance pour t = 0.02
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.03
+
+8 sur 10 sont dans l'intervalle de confiance pour t = 0.04
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.05
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.06
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.07
+
+9 sur 10 sont dans l'intervalle de confiance pour t = 0.08
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.09
+
+9 sur 10 sont dans l'intervalle de confiance pour t = 0.1
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.11
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.12
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.13
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.14
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.15
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.16
+
+9 sur 10 sont dans l'intervalle de confiance pour t = 0.17
+
+9 sur 10 sont dans l'intervalle de confiance pour t = 0.18
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.19
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.2
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.21
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.22
+
+9 sur 10 sont dans l'intervalle de confiance pour t = 0.23
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.24
+
+8 sur 10 sont dans l'intervalle de confiance pour t = 0.25
+
+9 sur 10 sont dans l'intervalle de confiance pour t = 0.26
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.27
+
+9 sur 10 sont dans l'intervalle de confiance pour t = 0.28
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.29
+
+9 sur 10 sont dans l'intervalle de confiance pour t = 0.3
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.31
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.32
+
+9 sur 10 sont dans l'intervalle de confiance pour t = 0.33
+
+9 sur 10 sont dans l'intervalle de confiance pour t = 0.34
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.35
+
+9 sur 10 sont dans l'intervalle de confiance pour t = 0.36
+
+10 sur 10 sont dans l'intervalle de confiance pour t = 0.37
+
+8 sur 10 sont dans l'intervalle de confiance pour t = 0.38
+
+9 sur 10 sont dans l'intervalle de confiance pour t = 0.39
+
+9 sur 10 sont dans l'intervalle de confiance pour t = 0.4
+
+9 sur 10 sont dans l'intervalle de confiance pour t = 0.41

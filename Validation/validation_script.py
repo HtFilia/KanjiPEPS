@@ -5,6 +5,10 @@
 Ceci est un script temporaire.
 """
 
+import pandas as pd
+import seaborn as sns
+from scipy import stats
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.path as mpath
@@ -12,10 +16,10 @@ from scipy.ndimage.filters import gaussian_filter1d
 import csv
 
 def plot_histogram():
-    HValues = ['365']
+    HValues = ['100', '50', '25']
     colors = ['g', 'blue', 'r', 'black']
     for H, color in zip(HValues, colors):
-        filename = 'histogram_errors_M365_H'+H+'.csv'
+        filename = 'histogram_errors_M100_H'+H+'.csv'
         with open(filename) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=';')
             l = []
@@ -32,10 +36,24 @@ def plot_histogram():
     plt.grid(True)
     plt.gcf().savefig("call_error_histogram")
     plt.clf()
-    print(sum(l)/len(l))
+
+def plot_density(M, freqValues):
+    colors = ['g', 'blue', 'r', 'black']
+    for freq, color in zip(freqValues, colors):
+        filename = 'histogram_errors_M' + str(M) + '_freq_' + str(freq) +'.csv'
+        with open(filename) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=';')
+            l = []
+            for x in csv_reader:
+                l.append(float(x[0]))
+            sns.kdeplot(l, bw=.2, label=freq, shade=True)
+    plt.legend();
+    plt.title("Distribution de l'erreur de couverture")
+    plt.gcf().savefig("call_error_histogram")
+
 
 def plot_error_H():
-    with open("variation_frequence_call_M64.txt") as csv_file:
+    with open("variation_frequence_call_M100.txt") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=';')
         x = []
         y = []
@@ -59,6 +77,12 @@ def plot_error_H():
     plt.title("Erreur de couverture en fonction de la fréquence de rebalancement")
     plt.grid(True)
     plt.savefig("hedging_error_f(H)")
-
-plot_histogram()
+    
+def main():
+    M = 365
+    freqValues = [1, 5, 10, 30, 60]
+    freqValues = [str(x) for x in freqValues]
+    plot_density(M, freqValues)
+main()
+#plot_histogram()
 #plot_error_H()

@@ -1,43 +1,203 @@
  Validation price
 
-94 / 100sont dans l'intervalle de confiance
+10 / 10sont dans l'intervalle de confiance
 
-97 / 100sont dans l'intervalle de confiance
+9 / 10sont dans l'intervalle de confiance
 
-98 / 100sont dans l'intervalle de confiance
+10 / 10sont dans l'intervalle de confiance
 
-98 / 100sont dans l'intervalle de confiance
+10 / 10sont dans l'intervalle de confiance
 
-94 / 100sont dans l'intervalle de confiance
+10 / 10sont dans l'intervalle de confiance
 
-98 / 100sont dans l'intervalle de confiance
+10 / 10sont dans l'intervalle de confiance
 
-97 / 100sont dans l'intervalle de confiance
+10 / 10sont dans l'intervalle de confiance
 
-96 / 100sont dans l'intervalle de confiance
+9 / 10sont dans l'intervalle de confiance
 
-96 / 100sont dans l'intervalle de confiance
+10 / 10sont dans l'intervalle de confiance
 
-95 / 100sont dans l'intervalle de confiance
+10 / 10sont dans l'intervalle de confiance
 
-93 / 100sont dans l'intervalle de confiance
+7 / 10sont dans l'intervalle de confiance
 
-93 / 100sont dans l'intervalle de confiance
+9 / 10sont dans l'intervalle de confiance
 
-96 / 100sont dans l'intervalle de confiance
+10 / 10sont dans l'intervalle de confiance
 
-97 / 100sont dans l'intervalle de confiance
+9 / 10sont dans l'intervalle de confiance
 
-94 / 100sont dans l'intervalle de confiance
+10 / 10sont dans l'intervalle de confiance
 
-94 / 100sont dans l'intervalle de confiance
+8 / 10sont dans l'intervalle de confiance
 
-89 / 100sont dans l'intervalle de confiance
+9 / 10sont dans l'intervalle de confiance
 
-95 / 100sont dans l'intervalle de confiance
+8 / 10sont dans l'intervalle de confiance
 
-96 / 100sont dans l'intervalle de confiance
+9 / 10sont dans l'intervalle de confiance
 
-96 / 100sont dans l'intervalle de confiance
+10 / 10sont dans l'intervalle de confiance
 
-0 / 100sont dans l'intervalle de confiance
+8 / 10sont dans l'intervalle de confiance
+
+8 / 10sont dans l'intervalle de confiance
+
+8 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+9 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
+
+10 / 10sont dans l'intervalle de confiance
