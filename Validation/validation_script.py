@@ -79,8 +79,8 @@ def plot_error_H():
     plt.savefig("hedging_error_f(H)")
     
 def main():
-    M = 365
-    freqValues = [1, 5, 10, 30, 60]
+    M = 20
+    freqValues = [1, 5, 10]
     freqValues = [str(x) for x in freqValues]
     plot_density(M, freqValues)
 main()
