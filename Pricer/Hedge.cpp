@@ -21,12 +21,10 @@ void Hedge::PnLfreq(const PnlMat *path, double N, int freq, PnlVect *portfolio_v
 	PnlVect *ic_delta = pnl_vect_create(size);
 	PnlVect *tmpVect = pnl_vect_create(size);
 	PnlVect *risk_free_part = pnl_vect_create(H + 1);
-	double* ptprice = new double[1]; double*ptdelta = new double[1];
 	int step = int(H / (N - 1));
 
 	for (int t = 0; t <= N - 1; t++) {
-
-		past = pnl_mat_create(t + 1, size);
+		pnl_mat_resize(past, t + 1, size);
 
 		spots_at_t = pnl_vect_create(size);
 		pnl_mat_get_row(spots_at_t, path, t * step); //get spots at t*H/(N-1)
@@ -89,10 +87,20 @@ void Hedge::PnLfreq(const PnlMat *path, double N, int freq, PnlVect *portfolio_v
 			pnl_vect_set(portfolio_values, t * step + i, capitalised_t_i + pnl_vect_scalar_prod(delta_prev, spots_at_t));
 			pnl_vect_clone(delta_prev, delta);
 		}
-		if (t != N - 1)
-			pnl_mat_free(&past);
 	}
 	error = pnl_vect_get(risk_free_part, H) + pnl_vect_scalar_prod(delta, spots_at_t) - mc_->opt_->payoff(past);
+	pnl_mat_free(&past);
+	pnl_vect_free(&spots_at_t);
+	pnl_vect_free(&delta);
+
+	pnl_vect_free(&delta_prev);
+	pnl_vect_free(&delta_difference);
+
+	pnl_vect_free(&ic_delta);
+	pnl_vect_free(&tmpVect);
+	pnl_vect_free(&risk_free_part);
+
+
 }
 
 

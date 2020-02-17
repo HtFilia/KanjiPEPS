@@ -129,6 +129,8 @@ void BlackScholesModel::simul_market(PnlMat *path, double T, int heg_dates_numbe
 			pnl_mat_set(path, i, d, pnl_mat_get(path, i - 1, d) * expo);
 		}
 	}
+	pnl_vect_free(&Ld);
+	pnl_vect_free(&Gi);
 }
 
 
