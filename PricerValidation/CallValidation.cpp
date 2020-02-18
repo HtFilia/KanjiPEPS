@@ -21,18 +21,19 @@ void validate_call(PnlRng* rng) {
 	double gamma = -1.0 / 4.0;
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
 	MonteCarlo* mc = new MonteCarlo(model, call, rng, T / n_time_steps, n_samples, 0.0001);
-	int M = 20;
+	int M = 365;
 	int H = M/4;
-	int n_scenarios = 10;
+	int n_scenarios = 50;
 	PnlMat* simulated_path = pnl_mat_create(M+1, 1);
+	bool mc_pricing = true;
 	model->simul_market(simulated_path, T, M, rng);
 	//validate_price_call(simulated_path, mc, model, n_scenarios);
 	//validate_delta_call(simulated_path, mc, model, n_scenarios);
 	//validate_hedging_frequency_call(mc, model, rng, M);
 	//validate_mean_error_call(mc, model, rng, M, n_scenarios);
-	bool mc_pricing = true;
-	int n_freqs = 3;
-	const double *freqs_ptr = new double[n_freqs] {1, 5, 10};
+
+	int n_freqs = 1;
+	const double *freqs_ptr = new double[n_freqs] {1};
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
 	histogram_errors_call(mc, model, rng, M, freqs, n_scenarios, mc_pricing);
 	pnl_mat_free(&simulated_path);
@@ -234,11 +235,12 @@ void histogram_errors_call(MonteCarlo* mc, BlackScholesModel* model, PnlRng* rng
 	std::string filename = "";
 	for (int k = 0; k < freqs->size; k++) {
 		freq = GET(freqs,k);
-		filename = "../Validation/histogram_errors_M" + std::to_string(M) + "_freq_" + std::to_string((int)freq) +".csv";
+		filename = "../Validation/mc_histogram_errors_M" + std::to_string(M) + "_freq_" + std::to_string((int)freq) +".csv";
 		myfile.open(filename);
 		for (int i = 0; i < scenarios; i++) {
-			model->simul_market(simulated_path, T, M, rng);
+			//model->simul_market(simulated_path, T, M, rng);
 			hedge.PnLfreq(simulated_path, n_time_steps + 1, freq, portfolio_values, option_values, error); // amine
+			std::cout << error << std::endl;
 			myfile << error << ";" << std::endl;
 		}
 		myfile.close();

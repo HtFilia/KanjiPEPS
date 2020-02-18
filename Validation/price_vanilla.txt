@@ -1,203 +1,119 @@
  Validation price
 
-10 / 10sont dans l'intervalle de confiance
+49 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+47 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+46 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+46 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+44 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+45 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+45 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-7 / 10sont dans l'intervalle de confiance
+49 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+49 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+46 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+47 / 50sont dans l'intervalle de confiance
 
-8 / 10sont dans l'intervalle de confiance
+44 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-8 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+43 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+47 / 50sont dans l'intervalle de confiance
 
-8 / 10sont dans l'intervalle de confiance
+45 / 50sont dans l'intervalle de confiance
 
-8 / 10sont dans l'intervalle de confiance
+44 / 50sont dans l'intervalle de confiance
 
-8 / 10sont dans l'intervalle de confiance
+49 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+44 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+49 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+45 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+50 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+46 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+50 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+49 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+47 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+50 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+46 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+45 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+50 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+49 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+47 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+47 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+47 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+49 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+46 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+49 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+49 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+48 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+47 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
+49 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+50 / 50sont dans l'intervalle de confiance
 
-10 / 10sont dans l'intervalle de confiance
+47 / 50sont dans l'intervalle de confiance
 
-9 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-9 / 10sont dans l'intervalle de confiance
-
-9 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-9 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-9 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-9 / 10sont dans l'intervalle de confiance
-
-9 / 10sont dans l'intervalle de confiance
-
-9 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-9 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-9 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-9 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-9 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-9 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-9 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-9 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
-
-10 / 10sont dans l'intervalle de confiance
+47 / 50sont dans l'intervalle de confiance
