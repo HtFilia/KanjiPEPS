@@ -1,9 +1,9 @@
 #include "KanjiValidation.hpp"
 
 void validate_kanji(PnlRng* rng) {
-	int n_time_steps = 4;
+	int n_time_steps = 16;
 	double T = 1;
-	double r = 0.02;
+	double r = 0.0001;
 	double spot_ = 100;
 	double sigma_ = 0.2;
 	int size = 3;
@@ -11,24 +11,63 @@ void validate_kanji(PnlRng* rng) {
 	PnlVect *sigma = pnl_vect_create_from_scalar(size, sigma_);
 	PnlVect *trend = pnl_vect_create_from_scalar(size, r);
 	PnlVect *weights = pnl_vect_create_from_scalar(size, 1.0 / 3.0);
-	BlackScholesModel* model = new BlackScholesModel(size, r, 0, sigma, spot, trend);
+	BlackScholesModel* model = new BlackScholesModel(size, r, 0.2, sigma, spot, trend);
 	KanjiOption *kanji = new KanjiOption(T, n_time_steps, size);
 	int n_samples = 50000;
 	double epsilon = 0.000001;
 	double gamma = -1.0 / 4.0;
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
-	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, n_samples, epsilon_n);
-	int M = 64;
+	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, n_samples, 0.0001);
+	int M = 48;
 	int H = M;
-	int n_scenarios = 20;
-	PnlMat* simulated_path = pnl_mat_create(1, 1);
+	int n_scenarios = 50;
+	PnlMat* simulated_path = pnl_mat_create(M+1, 1);
 	//validate_price_kanji(simulated_path, model, mc, rng);
 	//validate_delta_kanji(simulated_path, model, mc, rng);
-	validate_mean_error_kanji(mc, model, rng, M, H, n_scenarios);
-	pnl_mat_free(&simulated_path);
+	//validate_mean_error_kanji(mc, model, rng, M, H, n_scenarios);
 
-
+	int n_freqs = 1;
+	const double *freqs_ptr = new double[n_freqs] {1};
+	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
+	histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
+	//pnl_mat_free(&simulated_path);
 }
+
+void histogram_errors_kanji(MonteCarlo* mc, BlackScholesModel* model, PnlRng* rng, int M, PnlVect* freqs, int scenarios) {
+	double r = model->r_;
+	KanjiOption* kanji = (KanjiOption*)mc->opt_; 
+	PnlMat* past = pnl_mat_create(1, 1);
+	int n_time_steps = kanji->nbTimeSteps_;
+	double T = kanji->T_;
+	PnlMat* simulated_path = pnl_mat_create(1, 1);
+	model->simul_market(simulated_path, T, M, rng);
+
+	Hedge hedge(mc);
+	double error = 0;
+	std::ofstream myfile;
+	PnlVect* option_values = pnl_vect_create(M + 1);
+	PnlVect* portfolio_values = pnl_vect_create(M + 1);
+	double freq = 0;
+	std::string filename = "";
+	for (int k = 0; k < freqs->size; k++) {
+		freq = GET(freqs, k);
+		filename = "../Validation/kanji_histogram_errors_M" + std::to_string(M) + "_freq_" + std::to_string((int)freq) + ".csv";
+		myfile.open(filename);
+		for (int i = 0; i < scenarios; i++) {
+			model->simul_market(simulated_path, T, M, rng);
+			pnl_mat_print(simulated_path);
+			hedge.PnLfreq(simulated_path, n_time_steps + 1, freq, portfolio_values, option_values, error); // amine
+			std::cout << error << std::endl;
+			myfile << error << ";" << std::endl;
+		}
+		myfile.close();
+	}
+	pnl_mat_free(&simulated_path);
+	pnl_mat_free(&past);
+	pnl_vect_free(&option_values);
+	pnl_vect_free(&portfolio_values);
+}
+
 
 void validate_price_kanji(PnlMat* simulated_path, BlackScholesModel* model, MonteCarlo* mc, PnlRng *rng) {
 	std::ofstream myfile;

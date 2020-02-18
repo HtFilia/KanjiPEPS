@@ -238,7 +238,7 @@ void histogram_errors_call(MonteCarlo* mc, BlackScholesModel* model, PnlRng* rng
 		filename = "../Validation/mc_histogram_errors_M" + std::to_string(M) + "_freq_" + std::to_string((int)freq) +".csv";
 		myfile.open(filename);
 		for (int i = 0; i < scenarios; i++) {
-			//model->simul_market(simulated_path, T, M, rng);
+			model->simul_market(simulated_path, T, M, rng);
 			hedge.PnLfreq(simulated_path, n_time_steps + 1, freq, portfolio_values, option_values, error); // amine
 			std::cout << error << std::endl;
 			myfile << error << ";" << std::endl;
