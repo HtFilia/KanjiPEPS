@@ -21,9 +21,9 @@ void validate_call(PnlRng* rng) {
 	double gamma = -1.0 / 4.0;
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
 	MonteCarlo* mc = new MonteCarlo(model, call, rng, T / n_time_steps, n_samples, 0.0001);
-	int M = 20;
+	int M = 365;
 	int H = M/4;
-	int n_scenarios = 10;
+	int n_scenarios = 50;
 	PnlMat* simulated_path = pnl_mat_create(M+1, 1);
 	model->simul_market(simulated_path, T, M, rng);
 	//validate_price_call(simulated_path, mc, model, n_scenarios);
