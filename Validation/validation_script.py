@@ -28,7 +28,7 @@ def plot_histogram():
             n, bins, patches = plt.hist(l, 10, density=True,label = H,\
                                         facecolor=color, alpha=0.75)
     bin_centers = 0.5*(bins[1:]+bins[:-1])
-    plt.plot(bin_centers,n) 
+    plt.plot(bin_centers,n)
     plt.xlabel('Erreur de couverture')
     plt.ylabel('Probabilité')
     plt.legend()
@@ -60,27 +60,27 @@ def plot_error_H():
         for val in csv_reader:
             x.append(float(val[0]))
             y.append(float(val[1]))
-    
+
     ysmoothed = gaussian_filter1d(y, sigma=2)
-    
+
     star = mpath.Path.unit_regular_star(6)
     circle = mpath.Path.unit_circle()
     # concatenate the circle with an internal cutout of the star
     verts = np.concatenate([circle.vertices, star.vertices[::-1, ...]])
     codes = np.concatenate([circle.codes, star.codes])
     cut_star = mpath.Path(verts, codes)
-    
-    
+
+
     plt.plot(x, ysmoothed, '--r', marker=cut_star, markersize=8 )
     plt.ylabel('Erreur de couverture')
     plt.xlabel('Nombre de dates de rebalancement')
     plt.title("Erreur de couverture en fonction de la fréquence de rebalancement")
     plt.grid(True)
     plt.savefig("hedging_error_f(H)")
-    
+
 def main():
     M = 365
-    freqValues = [1, 5, 10]
+    freqValues = [1, 5, 10, 30]
     freqValues = [str(x) for x in freqValues]
     plot_density(M, freqValues)
 main()
