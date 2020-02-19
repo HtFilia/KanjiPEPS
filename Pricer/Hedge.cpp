@@ -51,6 +51,8 @@ void Hedge::PnLfreq(const PnlMat *path, double N, int freq, PnlVect *portfolio_v
 			pnl_vect_set(risk_free_part, t * step,
 				capitalised_t_i - pnl_vect_scalar_prod(delta_difference, spots_at_t));
 			pnl_vect_set(portfolio_values, t * step, capitalised_t_i + pnl_vect_scalar_prod(delta_prev, spots_at_t));
+			std::cout << "option price at t = " << t * step << ": " << pnl_vect_get(option_prices, t*step) << std::endl;
+			std::cout << "portflolio value at t = " << t * step << ": " << pnl_vect_get(portfolio_values, t*step) << std::endl;
 
 		}
 		pnl_vect_clone(delta_prev, delta);

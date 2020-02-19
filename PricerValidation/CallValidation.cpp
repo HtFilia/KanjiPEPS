@@ -21,7 +21,7 @@ void validate_call(PnlRng* rng) {
 	double gamma = -1.0 / 4.0;
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
 	MonteCarlo* mc = new MonteCarlo(model, call, rng, T / n_time_steps, n_samples, 0.0001);
-	int M = 20;
+	int M = 365;
 	int H = M/4;
 	int n_scenarios = 100;
 	PnlMat* simulated_path = pnl_mat_create(M+1, 1);
@@ -31,8 +31,8 @@ void validate_call(PnlRng* rng) {
 	//validate_hedging_frequency_call(mc, model, rng, M);
 	//validate_mean_error_call(mc, model, rng, M, n_scenarios);
 	bool mc_pricing = true;
-	int n_freqs = 3;
-	const double *freqs_ptr = new double[n_freqs] {1, 5, 10};
+	int n_freqs = 4;
+	const double *freqs_ptr = new double[n_freqs] {1, 5, 10, 30};
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
 	histogram_errors_call(mc, model, rng, M, freqs, n_scenarios, mc_pricing);
 	pnl_mat_free(&simulated_path);

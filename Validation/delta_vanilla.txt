@@ -1,85 +1,157 @@
  Validation delta 
 
-9 sur 10 sont dans l'intervalle de confiance pour t = 0
+50 sur 50 sont dans l'intervalle de confiance pour t = 0
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.01
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.00273973
 
-9 sur 10 sont dans l'intervalle de confiance pour t = 0.02
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.00547945
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.03
+47 sur 50 sont dans l'intervalle de confiance pour t = 0.00821918
 
-8 sur 10 sont dans l'intervalle de confiance pour t = 0.04
+46 sur 50 sont dans l'intervalle de confiance pour t = 0.0109589
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.05
+46 sur 50 sont dans l'intervalle de confiance pour t = 0.0136986
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.06
+45 sur 50 sont dans l'intervalle de confiance pour t = 0.0164384
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.07
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.0191781
 
-9 sur 10 sont dans l'intervalle de confiance pour t = 0.08
+47 sur 50 sont dans l'intervalle de confiance pour t = 0.0219178
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.09
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.0246575
 
-9 sur 10 sont dans l'intervalle de confiance pour t = 0.1
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.0273973
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.11
+47 sur 50 sont dans l'intervalle de confiance pour t = 0.030137
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.12
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.0328767
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.13
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.0356164
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.14
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.0383562
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.15
+45 sur 50 sont dans l'intervalle de confiance pour t = 0.0410959
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.16
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.0438356
 
-9 sur 10 sont dans l'intervalle de confiance pour t = 0.17
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.0465753
 
-9 sur 10 sont dans l'intervalle de confiance pour t = 0.18
+47 sur 50 sont dans l'intervalle de confiance pour t = 0.0493151
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.19
+46 sur 50 sont dans l'intervalle de confiance pour t = 0.0520548
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.2
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.0547945
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.21
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.0575342
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.22
+47 sur 50 sont dans l'intervalle de confiance pour t = 0.060274
 
-9 sur 10 sont dans l'intervalle de confiance pour t = 0.23
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.0630137
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.24
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.0657534
 
-8 sur 10 sont dans l'intervalle de confiance pour t = 0.25
+47 sur 50 sont dans l'intervalle de confiance pour t = 0.0684932
 
-9 sur 10 sont dans l'intervalle de confiance pour t = 0.26
+50 sur 50 sont dans l'intervalle de confiance pour t = 0.0712329
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.27
+46 sur 50 sont dans l'intervalle de confiance pour t = 0.0739726
 
-9 sur 10 sont dans l'intervalle de confiance pour t = 0.28
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.0767123
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.29
+43 sur 50 sont dans l'intervalle de confiance pour t = 0.0794521
 
-9 sur 10 sont dans l'intervalle de confiance pour t = 0.3
+47 sur 50 sont dans l'intervalle de confiance pour t = 0.0821918
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.31
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.0849315
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.32
+47 sur 50 sont dans l'intervalle de confiance pour t = 0.0876712
 
-9 sur 10 sont dans l'intervalle de confiance pour t = 0.33
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.090411
 
-9 sur 10 sont dans l'intervalle de confiance pour t = 0.34
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.0931507
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.35
+47 sur 50 sont dans l'intervalle de confiance pour t = 0.0958904
 
-9 sur 10 sont dans l'intervalle de confiance pour t = 0.36
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.0986301
 
-10 sur 10 sont dans l'intervalle de confiance pour t = 0.37
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.10137
 
-8 sur 10 sont dans l'intervalle de confiance pour t = 0.38
+45 sur 50 sont dans l'intervalle de confiance pour t = 0.10411
 
-9 sur 10 sont dans l'intervalle de confiance pour t = 0.39
+46 sur 50 sont dans l'intervalle de confiance pour t = 0.106849
 
-9 sur 10 sont dans l'intervalle de confiance pour t = 0.4
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.109589
 
-9 sur 10 sont dans l'intervalle de confiance pour t = 0.41
+47 sur 50 sont dans l'intervalle de confiance pour t = 0.112329
+
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.115068
+
+46 sur 50 sont dans l'intervalle de confiance pour t = 0.117808
+
+44 sur 50 sont dans l'intervalle de confiance pour t = 0.120548
+
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.123288
+
+44 sur 50 sont dans l'intervalle de confiance pour t = 0.126027
+
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.128767
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.131507
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.134247
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.136986
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.139726
+
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.142466
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.145205
+
+47 sur 50 sont dans l'intervalle de confiance pour t = 0.147945
+
+47 sur 50 sont dans l'intervalle de confiance pour t = 0.150685
+
+47 sur 50 sont dans l'intervalle de confiance pour t = 0.153425
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.156164
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.158904
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.161644
+
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.164384
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.167123
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.169863
+
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.172603
+
+46 sur 50 sont dans l'intervalle de confiance pour t = 0.175342
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.178082
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.180822
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.183562
+
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.186301
+
+50 sur 50 sont dans l'intervalle de confiance pour t = 0.189041
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.191781
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.194521
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.19726
+
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.2
+
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.20274
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.205479
+
+49 sur 50 sont dans l'intervalle de confiance pour t = 0.208219
+
+48 sur 50 sont dans l'intervalle de confiance pour t = 0.210959
