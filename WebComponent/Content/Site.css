@@ -1,0 +1,117 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    left: 250px;
+    bottom: 0;
+    width: 50vw;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+/* Vertical Sidebar */
+.navbar-vertical {
+    box-shadow: 0 0 2rem 0 rgba(136,152,170,.15) !important;
+}
+
+    .navbar-vertical.navbar-expand-md {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        display: block;
+        overflow-y: auto;
+        width: 100%;
+        max-width: 250px;
+        padding-right: 1.5rem;
+        padding-left: 1.5rem;
+    }
+
+        .navbar-vertical.navbar-expand-md.fixed-left {
+            left: 0;
+            border-width: 0 1px 0 0;
+        }
+
+        .navbar-vertical.navbar-expand-md .navbar-brand {
+            display: block;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            text-align: center;
+        }
+
+        .navbar-vertical.navbar-expand-md > [class*="container"] {
+            flex-direction: column;
+            min-height: 100%;
+            padding-right: 0;
+            padding-left: 0;
+            align-items: stretch;
+        }
+
+/* Main Content */
+.main-content {
+    margin-left: 250px;
+}
