@@ -9,24 +9,33 @@ namespace WebComponent
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-3.4.1.min.js"));
+                        "~/Content/js/jquery/jquery-3.4.1.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                        "~/Content/js/jquery/jquery.validate.min.js",
+                        "~/Content/js/jquery/additional-methods.min.js"));
 
             // Utilisez la version de développement de Modernizr pour le développement et l'apprentissage. Puis, une fois
             // prêt pour la production, utilisez l'outil de génération à l'adresse https://modernizr.com pour sélectionner uniquement les tests dont vous avez besoin.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-2.8.3.js"));
+                        "~/Content/js/modernizr/modernizr-2.8.3.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.min.js"));
+                      "~/Content/js/bootstrap/bootstrap.min.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.min.css",
-                      "~/Content/site.css",
-                      "~/Content/argon.css", 
-                      "~/Content/all.css"));
+            bundles.Add(new ScriptBundle("~/bundles/argon").Include(
+                      "~/Content/vendor/js-cookie/js.cookie.js",
+                      "~/Content/vendor/chart.js/Chart.min.js",
+                      "~/Content/vendor/chart.js/Chart.extension.js",
+                      "~/Content/js/argon/argon.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/font-awesome").Include(
+                      "~/Content/js/font-awesome/all.min.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/css").Include(
+                      "~/Content/css/bootstrap/bootstrap.min.css",
+                      "~/Content/css/site.css",
+                      "~/Content/css/argon/argon.css"));
         }
     }
 }
