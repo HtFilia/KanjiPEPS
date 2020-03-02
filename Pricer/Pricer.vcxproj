@@ -125,6 +125,7 @@
     <ClCompile Include="Computations.cpp" />
     <ClCompile Include="Computations.hpp" />
     <ClCompile Include="Hedge.cpp" />
+    <ClCompile Include="KanjiBlackScholes.cpp" />
     <ClCompile Include="MonteCarlo.cpp" />
     <ClCompile Include="Option.cpp" />
     <ClCompile Include="KanjiOption.cpp" />
@@ -133,6 +134,7 @@
   <ItemGroup>
     <ClInclude Include="BlackScholesModel.hpp" />
     <ClInclude Include="Hedge.hpp" />
+    <ClInclude Include="KanjiBlackScholes.hpp" />
     <ClInclude Include="MonteCarlo.hpp" />
     <ClInclude Include="Option.hpp" />
     <ClInclude Include="KanjiOption.hpp" />
