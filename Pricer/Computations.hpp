@@ -7,5 +7,4 @@ namespace Computations {
 		double S0, double K, double sigma, double r);
 	DLLEXP void performance_price_hedge(double &ic, double &prix, double ic_deltas[], double deltas[], int nb_samples, double T,
 		double S0_[], double K, double sigma_[], double correlation, double r);
-
 }

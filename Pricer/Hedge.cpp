@@ -30,7 +30,7 @@ void Hedge::PnLfreq(const PnlMat *path, double N, int freq, PnlVect *portfolio_v
 		pnl_mat_get_row(spots_at_t, path, t * step); //get spots at t*H/(N-1)
 		//fill past with appropriate market values
 		for (int factor = 0; factor <= t; factor++) {
-			pnl_mat_get_row(tmpVect, path, factor * H / (N - 1));
+			pnl_mat_get_row(tmpVect, path, int(factor * H / (N - 1)));
 			pnl_mat_set_row(past, tmpVect, factor);
 		}
 		if (t == 0) {
@@ -51,9 +51,6 @@ void Hedge::PnLfreq(const PnlMat *path, double N, int freq, PnlVect *portfolio_v
 			pnl_vect_set(risk_free_part, t * step,
 				capitalised_t_i - pnl_vect_scalar_prod(delta_difference, spots_at_t));
 			pnl_vect_set(portfolio_values, t * step, capitalised_t_i + pnl_vect_scalar_prod(delta_prev, spots_at_t));
-			std::cout << "option price at t = " << t * step << ": " << pnl_vect_get(option_prices, t*step) << std::endl;
-			std::cout << "portflolio value at t = " << t * step << ": " << pnl_vect_get(portfolio_values, t*step) << std::endl;
-
 		}
 		pnl_vect_clone(delta_prev, delta);
 
@@ -118,7 +115,7 @@ void Hedge::PnL(PnlMat *path, int n_time_steps, int H, PnlVect *portfolio_values
     PnlVect *delta_prev = pnl_vect_create_from_scalar(size, 0);
     PnlVect *ic_delta = pnl_vect_create(size);
 	int path_index=0;
-	int hedging_index;
+	int hedging_index=0;
 	double t= 0;
 	int M = path->m - 1;
     int step = int(M/H);
@@ -179,7 +176,7 @@ void Hedge::PnL(PnlMat *path, double N, PnlVect *portfolio_values, PnlVect* opti
 		pnl_mat_get_row(spots_at_t, path, t * step); //get spots at t*H/(N-1)
 		//fill past with appropriate market values
 		for (int factor = 0; factor <= t; factor++) {
-			pnl_mat_get_row(tmpVect, path, factor * H / (N - 1));
+			pnl_mat_get_row(tmpVect, path, int(factor * H / (N - 1)));
 			pnl_mat_set_row(past, tmpVect, factor);
 		}
 		mc_->price_and_delta(past, t * T / (N - 1), prix, ic_prix, delta, ic_delta);
