@@ -17,9 +17,10 @@ public:
 	PnlVect *sigma_;   /// vecteur de volatilités (sigma Actif Marché EUR --Domestique--, sigma Taux change + Actif Marché USD, sigma Taux change + Actif Marché HKD)
 	PnlVect *vols;
 	PnlVect *spot_;  /// valeurs initiales des sous-jacents (spot Actifs Marché EUR --Domestique--, spot Taux change + Actif Marché USD, spot Taux change + Actif Marché HKD)
-	PnlMat *corrMarket_; /// correlations entre nos Actifs/Taux de change (Colonne j : correlations de l'Actif j avec les différents autres actifs dans l'ordre déclaré ci-dessus)
+	//PnlMat *corrMarket_; /// correlations entre nos Actifs/Taux de change (Colonne j : correlations de l'Actif j avec les différents autres actifs dans l'ordre déclaré ci-dessus)
 	PnlMat *corr; /// matrice de corrélation des sous-jacents
 	PnlVect *trend_;  /// paramètre de tendance de marché  (tendance Actifs Marché EUR --Domestique--, tendance Taux change + Actif Marché USD, tendance Taux change + Actif Marché HKD)
+	PnlVect *tends;
 	PnlMat* G;  /// matrice de vecteurs gaussiens, servant à estimer les trajectoires avec B&S
 	PnlVect* Ld;  /// une Ligne d de la matrice triangulaire inférieure extraite par cholesky
 	PnlVect* Gi; /// Vecteur gaussien i
