@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@model WebComponent.Models.PriceFormModel 
+
+<form asp-action="Index" asp-controller="Home">
+    <label asp-for="SampleNb"></label>
+    <input asp-for="SampleNb" placeholder="Nombre de Simulations MC" />
+    <label asp-for="Maturity"></label>
+    <input asp-for="Maturity" placeholder="Maturité de l'option" />
+    <label asp-for="InitialPrice"></label>
+    <input asp-for="InitialPrice" placeholder="Prix initial du sous-jacent" />
+    <label asp-for="Strike"></label>
+    <input asp-for="Strike" placeholder="Strike de l'option" />
+    <label asp-for="Volatility"></label>
+    <input asp-for="Volatility" placeholder="Volatilité du sous-jacent" />
+    <label asp-for="RiskFreeRate"></label>
+    <input asp-for="RiskFreeRate" placeholder="Taux sans-risque du marché" />
+    <input type="submit" />
+</form>
+<div class="text-center">
+    <h1 class="display-4">Bienvenue !</h1>
+    <h2>Prix Kanji le <span id="date"></span> :  @ViewBag.Price</h2>
+    <h4>TODO: Mettre le vrai prix Kanji et non Call Européen</h4>
+</div>
+
+<div class="row">
+    <div class="col-xl-8 mb-5 mb-xl-0">
+        <div class="card bg-gradient-default shadow">
+            <div class="card-header bg-transparent">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: .625rem">Aperçu</h6>
+                        <h2 class="text-white mb-0">Prix Kanji</h2>
+                    </div>
+                    <div class="col-8">
+                        <ul class="nav nav-pills justify-content-end">
+                            <!-- TODO: Data update -->
+                            <li class="nav-item mr-2 mr-md-0">
+                                <a class="nav-link py-2 px-3 active show" href="#" data-toggle="tab">
+                                    <span class="d-none d-md-block">Quotidien</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link py-2 px-3" href="#" data-toggle="tab">
+                                    <span class="d-none d-md-block">Hebdomadaire</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link py-2 px-3" href="#" data-toggle="tab">
+                                    <span class="d-none d-md-block">Mensuel</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart">
+                    <div class="chartjs-size-monitor">
+                        <div class="chartjs-size-monitor-expand">
+                            <div class=""></div>
+                        </div>
+                        <div class="chartjs-size-monitor-shrink">
+                            <div class=""></div>
+                        </div>
+                    </div>
+                    <canvas id="kanji-price" class="chart-canvas chartjs-render-monitor" style="display: block; width: 630px; height: 350px;" width="630" height="350"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -16,6 +16,7 @@ class VanillaCall : public Option {
 
 public:
 	double strike_;
+	bool mc_pricing;
 	/**
 * Constructeur de l'option performance
 *
@@ -29,6 +30,8 @@ public:
 		nbTimeSteps_ = nbTimeSteps;
 		size_ = size;
 		strike_ = strike;
+		type_ = call;
+		mc_pricing = true;
 	}
 	/**
 * Payoff de l'option performance à partir du marché

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Option.hpp"
+#include "VanillaCall.hpp"
 #include "BlackScholesModel.hpp"
 #include "pnl/pnl_random.h"
 
@@ -82,6 +83,7 @@ public:                      ///  pointeur vers le modèle
      * de confiance sur le calcul du delta
      */
     void price_and_delta(const PnlMat *past, double t, double &prix, double &ic, PnlVect *delta, PnlVect *icdelta);
+	 void profitAndLoss(const PnlMat * path, double & prix, double & icPrix, double & error);
 };
 
 
