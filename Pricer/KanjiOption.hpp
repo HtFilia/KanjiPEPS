@@ -32,6 +32,9 @@ public:
 * @param[in] path matrices des trajectoires des sous-jacents
 */
     double payoff(const PnlMat *path);
+
+
+	double payoffKanji(const PnlMat *path, double rUSD, double rHKD);
 };
 
 #endif //MC_PRICER_PERFORMANCEOPTION_H
