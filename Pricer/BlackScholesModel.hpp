@@ -10,17 +10,17 @@
 class BlackScholesModel
 {
 public:         /// nombre d'actifs du modèle
-    int size_;  /// taux d'intérêt
-    double r_; /// paramètre de corrélation
-    double rho_; /// vecteur de volatilités
-    PnlVect *sigma_;    /// valeurs initiales des sous-jacents
-    PnlVect *spot_;  /// matrice de corrélation des sous-jacents
-    PnlMat *corr; /// paramètre de tendance de marché
-    PnlVect *trend_;  /// matrice de vecteurs gaussiens, servant à estimer les trajectoires avec B&S
-    PnlMat* G ;  /// une Ligne d de la matrice triangulaire inférieure extraite par cholesky
-    PnlVect* Ld ;  /// Vecteur gaussien i
-    PnlVect* Gi;
-    /**
+	int size_;  /// taux d'intérêt
+	double r_; /// paramètre de corrélation
+	double rho_; /// vecteur de volatilités
+	PnlVect *sigma_;    /// valeurs initiales des sous-jacents
+	PnlVect *spot_;  /// matrice de corrélation des sous-jacents
+	PnlMat *corr; /// paramètre de tendance de marché
+	PnlVect *trend_;  /// matrice de vecteurs gaussiens, servant à estimer les trajectoires avec B&S
+	PnlMat* G;  /// une Ligne d de la matrice triangulaire inférieure extraite par cholesky
+	PnlVect* Ld;  /// Vecteur gaussien i
+	PnlVect* Gi;
+/**
         * Génère une trajectoire du modèle et la stocke dans path
         *
         * Destructeur de l'objet BlackScholesModel, fait appel aux méthodes free de pnl
@@ -48,6 +48,18 @@ public:         /// nombre d'actifs du modèle
             pnl_mat_set(corr, diag, diag, 1);
         pnl_mat_chol(corr);
     }
+
+	BlackScholesModel(int size, double r, PnlVect *sigma, PnlVect *spot, PnlVect* trend, PnlMat *corr_matrix) {
+		size_ = size;
+		r_ = r;
+		sigma_ = sigma;
+		spot_ = spot;
+		trend_ = trend;
+		corr = pnl_mat_create(size_, size_);
+		pnl_mat_clone(corr, corr_matrix);
+		pnl_mat_chol(corr);
+	}
+
 
     /**
      * Génère une trajectoire du modèle et la stocke dans path

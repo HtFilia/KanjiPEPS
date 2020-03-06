@@ -1,5 +1,5 @@
 #include "Wrapper.h"
-
+#include <iostream>
 using namespace Computations;
 namespace Wrapper {
 	void WrapperClass::getPriceCallEuro(int sampleNb, double T, double S0, double K, double sigma, double r) {
@@ -17,7 +17,8 @@ namespace Wrapper {
 	}
 
 	void WrapperClass::getPriceDeltaPerf(int sampleNb, double T, array<double, 1> ^spots, array<double, 1> ^sigmas, double correlation, double r) {
-		double ic, px;
+		double ic = 0;
+		double px = 0;
 		array<double, 1>^ ic_delta = gcnew array<double, 1>(3);
 		array<double, 1> ^ delta = gcnew array<double, 1>(3);;
 		pin_ptr<double> delta_ptr = &delta[0];
@@ -34,7 +35,7 @@ namespace Wrapper {
 		this->ic_deltas = ic_delta;
 
 	}
-	void WrapperClass::getPriceDeltaPerft(int sampleNb, double T, double t, array<double, 1> ^path, double nb_dates, array<double, 1> ^sigmas, double correlation, double r) {
+	void WrapperClass::getPriceDeltaPerft(int sampleNb, double T, double t, array<double, 1> ^path, double nb_dates, array<double, 1> ^sigmas, array<double, 1 > ^correlation, double r) {
 		double ic, px;
 		array<double, 1>^ ic_delta = gcnew array<double, 1>(3);
 		array<double, 1> ^ delta = gcnew array<double, 1>(3);;
@@ -42,7 +43,8 @@ namespace Wrapper {
 		pin_ptr<double> ic_delta_ptr = &ic_delta[0];
 		pin_ptr<double> ptr_path = &path[0];
 		pin_ptr<double> ptr_sigma = &sigmas[0];
-		performance_price_hedge_t(ic, px, ic_delta_ptr, delta_ptr, sampleNb, T, t, ptr_path, nb_dates, ptr_sigma, correlation, r);
+		pin_ptr<double> ptr_corr = &correlation[0];
+		performance_price_hedge_t(ic, px, ic_delta_ptr, delta_ptr, sampleNb, T, t, ptr_path, nb_dates, ptr_sigma, ptr_corr, r);
 		this->confidenceInterval = ic;
 		this->price = px;
 		this->deltas = delta;

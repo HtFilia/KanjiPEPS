@@ -5,8 +5,9 @@
 #include "MonteCarlo.hpp"
 #include "BlackScholesModel.hpp"
 #include "VanillaCall.hpp"
-#include "PerformanceOption.hpp"
 #include "pnl/pnl_vector.h"
+#include "KanjiOption.hpp"
+#include "KanjiOption.hpp"
 using namespace std;
 
 void Computations::callMC(double &ic, double &prix, int nb_samples, double T,
@@ -52,57 +53,81 @@ void Computations::calleuro(double &ic, double &prix, int nb_samples, double T,
 void  Computations::performance_price_hedge(double &ic, double &prix, double ic_deltas[], double deltas[], int nb_samples, double T,
 	double S0_[], double sigma_[], double correlation, double r) {
 	int size = 3;
-
-	PnlVect* ic_delta = pnl_vect_create_from_ptr(size, ic_deltas);
-	PnlVect* delta = pnl_vect_create_from_ptr(size, deltas);
-	PnlVect* S0 = pnl_vect_create_from_ptr(size, S0_);
-	PnlVect* sigma = pnl_vect_create_from_ptr(size, sigma_);
-	PnlVect* trend_vec = pnl_vect_create_from_double(1, r);
-	BlackScholesModel *model = new BlackScholesModel(size, r, correlation, sigma, S0, trend_vec);
-	PnlVect* payOffCoeffs = pnl_vect_create_from_scalar(3, 1.0 / 3.0);
-	int timesteps = 16; //voir boucle dans perf payoff 
-	Option *perf_option = new PerformanceOption(T, timesteps, size, payOffCoeffs);
 	PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
 	pnl_rng_sseed(rng, time(NULL));
 
-	MonteCarlo *mc = new MonteCarlo(model, perf_option, rng, T / nb_samples, nb_samples, 0.1);
-	PnlMat *past = pnl_mat_create_from_double(1, 3, S0_[0]);
-	pnl_mat_set_row(past, S0, 0);
-	mc->price_and_delta(past, 0, prix, ic, delta, ic_delta);
-	pnl_vect_print(delta);
-	for (int i = 0; i < delta->size; i++) {
-		deltas[i] = pnl_vect_get(delta, i);
-		//std::cout << deltas[i] << std::endl;
-		//std::cout << pnl_vect_get(delta, i) << std::endl;
+	PnlVect * deltass = pnl_vect_create(3);
+	PnlVect * ic_deltass = pnl_vect_create(3);
+
+	int M = 50000;
+	int n_time_steps = 16;
+
+
+	double spot_ = 2681;
+
+	PnlVect *spot = pnl_vect_create_from_ptr(size, S0_);
+	PnlVect* sigma = pnl_vect_create_from_ptr(size, sigma_);
+	PnlVect *trend = pnl_vect_create_from_scalar(size, r);
+	BlackScholesModel* model = new BlackScholesModel(size, r, correlation, sigma, spot, trend);
+	KanjiOption *kanji = new KanjiOption(T, n_time_steps, size);
+	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, M, 0.1);
+	PnlMat *past = pnl_mat_create_from_double(1, 3, 0);
+	pnl_mat_set_row(past, spot, 0);
+	//pnl_mat_print(past);
+	mc->price(past, 0, prix, ic);
+	mc->delta(past, 0, deltass, ic_deltass);
+	//PnlVect* ic_delta = pnl_vect_create_from_ptr(size, ic_deltas);
+	//PnlVect* delta = pnl_vect_create_from_ptr(size, deltas);
+	//PnlVect* S0 = pnl_vect_create_from_ptr(size, S0_);
+	//PnlVect* sigma = pnl_vect_create_from_ptr(size, sigma_);
+	//PnlVect* trend_vec = pnl_vect_create_from_double(size, r);
+	//BlackScholesModel *model = new BlackScholesModel(size, r, correlation, sigma, S0, trend_vec);
+	//int timesteps = 16; //voir boucle dans perf payoff 
+	//KanjiOption *perf_option = new KanjiOption(T, timesteps, size);
+	////KanjiOption *perf_option = new KanjiOption(T, timesteps, size, payOffCoeffs);
+	//PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
+	//pnl_rng_sseed(rng, time(NULL));
+
+	//MonteCarlo *mc = new MonteCarlo(model, perf_option, rng, T/timesteps, nb_samples, 0.1);
+	//PnlMat *past = pnl_mat_create_from_double(1, 3, S0_[0]);
+	//pnl_mat_set_row(past, S0, 0);
+	//mc->price_and_delta(past, 0, prix, ic, delta, ic_delta);
+	for (int i = 0; i < 3; i++) {
+		deltas[i] = pnl_vect_get(deltass, i);
+
+
 
 	}
 }
 
 void Computations::performance_price_hedge_t(double &ic, double &prix, double ic_deltas[], double deltas[], int nb_samples, double T,
-	double t, double path_[], double nb_dates, double sigma_[], double correlation, double r)
+	double t, double past_[], double nb_dates, double sigma_[], double correlation[], double r)
 {
 	int size = 3;
 	PnlVect* ic_delta = pnl_vect_create_from_ptr(size, ic_deltas);
 	PnlVect* delta = pnl_vect_create_from_ptr(size, deltas);
-	PnlMat *path = pnl_mat_create_from_ptr(nb_dates, size, path_);
-	PnlMat *past = pnl_mat_create(nb_dates, size);
+	PnlMat* correlation_matrix = pnl_mat_create_from_ptr(size, size, correlation);
+	PnlMat *past = pnl_mat_create_from_ptr(nb_dates, size, past_);
 	PnlVect* S0 = pnl_vect_create(3);
-	pnl_mat_get_row(S0, path, 0);
+	pnl_mat_get_row(S0, past, 0);
 	PnlVect* sigma = pnl_vect_create_from_ptr(size, sigma_);
 	PnlVect* trend_vec = pnl_vect_create_from_double(1, r);
-	BlackScholesModel *model = new BlackScholesModel(size, r, correlation, sigma, S0, trend_vec);
+	BlackScholesModel *model = new BlackScholesModel(size, r, sigma, S0, trend_vec, correlation_matrix);
 	PnlVect* payOffCoeffs = pnl_vect_create_from_scalar(3, 1.0 / 3.0);
 	int timesteps = 16; //voir boucle dans perf payoff
-	model->getPast(past, path, t, timesteps, T);
 
-	Option *perf_option = new PerformanceOption(T, timesteps, size, payOffCoeffs);
+
+	KanjiOption *perf_option = new KanjiOption(T, timesteps, size);
 	PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
 	pnl_rng_sseed(rng, time(NULL));
 
-	MonteCarlo *mc = new MonteCarlo(model, perf_option, rng, T / nb_samples, nb_samples, 0.07);
-	mc->price_and_delta(past, t, prix, ic, delta, ic_delta);
+	MonteCarlo *mc = new MonteCarlo(model, perf_option, rng, T / timesteps, nb_samples, 0.07);
+	//pnl_mat_print(past);
+	mc->price(past, t, prix, ic);
+	mc->delta(past, t, delta, ic_delta);
 	for (int i = 0; i < delta->size; i++) {
 		deltas[i] = pnl_vect_get(delta, i);
+		ic_deltas[i] = pnl_vect_get(ic_delta, i);
 
 	}
 }

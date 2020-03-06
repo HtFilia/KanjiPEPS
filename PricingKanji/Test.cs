@@ -15,7 +15,7 @@ namespace PricingKanji
             DataReader reader = new DataReader();
             List<DataFeed> data = reader.ReadData();
             Pricing pricer = new Pricing();
-            List<double> prices = pricer.PriceKanji(data, 0.07);
+            //List<double> prices = pricer.PriceKanji(data, 0.07);
             Console.WriteLine("hi");
         }
     }
