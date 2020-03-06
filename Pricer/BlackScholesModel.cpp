@@ -12,14 +12,17 @@ BlackScholesModel::~BlackScholesModel() {
 	pnl_vect_free(&spot_);
 	pnl_mat_free(&corr);
 	//pnl_vect_free(&trend_);
+	pnl_mat_free(&G);
+	pnl_vect_free(&Gi);
+	pnl_vect_free(&Ld);
 }
 void BlackScholesModel::asset(PnlMat *path, double T, int nbTimeSteps, PnlRng *rng) {
 
 	pnl_mat_set_row(path, spot_, 0);
 
-	PnlMat* G = pnl_mat_create(nbTimeSteps, size_);
-	PnlVect* Ld = pnl_vect_create(size_);
-	PnlVect* Gi = pnl_vect_create(size_);
+	pnl_mat_resize(G ,nbTimeSteps, size_);
+	pnl_vect_resize(Ld, size_);
+	pnl_vect_resize(Gi, size_);
 
 	pnl_mat_rng_normal(G, nbTimeSteps, size_, rng);
 

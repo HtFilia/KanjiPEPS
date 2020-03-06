@@ -42,6 +42,8 @@ public:
 
 	double payoff(const PnlMat *path, double past_payoff, int past_len);
 	double payoff(const PnlMat *path);
+	double payoff(const PnlMat *path, PnlVect* initial_values);
+
 	double price(double t, double spot, double r, double sigma, double maturity, double strike);
 	double delta(double t, double spot, double r, double sigma, double maturity, double strike);
 };

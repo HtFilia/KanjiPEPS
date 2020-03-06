@@ -18,17 +18,17 @@ void validate_kanji(PnlRng* rng) {
 	double gamma = -1.0 / 4.0;
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
 	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, n_samples, 0.0001);
-	int M = 1440; //4 ans * 360j
+	int M = 5; //4 ans * 360j   1440 prior
 	int H = M;
 	int n_scenarios = 50;
 	PnlMat* simulated_path = pnl_mat_create(M+1, 1);
 	//validate_price_kanji(simulated_path, model, mc, rng);
-	//validate_delta_kanji(simulated_path, model, mc, rng);
+	validate_delta_kanji(simulated_path, model, mc, rng);
 	//validate_mean_error_kanji(mc, model, rng, M, H, n_scenarios);
 	int n_freqs = 3;
 	const double *freqs_ptr = new double[n_freqs] {360, 180, 90};
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
-	histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
+	//histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
 	//pnl_mat_free(&simulated_path);
 }
 

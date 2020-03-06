@@ -47,7 +47,10 @@ public:         /// nombre d'actifs du modèle
         for (int diag = 0; diag < size_; diag++)
             pnl_mat_set(corr, diag, diag, 1);
         pnl_mat_chol(corr);
-    }
+		G = pnl_mat_create(1, 1);
+		Gi = pnl_vect_create(1);
+		Ld = pnl_vect_create(1);
+	}
 
     /**
      * Génère une trajectoire du modèle et la stocke dans path
