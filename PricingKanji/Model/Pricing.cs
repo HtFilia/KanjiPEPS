@@ -136,10 +136,12 @@ namespace PricingKanji.Model
                     previous_feeds = PreviousFeeds(feeds);
 
                 }
-                //volatilities = new double[]{ 0.3, 0.3, 0.3 };
+                volatilities = new double[] { 0.3, 0.3, 0.3 };
+                correlation = new double[,] { { 1, 0.3, 0.3 }, { 0.3, 1, 0.3 }, { 0.3, 0.3, 1 } };
+
                 // estimate the parameters of the model
-                volatilities = Calibration.Volatilities(previous_feeds);
-                correlation = Calibration.CorrMatrix(previous_feeds);
+                //volatilities = Calibration.Volatilities(previous_feeds);
+                //correlation = Calibration.CorrMatrix(previous_feeds);
                 // fill the correlation 
                 double[] correlation_vector = new double[size * size];
                 for (int i = 0; i < size; i++)

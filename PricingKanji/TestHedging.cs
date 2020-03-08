@@ -40,7 +40,7 @@ namespace PricingKanji
                 csv.AppendLine(newLine);
 
             }
-            File.WriteAllText(@"C:\Users\ensimag\hedging-res.csv", csv.ToString());
+            File.WriteAllText(@"C:\Users\Amine\Downloads\hedging-res.csv", csv.ToString());
 
         }
 

@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="AdditionalPaths" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\ensimag\Documents\pnl-win64-1.10.4\pnl-win64-1.10.4\lib;C:\Users\ensimag\pricerpeps\ProjetTest\x64\Debug</Value>
+      <Value Profile="(Default)">C:\Users\Amine\KanjiPEPS\pnl-win64-1.10.4\lib; C:\Users\Amine\KanjiPEPS\x64\Debug</Value>
     </Setting>
   </Settings>
 </SettingsFile>
