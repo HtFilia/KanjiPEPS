@@ -48,8 +48,8 @@ public:         /// nombre d'actifs du modèle
             pnl_mat_set(corr, diag, diag, 1);
         pnl_mat_chol(corr);
 		G = pnl_mat_create(1, 1);
-		Gi = pnl_vect_create(1);
-		Ld = pnl_vect_create(1);
+		Gi = pnl_vect_create(size);
+		Ld = pnl_vect_create(size);
 	}
 
     /**

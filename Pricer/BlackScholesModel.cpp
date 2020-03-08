@@ -21,8 +21,6 @@ void BlackScholesModel::asset(PnlMat *path, double T, int nbTimeSteps, PnlRng *r
 	pnl_mat_set_row(path, spot_, 0);
 
 	pnl_mat_resize(G ,nbTimeSteps, size_);
-	pnl_vect_resize(Ld, size_);
-	pnl_vect_resize(Gi, size_);
 
 	pnl_mat_rng_normal(G, nbTimeSteps, size_, rng);
 
@@ -39,9 +37,7 @@ void BlackScholesModel::asset(PnlMat *path, double T, int nbTimeSteps, PnlRng *r
 			pnl_mat_set(path, i, d, pnl_mat_get(path, i - 1, d) * expo);
 		}
 	}
-	pnl_mat_free(&G);
-	pnl_vect_free(&Ld);
-	pnl_vect_free(&Gi);
+	
 
 
 
@@ -50,9 +46,7 @@ void BlackScholesModel::asset(PnlMat *path, double T, int nbTimeSteps, PnlRng *r
 
 void BlackScholesModel::asset(PnlMat *path, double t, double T, int nbTimeSteps, PnlRng *rng, const PnlMat *past) {
 	double timespan = T / nbTimeSteps;
-	PnlMat *G;
-	PnlVect *Ld = pnl_vect_create(size_);
-	PnlVect *Gi = pnl_vect_create(size_);
+	
 	double expo;
 	int i = int(t / timespan);
 	double t_i = i * timespan;
@@ -60,7 +54,7 @@ void BlackScholesModel::asset(PnlMat *path, double t, double T, int nbTimeSteps,
 	// extracting the past part to the path
 	pnl_mat_extract_subblock(path, past, 0, i + 1, 0, size_);
 	pnl_mat_resize(path, nbTimeSteps + 1, size_);
-	G = pnl_mat_create(nbTimeSteps - i, size_);
+	pnl_mat_resize(G, nbTimeSteps - i, size_);
 	pnl_mat_rng_normal(G, nbTimeSteps - i, size_, rng);
 	double sigma = 0;
 	double s = 0;
@@ -73,7 +67,8 @@ void BlackScholesModel::asset(PnlMat *path, double t, double T, int nbTimeSteps,
 			pnl_mat_get_row(Ld, corr, d);
 			sigma = GET(sigma_, d);
 			x = (r_ - 0.5*sigma * sigma) * delta_t + sigma * sqrt(delta_t)*pnl_vect_scalar_prod(Ld, Gi);
-			expo = exp(x);
+			//expo = exp(x);
+			expo = pnl_expm1(x) + 1;
 			past_s = pnl_mat_get(past, past->m - 1, d);
 			s = past_s * expo;
 			pnl_mat_set(path, i + 1, d, s);
@@ -93,9 +88,7 @@ void BlackScholesModel::asset(PnlMat *path, double t, double T, int nbTimeSteps,
 			pnl_mat_set(path, k, d, s);
 		}
 	}
-	pnl_mat_free(&G);
-	pnl_vect_free(&Ld);
-	pnl_vect_free(&Gi);
+
 }
 
 

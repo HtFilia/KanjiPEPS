@@ -18,9 +18,9 @@ void validate_kanji(PnlRng* rng) {
 	double gamma = -1.0 / 4.0;
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
 	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, n_samples, 0.0001);
-	int M = 5; //4 ans * 360j   1440 prior
+	int M = 50; //4 ans * 360j   1440 prior
 	int H = M;
-	int n_scenarios = 50;
+	int n_scenarios = 1;
 	PnlMat* simulated_path = pnl_mat_create(M+1, 1);
 	//validate_price_kanji(simulated_path, model, mc, rng);
 	validate_delta_kanji(simulated_path, model, mc, rng);
