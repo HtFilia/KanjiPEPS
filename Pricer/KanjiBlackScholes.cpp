@@ -11,10 +11,11 @@ KanjiBlackScholes::~KanjiBlackScholes()
 	//pnl_mat_free(&corrMarket_);
 }
 
-KanjiBlackScholes::KanjiBlackScholes(PnlVect * r, PnlMat * corrMarket, PnlVect * sigma, PnlVect * spot, PnlVect * trend)
+KanjiBlackScholes::KanjiBlackScholes(int size, PnlVect * r, PnlMat * corrMarket, PnlVect * sigma, PnlVect * spot, PnlVect * trend)
 {
 
 	r_ = r;
+	size_ = size;
 	//corrMarket_ = corrMarket;
 	corr = corrMarket;
 	sigma_ = sigma;
@@ -45,11 +46,12 @@ KanjiBlackScholes::KanjiBlackScholes(PnlVect * r, PnlMat * corrMarket, PnlVect *
 	pnl_mat_set(corr, 3, 4, pnl_mat_get(corr, 4, 3));*/
 
 	
-
+	vols = pnl_vect_create_from_zero(size);
 	pnl_vect_clone(vols, sigma_);
 	pnl_vect_set(vols, 2, sqrt(pow(pnl_vect_get(sigma_, 2), 2) + pow(pnl_vect_get(sigma_, 1), 2) + 2 * pnl_vect_get(sigma_, 2) * pnl_vect_get(sigma_, 1) * pnl_mat_get(corr, 1, 2)));
 	pnl_vect_set(vols, 4, sqrt(pow(pnl_vect_get(sigma_, 4), 2) + pow(pnl_vect_get(sigma_, 3), 2) + 2 * pnl_vect_get(sigma_, 4) * pnl_vect_get(sigma_, 3) * pnl_mat_get(corr, 3, 4)));
 
+	tends = pnl_vect_create(size);
 	pnl_vect_clone(tends, trend_);
 	pnl_vect_set(tends, 1, pnl_vect_get(trend_, 1) + pnl_vect_get(r_, 1));
 	pnl_vect_set(tends, 2, pnl_vect_get(trend_, 2) + pnl_vect_get(trend_, 1) + pnl_vect_get(sigma_, 2) * pnl_vect_get(sigma_, 1) * pnl_mat_get(corr, 1, 2));

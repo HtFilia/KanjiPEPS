@@ -8,6 +8,7 @@
 
 class Quanto :  public Option
 {
+public:
 	double strike_;
 	bool mc_pricing;
 
@@ -49,5 +50,6 @@ class Quanto :  public Option
 	double price(double t, double spot_S, double spot_Z, PnlVect* r, PnlVect* sigma, double corr);
 	double delta(double t, double spot_S, double spot_Z, PnlVect* r, PnlVect* sigma, double corr);
 
+	double payoff(const PnlMat* path);
 };
 

@@ -12,7 +12,7 @@
 class KanjiBlackScholes
 {
 public:
-	int size_ = 5;  /// nombre d'actifs et des taux de change du modèle = 5
+	int size_;  /// nombre d'actifs et des taux de change du modèle = 5
 	PnlVect *r_; /// taux d'intérêt de nos marchés (r Marché EUR --Domestique--, r Marché USD, r Marché HKD)
 	PnlVect *sigma_;   /// vecteur de volatilités (sigma Actif Marché EUR --Domestique--, sigma Taux change + Actif Marché USD, sigma Taux change + Actif Marché HKD)
 	PnlVect *vols;
@@ -27,13 +27,13 @@ public:
 
 	~KanjiBlackScholes();
 
-	KanjiBlackScholes(PnlVect *r, PnlMat *corrMarket, PnlVect *sigma, PnlVect *spot, PnlVect* trend);
+	KanjiBlackScholes(int size, PnlVect *r, PnlMat *corrMarket, PnlVect *sigma, PnlVect *spot, PnlVect* trend);
 
 	void asset(PnlMat *path, double T, int nbTimeSteps, PnlRng *rng);
 
 	void asset(PnlMat *path, double t, double T, int nbTimeSteps, PnlRng *rng, const PnlMat *past);
 
-	void asset2(PnlMat * path, double t, double T, int nbTimeSteps, PnlRng * rng, const PnlMat * past, PnlMat * G);
+	//void asset2(PnlMat * path, double t, double T, int nbTimeSteps, PnlRng * rng, const PnlMat * past, PnlMat * G);
 
 	void shiftAsset(PnlMat *shift_path, const PnlMat *path, int d, double h, double t, double timestep);
 

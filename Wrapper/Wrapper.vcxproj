@@ -79,6 +79,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\anas\source\repos\PEPS\Computations;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAsManaged>true</CompileAsManaged>
+      <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <DelayLoadDLLs>Computations.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -125,6 +126,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Wrapper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pricer\Pricer.vcxproj">
+      <Project>{cafeb82f-9272-4c2d-9434-8fed782cb3e4}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

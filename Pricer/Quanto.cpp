@@ -32,9 +32,10 @@ double Quanto::delta(double t, double spot_S, double spot_Z, PnlVect* r, PnlVect
 	double spot_X = spot_Z * exp(-r_usd * t);
 	double d1 = (log(spot_S / strike_) + (r_eur + sigma_s * sigma_x * corr + 0.5 * sigma_s * sigma_s) * (T_ - t));
 	return spot_X * exp((-r_usd + r_eur + sigma_s * sigma_x * corr) * (T_ - t)) * 0.5 * (1 + pnl_sf_erf(d1 / sqrt(2)));
+}
 
-
-
+double Quanto::payoff(const PnlMat* path) {
+	return 1;
 }
 
 
