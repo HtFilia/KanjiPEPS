@@ -131,7 +131,7 @@ void Computations::performance_price_hedge_t(double &ic, double &prix, double ic
 
 	}
 }
-void Computations::simul_market(double path_[], double t, double maturity, int nbHedging_dates, double s0_[], double trends_[], double sigmas_[], double correlation, double r)
+void Computations::simul_market(double path_[], double t, double maturity, int nbHedging_dates, double s0_[], double trends_[], double sigmas_[], double correlation[], double r)
 {
 	int size_path = (t * nbHedging_dates) / maturity;
 	int size = 3;
@@ -139,7 +139,8 @@ void Computations::simul_market(double path_[], double t, double maturity, int n
 	PnlVect* s0 = pnl_vect_create_from_ptr(size, s0_);
 	PnlVect* sigma = pnl_vect_create_from_ptr(size, sigmas_);
 	PnlVect* trend_vec = pnl_vect_create_from_ptr(size, trends_);
-	BlackScholesModel *model = new BlackScholesModel(size, r, correlation, sigma, s0, trend_vec);
+	PnlMat* corr_mat = pnl_mat_create_from_ptr(size, size, correlation);
+	BlackScholesModel *model = new BlackScholesModel(size, r, sigma, s0, trend_vec, corr_mat);
 
 	PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
 	pnl_rng_sseed(rng, time(NULL));

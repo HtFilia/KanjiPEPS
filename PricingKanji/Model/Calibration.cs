@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PricingLibrary.Utilities;
 
 
 namespace PricingKanji.Model
@@ -37,7 +38,7 @@ namespace PricingKanji.Model
             int diagIndex = 0;
             while (diagIndex < volatilities.Length)
             {
-                volatilities[diagIndex] = Math.Sqrt(covM[diagIndex, diagIndex] * 252);
+                volatilities[diagIndex] = Math.Sqrt(covM[diagIndex, diagIndex] *252 );
                 diagIndex++;
             }
             return volatilities;

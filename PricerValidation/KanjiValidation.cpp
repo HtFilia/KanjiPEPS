@@ -13,14 +13,14 @@ void validate_kanji(PnlRng* rng) {
 	PnlVect *weights = pnl_vect_create_from_scalar(size, 1.0 / 3.0);
 	BlackScholesModel* model = new BlackScholesModel(size, r, 0.2, sigma, spot, trend);
 	KanjiOption *kanji = new KanjiOption(T, n_time_steps, size);
-	int n_samples = 50000;
+	int n_samples = 10;
 	double epsilon = 0.000001;
 	double gamma = -1.0 / 4.0;
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
 	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, n_samples, 0.0001);
-	int M = 1440; //4 ans * 360j
+	int M = 1; //4 ans * 360j
 	int H = M;
-	int n_scenarios = 50;
+	int n_scenarios = 1;
 	PnlMat* simulated_path = pnl_mat_create(M+1, 1);
 	//validate_price_kanji(simulated_path, model, mc, rng);
 	//validate_delta_kanji(simulated_path, model, mc, rng);

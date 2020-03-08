@@ -38,7 +38,7 @@ namespace Wrapper {
 	void WrapperClass::getPriceDeltaPerft(int sampleNb, double T, double t, array<double, 1> ^path, double nb_dates, array<double, 1> ^sigmas, array<double, 1 > ^correlation, double r) {
 		double ic, px;
 		array<double, 1>^ ic_delta = gcnew array<double, 1>(3);
-		array<double, 1> ^ delta = gcnew array<double, 1>(3);;
+		array<double, 1> ^ delta = gcnew array<double, 1>(3);
 		pin_ptr<double> delta_ptr = &delta[0];
 		pin_ptr<double> ic_delta_ptr = &ic_delta[0];
 		pin_ptr<double> ptr_path = &path[0];
@@ -51,20 +51,15 @@ namespace Wrapper {
 		this->ic_deltas = ic_delta;
 	}
 
-	void WrapperClass::SimulMarket(double t, double maturity, int nbHedging_dates, array<double, 1> ^spots, array<double, 1> ^trends, array<double, 1> ^sigmas, double correlation, double r) {
+	void WrapperClass::SimulMarket(double t, double maturity, int nbHedging_dates, array<double, 1> ^spots, array<double, 1> ^trends, array<double, 1> ^sigmas, array<double, 1> ^correlation, double r) {
 		int path_size = (int)(t * nbHedging_dates) / maturity;
 		array<double, 1>^ path = gcnew array<double, 1>(3 * path_size);
 		pin_ptr<double> ptr_path = &path[0];
 		pin_ptr<double> ptr_S0 = &spots[0];
 		pin_ptr<double> ptr_sigma = &sigmas[0];
 		pin_ptr<double> ptr_trend = &trends[0];
-
-		simul_market(ptr_path, t, maturity, nbHedging_dates, ptr_S0, ptr_trend, ptr_sigma, correlation, r);
+		pin_ptr<double> ptr_corr = &correlation[0];
+		simul_market(ptr_path, t, maturity, nbHedging_dates, ptr_S0, ptr_trend, ptr_sigma, ptr_corr, r);
 		this->path = path;
-
-
 	}
-
-
-
 }

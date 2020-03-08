@@ -17,17 +17,13 @@ namespace PricingKanji
         {
             DataReader reader = new DataReader();
             List<DataFeed> data = reader.ReadData();
-
-
-
-            Hedging hedging = new Hedging(80, 10000, data, 0.07);
-            //Dictionary<DateTime, double> prices = pricer.PriceKanji(data, 0.07);
+            
+            Hedging hedging = new Hedging(80, 100, data, 0.01);
             Dictionary<DateTime, HedgeOutput> output = hedging.HedgeKandji();
 
             foreach (DateTime date in output.Keys)
             {
                 Console.WriteLine(date + " : " + output[date].optionValue.ToString() + " // " + output[date].portfolioValue.ToString());
-
             }
 
             var csv = new StringBuilder();
@@ -40,7 +36,7 @@ namespace PricingKanji
                 csv.AppendLine(newLine);
 
             }
-            File.WriteAllText(@"C:\Users\ensimag\hedging-res.csv", csv.ToString());
+            File.WriteAllText(@"C:\Users\anas\source\repos\PEPS\hedging-res.csv", csv.ToString());
 
         }
 
