@@ -30,16 +30,55 @@ void validate_quanto(PnlRng* rng) {
 	int n_scenarios = 50;
 	double mc_price = 0;
 	double mc_ic = 0;
-	for (int i = 0; i < n_scenarios; i++) {
-		//model->simul_market(simulated_path, T, M, rng);
-		//pnl_mat_print(simulated_path);
-		double prix0 = quanto->price(0, 100, 0.89, r, sigmas, rho);
-		std::cout << "closed price at t = 0 is: " << prix0 << std::endl;
-		mc->price(mc_price, mc_ic);
-		std::cout << "mc prie at t = 0 is: " << mc_price << std::endl;
-		std::cout << "ic at t = 0 is " << mc_ic << std::endl;
-	}
-	std::cout << "hi" << std::endl;
+	model->simul_market(simulated_path, T, M, rng);
 
-	//validate_price_quanto(simulated_path, model, mc, rng);
+	//for (int i = 0; i < n_scenarios; i++) {
+	//	//model->simul_market(simulated_path, T, M, rng);
+	//	//pnl_mat_print(simulated_path);
+	//	double prix0 = quanto->price(0, 100, 0.89, r, sigmas, rho);
+	//	std::cout << "closed price at t = 0 is: " << prix0 << std::endl;
+	//	mc->price(mc_price, mc_ic);
+	//	std::cout << "mc price at t = 0 is: " << mc_price << std::endl;
+	//	std::cout << "ic at t = 0 is " << mc_ic << std::endl;
+	//}
+	//std::cout << "hi" << std::endl;
+
+	validate_price_quanto(simulated_path, model, mc, n_scenarios, rho);
+}
+
+void validate_price_quanto(PnlMat* simulated_path, FXBlackScholes* model, MonteCarlo* mc, int n_scenarios, double rho) {
+	std::ofstream myfile;
+	Quanto* quanto = (Quanto*)mc->opt_;
+	double T = quanto->T_;
+	myfile.open("../Validation/price_quanto.txt");
+	int count = 0;
+	double t = 0, S_t = 0, Z_eur_t = 0, closed_price = 0, mc_price = 0, ic = 0;
+	int n_time_steps = quanto->nbTimeSteps_;
+	int M = simulated_path->m - 1;
+	PnlMat* past = pnl_mat_create(1, 1);
+	myfile << "Validation price" << std::endl;
+	for (double i = 0.0; i <= double(M); i++) {
+		t = T * i / (double)M;
+		model->getPast(past, simulated_path, t, n_time_steps, T);
+		S_t = MGET(simulated_path, int(i), 0);
+		Z_eur_t = MGET(simulated_path, int(i), 1);
+		closed_price = quanto->price(t, S_t, Z_eur_t, model->vect_r, model->sigma_, rho);
+		for (int k = 0; k < n_scenarios; k++) {
+			mc->price(past, t, mc_price, ic);
+			if (mc_price - ic / 2 <= closed_price && closed_price <= mc_price + ic / 2)
+			{
+				//myfile << " in ";
+				count++;
+			}
+			else
+			{
+				//myfile << " not in ";
+			}
+			//myfile << "   [" << prix_mc - ic / 2 << ", " << prix_mc + ic / 2 << "] " << " ic = " << ic << std::endl;
+		}
+		myfile << std::endl << count << " / " << n_scenarios << "sont dans l'intervalle de confiance" << std::endl;
+		count = 0;
+	}
+	pnl_mat_free(&past);
+	myfile.close();
 }

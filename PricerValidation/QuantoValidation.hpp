@@ -8,6 +8,6 @@
 #include <fstream>
 #include <string>
 void validate_quanto(PnlRng* rng);
-void validate_price_quanto(PnlMat* simulated_path, FXBlackScholes* model, MonteCarlo* mc, PnlRng* rng);
+void validate_price_quanto(PnlMat* simulated_path, FXBlackScholes* model, MonteCarlo* mc, int n_scenarios, double rho);
 
 
