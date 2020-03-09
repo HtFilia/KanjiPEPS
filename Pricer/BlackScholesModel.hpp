@@ -61,6 +61,10 @@ public:         /// nombre d'actifs du modèle
 		corr = pnl_mat_create(size_, size_);
 		pnl_mat_clone(corr, corr_matrix);
 		pnl_mat_chol(corr);
+		G = pnl_mat_create(1, 1);
+		Ld = pnl_vect_create(size_);
+		Gi = pnl_vect_create(size_);
+
 	}
 
 

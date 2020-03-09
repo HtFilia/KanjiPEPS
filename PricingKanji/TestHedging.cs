@@ -18,7 +18,7 @@ namespace PricingKanji
             DataReader reader = new DataReader();
             List<DataFeed> data = reader.ReadData();
             
-            Hedging hedging = new Hedging(80, 100, data, 0.01);
+            Hedging hedging = new Hedging(80, 1, data, 0.01);
             Dictionary<DateTime, HedgeOutput> output = hedging.HedgeKandji();
 
             foreach (DateTime date in output.Keys)

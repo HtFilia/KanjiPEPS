@@ -73,30 +73,8 @@ void  Computations::performance_price_hedge(double &ic, double &prix, double ic_
 	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, M, 0.1);
 	PnlMat *past = pnl_mat_create_from_double(1, 3, 0);
 	pnl_mat_set_row(past, spot, 0);
-	//pnl_mat_print(past);
-	mc->price(past, 0, prix, ic);
-	mc->delta(past, 0, deltass, ic_deltass);
-	//PnlVect* ic_delta = pnl_vect_create_from_ptr(size, ic_deltas);
-	//PnlVect* delta = pnl_vect_create_from_ptr(size, deltas);
-	//PnlVect* S0 = pnl_vect_create_from_ptr(size, S0_);
-	//PnlVect* sigma = pnl_vect_create_from_ptr(size, sigma_);
-	//PnlVect* trend_vec = pnl_vect_create_from_double(size, r);
-	//BlackScholesModel *model = new BlackScholesModel(size, r, correlation, sigma, S0, trend_vec);
-	//int timesteps = 16; //voir boucle dans perf payoff 
-	//KanjiOption *perf_option = new KanjiOption(T, timesteps, size);
-	////KanjiOption *perf_option = new KanjiOption(T, timesteps, size, payOffCoeffs);
-	//PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
-	//pnl_rng_sseed(rng, time(NULL));
-
-	//MonteCarlo *mc = new MonteCarlo(model, perf_option, rng, T/timesteps, nb_samples, 0.1);
-	//PnlMat *past = pnl_mat_create_from_double(1, 3, S0_[0]);
-	//pnl_mat_set_row(past, S0, 0);
-	//mc->price_and_delta(past, 0, prix, ic, delta, ic_delta);
 	for (int i = 0; i < 3; i++) {
 		deltas[i] = pnl_vect_get(deltass, i);
-
-
-
 	}
 }
 
@@ -113,7 +91,6 @@ void Computations::performance_price_hedge_t(double &ic, double &prix, double ic
 	PnlVect* sigma = pnl_vect_create_from_ptr(size, sigma_);
 	PnlVect* trend_vec = pnl_vect_create_from_double(1, r);
 	BlackScholesModel *model = new BlackScholesModel(size, r, sigma, S0, trend_vec, correlation_matrix);
-	PnlVect* payOffCoeffs = pnl_vect_create_from_scalar(3, 1.0 / 3.0);
 	int timesteps = 16; //voir boucle dans perf payoff
 
 
@@ -128,7 +105,6 @@ void Computations::performance_price_hedge_t(double &ic, double &prix, double ic
 	for (int i = 0; i < delta->size; i++) {
 		deltas[i] = pnl_vect_get(delta, i);
 		ic_deltas[i] = pnl_vect_get(ic_delta, i);
-
 	}
 }
 void Computations::simul_market(double path_[], double t, double maturity, int nbHedging_dates, double s0_[], double trends_[], double sigmas_[], double correlation[], double r)

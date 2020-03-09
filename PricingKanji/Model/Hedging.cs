@@ -56,6 +56,7 @@ namespace PricingKanji.Model
             }
             return effective_feeds;
         }
+
         List<DataFeed> PreviousFeeds(List<DataFeed> feeds)
         {
             List<DataFeed> previous_feeds = new List<DataFeed>();
@@ -103,10 +104,10 @@ namespace PricingKanji.Model
             Portfolio portfolio = new Portfolio();
 
             List<DataFeed> estimationSample;
-            int counter = 0;
             double[] spots = { };
 
             var previous_feeds = PreviousFeeds(feeds);
+            int counter = previous_feeds.Count;
             var volatilities = Calibration.Volatilities(previous_feeds);
             var correlationMatrix = Calibration.CorrMatrix(previous_feeds);
             int size = 3;
@@ -134,16 +135,20 @@ namespace PricingKanji.Model
                 path[date_index * size + 1] = (double)feed.PriceList["S&P 500"];
                 path[date_index * size + 2] = (double)feed.PriceList["HANG SENG INDEX"];
             }
-
+            DataFeed prev_market = null;
             foreach (DataFeed market in effective_feeds)
             {
+                if (effective_feeds.IndexOf(market) > 0)
+                {
+                    prev_market = effective_feeds[effective_feeds.IndexOf(market) - 1];
+                }
                 spots = Market.marketSpots(market);
                 double[] past = GetPast(market, effective_feeds, discretisation_indices);
                 int nb_dates = past.Length / 3;
                 double t = (market.Date - start_date).TotalDays;
                 double t_in_years = t / 365.25;
 
-                if (counter == 0)
+                if (counter == previous_feeds.Count)
                 {
                     wc.getPriceDeltaPerft(50000, matu_in_years, t_in_years, past, nb_dates, volatilities, correlation_vector, interest_rate);
                     portfolio.UpdateComposition(wc.getDeltas(), market, wc.getPrice(), start_date);
