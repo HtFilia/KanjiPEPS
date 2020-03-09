@@ -47,6 +47,9 @@ public:         /// nombre d'actifs du modèle
         for (int diag = 0; diag < size_; diag++)
             pnl_mat_set(corr, diag, diag, 1);
         pnl_mat_chol(corr);
+		G = pnl_mat_create(1,1);
+		Ld = pnl_vect_create(size_);
+		Gi = pnl_vect_create(size_);
     }
 
     /**

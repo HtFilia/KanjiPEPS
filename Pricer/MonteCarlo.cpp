@@ -9,6 +9,7 @@
 MonteCarlo::~MonteCarlo() {
 	delete mod_;
 	pnl_rng_free(&rng_);
+	pnl_mat_free(&path);
 }
 
 void MonteCarlo::price(double &prix, double &ic) {
@@ -53,7 +54,6 @@ void MonteCarlo::price(const PnlMat *past, double t, double &prix, double &ic) {
 	}
 }
 
-	PnlMat* path = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
 	double payoffs_squared = 0;
 	double payoffs = 0;
 	double payoff;
@@ -68,7 +68,6 @@ void MonteCarlo::price(const PnlMat *past, double t, double &prix, double &ic) {
 	double  var = (pnl_expm1(-2 * mod_->r_*opt_->T_) + 1)*(payoffs_squared - pnl_pow_i(payoffs, 2));
 	prix = ((expm1(-mod_->r_ * (opt_->T_ - t)) + 1)) * payoffs;
 	ic = 2 * 1.96*sqrt(var) / sqrt(nbSamples_);
-	pnl_mat_free(&path);
 }
 
 
@@ -83,7 +82,6 @@ void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic
 	}
 }
 
-	PnlMat* path = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_); //creation path, matrice ou on simule
 	double timestep = opt_->T_ / opt_->nbTimeSteps_; //pas de discretisation
 	PnlMat* shifted_pathp = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
 	PnlMat* shifted_pathm = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_); //creation de deux paths deviés
@@ -127,7 +125,6 @@ void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic
 
 	pnl_vect_free(&differences);
 	pnl_vect_free(&squared_differences);
-	pnl_mat_free(&path);
 	pnl_mat_free(&shifted_pathm);
 	pnl_mat_free(&shifted_pathp);
 	pnl_vect_free(&spot_t);
@@ -145,7 +142,6 @@ void MonteCarlo::price_and_delta(const PnlMat *past, double t, double &prix, dou
 		}
 	}
 
-	PnlMat* path = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
 	double payoffs_squared = 0;
 	double payoffs = 0;
 	double payoff;
@@ -200,7 +196,6 @@ void MonteCarlo::price_and_delta(const PnlMat *past, double t, double &prix, dou
 
 	pnl_vect_free(&differences);
 	pnl_vect_free(&squared_differences);
-	pnl_mat_free(&path);
 	pnl_mat_free(&shifted_pathm);
 	pnl_mat_free(&shifted_pathp);
 	pnl_vect_free(&spot_t);
