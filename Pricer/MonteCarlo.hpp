@@ -16,6 +16,8 @@ public:                      ///  pointeur vers le modèle
     double fdStep_; /// nombre de tirages Monte Carlo
     int nbSamples_; /// pas de différence finie
     double h;
+	PnlMat* path = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
+
     /**
 * Destructeur de la classe Monte Carlo
      */
