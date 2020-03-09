@@ -135,13 +135,9 @@ namespace PricingKanji.Model
                 path[date_index * size + 1] = (double)feed.PriceList["S&P 500"];
                 path[date_index * size + 2] = (double)feed.PriceList["HANG SENG INDEX"];
             }
-            DataFeed prev_market = null;
+            DataFeed prevMarket = null;
             foreach (DataFeed market in effective_feeds)
             {
-                if (effective_feeds.IndexOf(market) > 0)
-                {
-                    prev_market = effective_feeds[effective_feeds.IndexOf(market) - 1];
-                }
                 spots = Market.marketSpots(market);
                 double[] past = GetPast(market, effective_feeds, discretisation_indices);
                 int nb_dates = past.Length / 3;
@@ -151,14 +147,16 @@ namespace PricingKanji.Model
                 if (counter == previous_feeds.Count)
                 {
                     wc.getPriceDeltaPerft(50000, matu_in_years, t_in_years, past, nb_dates, volatilities, correlation_vector, interest_rate);
-                    portfolio.UpdateComposition(wc.getDeltas(), market, wc.getPrice(), start_date);
+                    portfolio.UpdateComposition(wc.getDeltas(), market, prevMarket, wc.getPrice(), start_date);
                     HedgeOutput returnStruct = new HedgeOutput();
-                    returnStruct.portfolioValue = portfolio.GetValue(market);
+                    returnStruct.portfolioValue = portfolio.Value;
                     returnStruct.optionValue = wc.getPrice();
                     hedging.Add(market.Date, returnStruct);
+                    prevMarket = market;
                 }
-                else if (counter % rebalancingFrequency == 0)
+                else if ((counter- previous_feeds.Count) % rebalancingFrequency == 0)
                 {
+                    //Console.WriteLine("REBALANCEMENT");
                     // at rebanlancing date we estimate the parameters
                     estimationSample = feeds.GetRange(counter - estimationWindow, estimationWindow);
                     correlationMatrix = Calibration.CorrMatrix(estimationSample);
@@ -169,21 +167,22 @@ namespace PricingKanji.Model
                             correlation_vector[size * i + j] = correlationMatrix[i, j];
 
                     wc.getPriceDeltaPerft(50000, matu_in_years, t_in_years, past, nb_dates, volatilities, correlation_vector, interest_rate);
-                    portfolio.UpdateComposition(wc.getDeltas(), market, wc.getPrice(), start_date);
+                    portfolio.UpdateComposition(wc.getDeltas(), market,prevMarket, wc.getPrice(), start_date);
                     HedgeOutput returnStruct = new HedgeOutput();
-                    returnStruct.portfolioValue = portfolio.GetValue(market);
+                    returnStruct.portfolioValue = portfolio.Value;
                     returnStruct.optionValue = wc.getPrice();
                     hedging.Add(market.Date, returnStruct);
+                    prevMarket = market;
                 }
                 else
                 {
                     wc.getPriceDeltaPerft(50000, matu_in_years, t_in_years, past, nb_dates, volatilities, correlation_vector, interest_rate);
                     HedgeOutput returnStruct = new HedgeOutput();
-                    returnStruct.portfolioValue = portfolio.GetValue(market);
+                    returnStruct.portfolioValue = portfolio.GetValue(market, prevMarket, startdate);
                     returnStruct.optionValue = wc.getPrice();
                     hedging.Add(market.Date, returnStruct);
                 }
-
+                Console.WriteLine(100*(hedging[market.Date].portfolioValue - hedging[market.Date].optionValue) + "\t" + (counter- previous_feeds.Count));
                 counter++;
             }
 
