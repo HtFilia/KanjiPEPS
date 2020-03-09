@@ -11,6 +11,7 @@ class Quanto :  public Option
 public:
 	double strike_;
 	bool mc_pricing;
+	PnlVect* vect_r_;
 
 	/**
 * Constructeur de l'option quanto
@@ -22,11 +23,13 @@ public:
 * @param[in] size nombre des sous-jacents
 * @param[in] strike strike de l'option quanto
 */
-	Quanto(double T, int nbTimeSteps, int size, double strike) {
+	Quanto(double T, int nbTimeSteps, int size, double strike, PnlVect* vect_r) {
 		T_ = T;
 		nbTimeSteps_ = nbTimeSteps;
 		size_ = size;
 		strike_ = strike;
+		vect_r_ = vect_r;
+		type_ = quanto;
 		mc_pricing = true;
 	}
 	/**

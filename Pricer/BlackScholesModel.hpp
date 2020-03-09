@@ -25,7 +25,7 @@ public:         /// nombre d'actifs du modèle
         *
         * Destructeur de l'objet BlackScholesModel, fait appel aux méthodes free de pnl
         */
-    ~BlackScholesModel();
+    virtual ~BlackScholesModel();
     /**
     * Constructeur de l'object BlackScholesModel
     *
@@ -46,6 +46,16 @@ public:         /// nombre d'actifs du modèle
         corr =  pnl_mat_create_from_scalar(size_, size_, rho_);
         for (int diag = 0; diag < size_; diag++)
             pnl_mat_set(corr, diag, diag, 1);
+        pnl_mat_chol(corr);
+    }
+    BlackScholesModel(int size, double r, PnlVect* sigma, PnlVect* spot, PnlVect* trend, PnlMat* corr_matrix) {
+        size_ = size;
+        r_ = r;
+        sigma_ = sigma;
+        spot_ = spot;
+        trend_ = trend;
+        corr = pnl_mat_create(size_, size_);
+        pnl_mat_clone(corr, corr_matrix);
         pnl_mat_chol(corr);
     }
 

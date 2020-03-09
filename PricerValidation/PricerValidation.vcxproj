@@ -80,7 +80,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\Pricer\x64\Debug;..\pnl-win64-1.10.4\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>BlackScholesModel.obj;Computations.obj;Hedge.obj;MonteCarlo.obj;Option.obj;VanillaCall.obj;KanjiOption.obj;libpnl.lib;Quanto.obj;KanjiBlackScholes.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BlackScholesModel.obj;Computations.obj;Hedge.obj;MonteCarlo.obj;Option.obj;VanillaCall.obj;KanjiOption.obj;libpnl.lib;Quanto.obj;FXBlackScholes.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
