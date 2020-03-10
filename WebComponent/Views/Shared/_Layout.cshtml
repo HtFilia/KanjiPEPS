@@ -5,8 +5,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - KanjiPEPS</title>
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/bundles/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/font-awesome")
 </head>
 <body>
     <nav id="sidenav-main" class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white">
@@ -61,6 +62,7 @@
     -->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/argon")
     @RenderSection("scripts", required: false)
 </body>
 </html>

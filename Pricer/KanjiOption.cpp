@@ -4,11 +4,14 @@
 
 #include "KanjiOption.hpp"
 #include <iostream>
+KanjiOption::~KanjiOption()
+{
+	pnl_vect_free(&initial_values);
+}
 double KanjiOption::payoff(const PnlMat *path) {
 
 	double payoff = 0;
 	double perf = 0;
-	PnlVect *initial_values = pnl_vect_create(size_);
 	pnl_mat_get_row(initial_values, path, 0);
 	double timestep = T_ / (double)nbTimeSteps_;
 	double mean = 0, t = 0;
@@ -21,7 +24,6 @@ double KanjiOption::payoff(const PnlMat *path) {
 		payoff += MAX(perf, 0);
 		perf = 0;
 	}
-	pnl_vect_free(&initial_values);
 	return 1 + (double)(60.0 / (300.0*16.0))* payoff;
 }
 

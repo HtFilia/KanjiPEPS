@@ -2,17 +2,6 @@
 #include <iostream>
 
 
-double VanillaCall::payoff(double S_T) {
-
-
-	return S_T > strike_ ? S_T - strike_: 0 ;
-}
-
-double VanillaCall::payoff(const PnlMat *path, double past_payoff, int past_len) {
-
-	
-	return 1;
-}
 
 double VanillaCall::payoff(const PnlMat *path) {
 	double S_T = pnl_mat_get(path, path->m - 1, 0);
