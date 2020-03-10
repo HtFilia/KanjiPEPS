@@ -2,21 +2,21 @@
 #include <iostream>
 using namespace Computations;
 namespace Wrapper {
-	void WrapperClass::getPriceCallEuro(int sampleNb, double T, double S0, double K, double sigma, double r) {
+	void WrapperClass::getPriceCallEuro(double T, double S0, double K, double sigma, double r) {
 		double ic, px;
 		calleuro(ic, px, sampleNb, T, S0, K, sigma, r);
 		this->confidenceInterval = ic;
 		this->price = px;
 	}
 
-	void WrapperClass::getPriceCallMC(int sampleNb, double T, double S0, double K, double sigma, double r) {
+	void WrapperClass::getPriceCallMC(double T, double S0, double K, double sigma, double r) {
 		double ic, px;
 		callMC(ic, px, sampleNb, T, S0, K, sigma, r);
 		this->confidenceInterval = ic;
 		this->price = px;
 	}
 
-	void WrapperClass::getPriceDeltaPerf(int sampleNb, double T, array<double, 1> ^spots, array<double, 1> ^sigmas, double correlation, double r) {
+	void WrapperClass::getPriceDeltaPerf(double T, array<double, 1> ^spots, array<double, 1> ^sigmas, double correlation, double r) {
 		double ic = 0;
 		double px = 0;
 		array<double, 1>^ ic_delta = gcnew array<double, 1>(3);
@@ -35,7 +35,7 @@ namespace Wrapper {
 		this->ic_deltas = ic_delta;
 
 	}
-	void WrapperClass::getPriceDeltaPerft(int sampleNb, double T, double t, array<double, 1> ^path, double nb_dates, array<double, 1> ^sigmas, array<double, 1 > ^correlation, double r) {
+	void WrapperClass::getPriceDeltaPerft(double T, double t, array<double, 1> ^path, double nb_dates, array<double, 1> ^sigmas, array<double, 1 > ^correlation, double r) {
 		double ic, px;
 		array<double, 1>^ ic_delta = gcnew array<double, 1>(3);
 		array<double, 1> ^ delta = gcnew array<double, 1>(3);

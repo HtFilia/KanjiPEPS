@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PricingLibrary.Utilities;
 
 
 namespace PricingKanji.Model
@@ -42,6 +41,15 @@ namespace PricingKanji.Model
                 diagIndex++;
             }
             return volatilities;
+        }
+        public static double[] Trends(List<DataFeed> dataFeeds)
+        {
+            int nbAssets = dataFeeds.ElementAt(0).PriceList.Keys.Count;
+            int nbDates = dataFeeds.Count;
+            double[] MeanReturn = new double[nbAssets];
+            double[,] logreturns = WREMethods.LogReturns(dataFeeds);
+            MeanReturn = WREMethods.ComputeTrend(nbDates, nbAssets, logreturns);
+            return MeanReturn;
         }
     }
 

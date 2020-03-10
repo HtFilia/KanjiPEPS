@@ -14,7 +14,7 @@ namespace PricingKanji
         static void Main(string[] args)
         {
             WrapperClass wc = new WrapperClass();
-            wc.getPriceCallEuro(50000, 1, 100, 100, 0.2, 0.01);
+            wc.getPriceCallEuro(1, 100, 100, 0.2, 0.01);
             Console.WriteLine(wc.getPrice());
             //DataReader reader = new DataReader();
             //List<DataFeed> data = reader.ReadData();

@@ -110,7 +110,7 @@ void Computations::performance_price_hedge_t(double &ic, double &prix, double ic
 void Computations::simul_market(double path_[], double t, double maturity, int nbHedging_dates, double s0_[], double trends_[], double sigmas_[], double correlation[], double r)
 {
 	int size_path = (t * nbHedging_dates) / maturity;
-	int size = 3;
+	int size = 3; //should be generalized
 	PnlMat* path = pnl_mat_create(size_path, size);
 	PnlVect* s0 = pnl_vect_create_from_ptr(size, s0_);
 	PnlVect* sigma = pnl_vect_create_from_ptr(size, sigmas_);
