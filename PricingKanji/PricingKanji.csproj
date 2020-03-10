@@ -101,6 +101,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Test.cs" />
+    <Compile Include="TestEstimation.cs" />
     <Compile Include="TestHedging.cs" />
     <Compile Include="TestWRE.cs" />
   </ItemGroup>

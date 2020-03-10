@@ -20,7 +20,7 @@ namespace Wrapper {
 		void getPriceCallMC(int sampleNb, double T, double S0, double K, double sigma, double r);
 		void getPriceDeltaPerf(int sampleNb, double T, array<double, 1> ^spots, array<double, 1> ^sigmas, double correlation, double r);
 		void getPriceDeltaPerft(int sampleNb, double T, double t, array<double, 1> ^path, double nb_dates, array<double, 1> ^sigmas, array<double, 1> ^correlation, double r);
-		void SimulMarket(double t, double maturity, int nbHedging_dates, array<double, 1> ^spots, array<double, 1> ^trends, array<double, 1> ^sigmas, double correlation, double r);
+		void SimulMarket(double t, double maturity, int nbHedging_dates, array<double, 1> ^spots, array<double, 1> ^trends, array<double, 1> ^sigmas, array<double, 1> ^correlation, double r);
 		double getPrice() { return price; };
 		double getIC() { return confidenceInterval; };
 		array<double, 1> ^ getDeltas() { return deltas; };

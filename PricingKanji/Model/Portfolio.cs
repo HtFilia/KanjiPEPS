@@ -13,8 +13,7 @@ namespace PricingKanji.Model
     {
 
         private Dictionary<string, double> composition;
-        private double RiskFreeInvestment;
-        private DateTime RiskFreeInvestmentDate;
+        public double Value { get; set; }
 
         public Portfolio()
         {
@@ -26,22 +25,19 @@ namespace PricingKanji.Model
             composition.Add("HANG SENG INDEX", 0);
         }
 
-        public double GetValue(DataFeed market)
+        
+        public void UpdateComposition(double[] deltas, DataFeed market, DataFeed prevMarket, double optionPrice, DateTime startdate)
         {
-            double stockvalue = 0;
-            foreach (string stock in composition.Keys)
+
+            // computes the quantity of the zero coupons to be bought/sold.
+            if (market.Date == startdate)
             {
-                stockvalue += composition[stock] * (double)market.PriceList[stock];
+                Value = optionPrice;
             }
-            int investment_time = DayCount.CountBusinessDays(RiskFreeInvestmentDate, market.Date);
-            double riskfreevalue = RiskFreeRateProvider.GetRiskFreeRateAccruedValue(DayCount.ConvertToDouble(investment_time, 365)) * RiskFreeInvestment;
-
-            return stockvalue + riskfreevalue;
-
-        }
-
-        public void UpdateComposition(double[] deltas, DataFeed market, double optionPrice, DateTime startdate)
-        {
+            else
+            {
+                Value = GetValue(market, prevMarket, startdate);
+            }
             // updates the deltas of the stocks.
             Dictionary<string, double> newComposition = new Dictionary<string, double>();
             int shareindex = 0;
@@ -50,25 +46,28 @@ namespace PricingKanji.Model
                 newComposition.Add(id, deltas[shareindex]);
                 shareindex++;
             }
+
             composition = newComposition;
-
-            // computes the quantity of the zero coupons to be bought/sold.
-            double stockvalue = 0;
-            foreach (string stock in composition.Keys)
-            {
-                stockvalue += composition[stock] * (double)market.PriceList[stock];
-            }
-            RiskFreeInvestmentDate = market.Date;
-
-            RiskFreeInvestment = GetValue(market) - stockvalue;
-            if (market.Date == startdate)
-            {
-                RiskFreeInvestment = optionPrice - stockvalue;
-            }
         }
 
+        public double GetValue(DataFeed market, DataFeed prevMarket, DateTime startdate)
+        {
+                double stockvalue = 0;
+                foreach (string stock in composition.Keys)
+                {
+                    stockvalue += composition[stock] * (double)market.PriceList[stock];
+                }
 
+                double prev_stockvalue = 0;
+                foreach (string stock in composition.Keys)
+                {
+                    prev_stockvalue += composition[stock] * (double)prevMarket.PriceList[stock];
+                }
 
-
+                int investment_time = DayCount.CountBusinessDays(prevMarket.Date, market.Date);
+                double factor = RiskFreeRateProvider.GetRiskFreeRateAccruedValue(DayCount.ConvertToDouble(investment_time, 365));
+                double riskfree_part = factor * (Value - prev_stockvalue);
+                return stockvalue + riskfree_part;
+            }
     }
 }
