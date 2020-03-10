@@ -31,18 +31,10 @@ void validate_quanto(PnlRng* rng) {
 	double mc_price = 0;
 	double mc_ic = 0;
 	model->simul_market(simulated_path, T, M, rng);
-
-	//for (int i = 0; i < n_scenarios; i++) {
-	//	//model->simul_market(simulated_path, T, M, rng);
-	//	//pnl_mat_print(simulated_path);
-	//	double prix0 = quanto->price(0, 100, 0.89, r, sigmas, rho);
-	//	std::cout << "closed price at t = 0 is: " << prix0 << std::endl;
-	//	mc->price(mc_price, mc_ic);
-	//	std::cout << "mc price at t = 0 is: " << mc_price << std::endl;
-	//	std::cout << "ic at t = 0 is " << mc_ic << std::endl;
-	//}
-	//std::cout << "hi" << std::endl;
-
+	int n_freqs = 4;
+	const double* freqs_ptr = new double[n_freqs] {1, 5, 10, 30};
+	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
+	histogram_erorrs_quanto(mc, model, rng, M, freqs, n_scenarios);
 	//validate_price_quanto(simulated_path, model, mc, n_scenarios, rho);
 	validate_delta_quanto(simulated_path, model, mc, n_scenarios, rho);
 
@@ -127,3 +119,38 @@ void validate_delta_quanto(PnlMat* simulated_path, FXBlackScholes* model, MonteC
 	pnl_vect_free(&ic);
 	myfile.close();
 }
+void histogram_erorrs_quanto(MonteCarlo* mc, FXBlackScholes* model, PnlRng* rng, int M, PnlVect* freqs, int scenarios) {
+	Quanto* quanto = (Quanto*)mc->opt_;
+	PnlMat* past = pnl_mat_create(1, 2);
+	int n_time_steps = quanto->nbTimeSteps_;
+	double T = quanto->T_;
+	PnlMat* simulated_path = pnl_mat_create(M + 1, model->size_);
+	model->simul_market(simulated_path, T, M, rng);
+
+	Hedge hedge(mc);
+	double error = 0;
+	std::ofstream myfile;
+	PnlVect* option_values = pnl_vect_create(M + 1);
+	PnlVect* portfolio_values = pnl_vect_create(M + 1);
+	double freq = 0;
+	std::string filename = "";
+
+	for (int k = 0; k < freqs->size; k++) {
+		freq = GET(freqs, k);
+		filename = "../Validation/quanto_histogram_errors_M" + std::to_string(M) + "_freq_" + std::to_string((int)freq) + ".csv";
+		myfile.open(filename);
+		for (int i = 0; i < scenarios; i++) {
+			model->simul_market(simulated_path, T, M, rng);
+			hedge.PnLfreq(simulated_path, n_time_steps + 1, freq, portfolio_values, option_values, error); // amine
+			std::cout << error << std::endl;
+			myfile << error << ";" << std::endl;
+
+		}
+		myfile.close();
+	}
+	pnl_mat_free(&simulated_path);
+	pnl_mat_free(&past);
+	pnl_vect_free(&option_values);
+	pnl_vect_free(&portfolio_values);
+}
+
