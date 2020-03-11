@@ -14,6 +14,8 @@ class KanjiOption : public Option {
 
 public:
 	PnlVect *initial_values;
+	double rUSD_;
+	double rHKD_;
 
 	~KanjiOption();
     /**
@@ -24,12 +26,14 @@ public:
 * @param[in] size nombre des sous-jacents
  * @param[in] payOffCoeffs vecteur des coefficients de payoffs
 */
-	KanjiOption(double T, int nbTimeSteps, int size) {
+	KanjiOption(double T, int nbTimeSteps, int size, double rUSD, double rHKD) {
         T_ = T;
         nbTimeSteps_ = nbTimeSteps;
         size_ = size;
 		initial_values = pnl_vect_create(size_);
 		type_ = kanji;
+		rUSD_ = rUSD;
+		rHKD_ = rHKD;
     }
     /**
 * Payoff de l'option performance à partir du marché
@@ -38,8 +42,6 @@ public:
 */
     double payoff(const PnlMat *path);
 
-
-	double payoffKanji(const PnlMat *path, double rUSD, double rHKD);
 };
 
 #endif //MC_PRICER_PERFORMANCEOPTION_H

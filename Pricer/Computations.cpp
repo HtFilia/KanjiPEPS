@@ -52,7 +52,7 @@ void Computations::calleuro(double &ic, double &prix, int nb_samples, double T,
 }
 void  Computations::performance_price_hedge(double &ic, double &prix, double ic_deltas[], double deltas[], int nb_samples, double T,
 	double S0_[], double sigma_[], double correlation, double r) {
-	int size = 3;
+	/*int size = 3;
 	PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
 	pnl_rng_sseed(rng, time(NULL));
 
@@ -75,13 +75,13 @@ void  Computations::performance_price_hedge(double &ic, double &prix, double ic_
 	pnl_mat_set_row(past, spot, 0);
 	for (int i = 0; i < 3; i++) {
 		deltas[i] = pnl_vect_get(deltass, i);
-	}
+	}*/
 }
 
 void Computations::performance_price_hedge_t(double &ic, double &prix, double ic_deltas[], double deltas[], int nb_samples, double T,
 	double t, double past_[], double nb_dates, double sigma_[], double correlation[], double r)
 {
-	int size = 3;
+	/*int size = 3;
 	PnlVect* ic_delta = pnl_vect_create_from_ptr(size, ic_deltas);
 	PnlVect* delta = pnl_vect_create_from_ptr(size, deltas);
 	PnlMat* correlation_matrix = pnl_mat_create_from_ptr(size, size, correlation);
@@ -105,7 +105,7 @@ void Computations::performance_price_hedge_t(double &ic, double &prix, double ic
 	for (int i = 0; i < delta->size; i++) {
 		deltas[i] = pnl_vect_get(delta, i);
 		ic_deltas[i] = pnl_vect_get(ic_delta, i);
-	}
+	}*/
 }
 void Computations::simul_market(double path_[], double t, double maturity, int nbHedging_dates, double s0_[], double trends_[], double sigmas_[], double correlation[], double r)
 {

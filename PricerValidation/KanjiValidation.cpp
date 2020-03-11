@@ -1,6 +1,6 @@
 #include "KanjiValidation.hpp"
 
-void validate_kanji(PnlRng* rng) {
+/*void validate_kanji(PnlRng* rng) {
 	int n_time_steps = 16;
 	double T = 8;
 	double r = 0.0001;
@@ -30,6 +30,45 @@ void validate_kanji(PnlRng* rng) {
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
 	histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
 	//pnl_mat_free(&simulated_path);
+}*/
+
+void validate_kanjiFX(PnlRng* rng) {
+	int n_time_steps = 16;
+	double T = 8;
+	int size = 5;
+	PnlVect* r = pnl_vect_create_from_scalar(3, 0.0001);
+	pnl_vect_set(r, 1, 0.0002);
+	pnl_vect_set(r, 2, 0.0003);
+	double rho = 0.2;
+	PnlVect* sigma = pnl_vect_create_from_scalar(size, 0.2);
+	pnl_vect_set(sigma, 1, 0.02);
+	pnl_vect_set(sigma, 3, 0.02);
+	PnlVect *spot = pnl_vect_create_from_scalar(size, 1000);
+	pnl_vect_set(spot, 1, 0.89);
+	pnl_vect_set(spot, 3, 0.11);
+	PnlVect *trend = pnl_vect_create_from_scalar(size, 0.02);
+	PnlMat* corr = pnl_mat_create_from_scalar(size, size, rho);
+	for (int diag = 0; diag < size; diag++)
+		pnl_mat_set(corr, diag, diag, 1);
+	FXBlackScholes* model = new FXBlackScholes(size, r, sigma, spot, trend, corr);
+	KanjiOption *kanji = new KanjiOption(T, n_time_steps, size, pnl_vect_get(r, 1), pnl_vect_get(r, 2));
+	int n_samples = 1000;
+	double epsilon = 0.000001;
+	double gamma = -1.0 / 4.0;
+	double epsilon_n = epsilon * pow(n_samples, -gamma);
+	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, n_samples, 0.0001);
+	int M = T * 252; //4 ans * 360j
+	int H = M;
+	int n_scenarios = 1;
+	PnlMat* simulated_path = pnl_mat_create(M + 1, size);
+	//validate_price_kanji(simulated_path, model, mc, rng);
+	//validate_delta_kanji(simulated_path, model, mc, rng);
+	//validate_mean_error_kanji(mc, model, rng, M, H, n_scenarios);
+	int n_freqs = 3;
+	const double *freqs_ptr = new double[n_freqs] {8, 4, 1};
+	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
+	histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
+	//pnl_mat_free(&simulated_path);
 }
 
 void histogram_errors_kanji(MonteCarlo* mc, BlackScholesModel* model, PnlRng* rng, int M, PnlVect* freqs, int scenarios) {
@@ -49,7 +88,7 @@ void histogram_errors_kanji(MonteCarlo* mc, BlackScholesModel* model, PnlRng* rn
 	std::string filename = "";
 	for (int k = 0; k < freqs->size; k++) {
 		freq = GET(freqs, k);
-		filename = "../Validation/kanji_histogram_errors_M" + std::to_string(M) + "_freq_" + std::to_string((int)freq) + ".csv";
+		filename = "../Validation/kanji_fx__histogram_errors_M" + std::to_string(M) + "_freq_" + std::to_string((int)freq) + ".csv";
 		myfile.open(filename);
 		for (int i = 0; i < scenarios; i++) {
 			model->simul_market(simulated_path, T, M, rng);
@@ -72,7 +111,7 @@ void histogram_errors_kanji(MonteCarlo* mc, BlackScholesModel* model, PnlRng* rn
 
 void validate_price_kanji(PnlMat* simulated_path, BlackScholesModel* model, MonteCarlo* mc, PnlRng *rng) {
 	std::ofstream myfile;
-	myfile.open("../Validation/price_kanji.txt");
+	myfile.open("../Validation/price_kanji_fx.txt");
 	KanjiOption* kanji = (KanjiOption*)mc->opt_;
 	PnlMat* past = pnl_mat_create(1, 1);
 	int n_time_steps = kanji->nbTimeSteps_;
