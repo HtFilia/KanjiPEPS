@@ -15,7 +15,7 @@ namespace WebComponent.Controllers
         {
             WrapperClass wrapper = new WrapperClass();
             wrapper.getPriceCallEuro(3000, 2, 100, 100, 0.2, 0.07);
-            ViewBag.Price = 0;
+            ViewBag.Price = wrapper.getPrice();
             return View();
         }
 
