@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Wrapper;
 using WebComponent.Models;
+using Newtonsoft.Json;
 
 namespace WebComponent.Controllers
 {
@@ -18,6 +19,19 @@ namespace WebComponent.Controllers
                 WrapperClass wrapper = new WrapperClass();
                 wrapper.getPriceDeltaPerft(2, 0, new double[] { 100, 100, 100 }, 16, new double[] { 0.2, 0.2, 0.2 }, new double[] { 1, 0.1, 0.1, 0.1, 1, 0.1, 0.1, 0.1, 1}, 0.07);
                 ViewBag.Price = wrapper.getPrice();
+
+
+                double count = 1000, y = 100;
+                Random random = new Random();
+                List<DataPoint> dataPoints = new List<DataPoint>();
+
+                for (int i = 0; i < count; i++)
+                {
+                    y += random.Next(-10, 11);
+                    dataPoints.Add(new DataPoint(i, y));
+                }
+
+                ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
             }
             
             if (Request.HttpMethod == "POST")
