@@ -49,6 +49,8 @@ public:         /// nombre d'actifs du modèle
         pnl_mat_chol(corr);
     }
 
+
+
     /**
      * Génère une trajectoire du modèle et la stocke dans path
      *
