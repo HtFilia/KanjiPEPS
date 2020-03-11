@@ -22,7 +22,7 @@ namespace WebComponent.Controllers
             
             if (Request.HttpMethod == "POST")
             {
-                int SampleNb = Int16.Parse(Request.Form["SampleNb"]);
+                int SampleNb = Convert.ToInt32(Request.Form["SampleNb"]);
                 double Maturity = Convert.ToDouble(Request.Form["Maturity"]);
                 double InitialPrice = Convert.ToDouble(Request.Form["InitialPrice"]);
                 double Strike = Convert.ToDouble(Request.Form["Strike"]);

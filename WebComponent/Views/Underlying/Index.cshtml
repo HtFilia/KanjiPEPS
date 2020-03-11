@@ -4,5 +4,50 @@
     ViewBag.Title = "View";
 }
 
-<h2>View</h2>
-
+    <div class="row">
+        <div class="col-xl-8 mb-5 mb-xl-0">
+            <div class="card bg-gradient-default shadow">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: .625rem">Aperçu</h6>
+                            <h2 class="text-white mb-0">Prix @ViewBag.UnderlyingName</h2>
+                        </div>
+                        <div class="col-8">
+                            <ul class="nav nav-pills justify-content-end">
+                                <!-- TODO: Data update -->
+                                <li class="nav-item mr-2 mr-md-0">
+                                    <a class="nav-link py-2 px-3 active show" href="#" data-toggle="tab">
+                                        <span class="d-none d-md-block">Quotidien</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-2 px-3" href="#" data-toggle="tab">
+                                        <span class="d-none d-md-block">Hebdomadaire</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-2 px-3" href="#" data-toggle="tab">
+                                        <span class="d-none d-md-block">Mensuel</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <div class="chartjs-size-monitor">
+                            <div class="chartjs-size-monitor-expand">
+                                <div class=""></div>
+                            </div>
+                            <div class="chartjs-size-monitor-shrink">
+                                <div class=""></div>
+                            </div>
+                        </div>
+                        <canvas id="underlying-price" class="chart-canvas chartjs-render-monitor" style="display: block; width: 630px; height: 350px;" width="630" height="350"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

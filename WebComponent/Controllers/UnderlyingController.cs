@@ -13,5 +13,10 @@ namespace WebComponent.Controllers
         {
             return View();
         }
+
+        public ActionResult Index()
+        {
+
+        }
     }
 }
