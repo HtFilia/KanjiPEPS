@@ -136,7 +136,6 @@ namespace PricingKanji.Model
                     previous_feeds = PreviousFeeds(feeds);
 
                 }
-                //volatilities = new double[]{ 0.3, 0.3, 0.3 };
                 // estimate the parameters of the model
                 volatilities = Calibration.Volatilities(previous_feeds);
                 correlation = Calibration.CorrMatrix(previous_feeds);
@@ -153,14 +152,11 @@ namespace PricingKanji.Model
                 previous_feeds.Add(feed);
                 double[] past = GetPast(feed, effective_feeds, discretisation_indices);
                 int nb_dates = past.Length / 3;
-                // WRE NOT WORKING !!!
-                // price the kanji product at instant t = feed.DateTime
                 double t = (feed.Date - start_date).TotalDays;
                 double t_in_years = t / 365.25;
                 WrapperClass wc = new WrapperClass();
-                //double[] spots = new double[] { path[0], path[1], path[2] };
-                //wc.getPriceDeltaPerf(50000, maturity,spots, volatilities, correlation, interest_rate);
-                wc.getPriceDeltaPerft(50000, matu_in_years, t_in_years, past, nb_dates, volatilities, correlation_vector, interest_rate);
+                //wc.getPriceDeltaPerf(maturity,spots, volatilities, correlation, interest_rate);
+                wc.getPriceDeltaPerft(matu_in_years, t_in_years, past, nb_dates, volatilities, correlation_vector, interest_rate);
                 prices.Add(feed.Date, wc.getPrice());
                 Console.WriteLine("price at  " + feed.Date + " : " + wc.getPrice());
                 // add the feed as history (for the calibration)

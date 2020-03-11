@@ -25,8 +25,7 @@ namespace PricingKanji.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\anas\\source\\repos\\PEPS\\pnl-win64-1.10.4\\lib;C:\\Users\\anas\\source\\repos\\P" +
-            "EPS\\x64\\Debug")]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\pnl-win64-1.10.4\\lib;..\\x64\\Debug")]
         public string AdditionalPaths {
             get {
                 return ((string)(this["AdditionalPaths"]));

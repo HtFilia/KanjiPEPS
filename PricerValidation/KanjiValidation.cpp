@@ -3,7 +3,7 @@
 void validate_kanji(PnlRng* rng) {
 	int n_time_steps = 16;
 	double T = 8;
-	double r = 0.0001;
+	double r = 0.001;
 	double spot_ = 10000;
 	double sigma_ = 0.2;
 	int size = 3;
@@ -13,12 +13,9 @@ void validate_kanji(PnlRng* rng) {
 	PnlVect *weights = pnl_vect_create_from_scalar(size, 1.0 / 3.0);
 	BlackScholesModel* model = new BlackScholesModel(size, r, 0.2, sigma, spot, trend);
 	KanjiOption *kanji = new KanjiOption(T, n_time_steps, size);
-	int n_samples = 1000;
-	double epsilon = 0.000001;
-	double gamma = -1.0 / 4.0;
-	double epsilon_n = epsilon * pow(n_samples, -gamma);
+	int n_samples = 10000;
 	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, n_samples, 0.0001);
-	int M = T*252; //4 ans * 360j
+	int M = T*252;
 	int H = M;
 	int n_scenarios = 1;
 	PnlMat* simulated_path = pnl_mat_create(M+1, 1);
@@ -26,7 +23,7 @@ void validate_kanji(PnlRng* rng) {
 	//validate_delta_kanji(simulated_path, model, mc, rng);
 	//validate_mean_error_kanji(mc, model, rng, M, H, n_scenarios);
 	int n_freqs = 3;
-	const double *freqs_ptr = new double[n_freqs] {8,4,1};
+	const double *freqs_ptr = new double[n_freqs] {7,3,1};
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
 	histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
 	//pnl_mat_free(&simulated_path);

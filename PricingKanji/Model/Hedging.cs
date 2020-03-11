@@ -11,7 +11,8 @@ namespace PricingKanji.Model
 {
     class Hedging
     {
-        DateTime startdate;
+        private DateTime startdate ;
+        private DateTime maturity_date;
         int estimationWindow;
         int rebalancingFrequency;
         List<DataFeed> feeds;
@@ -24,6 +25,8 @@ namespace PricingKanji.Model
             this.rebalancingFrequency = freq;
             this.feeds = feeds;
             this.interest_rate = interest_rate;
+            startdate = new DateTime(2013, 03, 22);
+            maturity_date = new DateTime(2021, 03, 26);
         }
 
         public int Discretisation_number(double maturity, double last_t)
@@ -49,7 +52,7 @@ namespace PricingKanji.Model
             List<DataFeed> effective_feeds = new List<DataFeed>();
             foreach (DataFeed feed in feeds)
             {
-                if (feed.Date.CompareTo(new DateTime(2013, 03, 22)) >= 0)
+                if (feed.Date.CompareTo(startdate) >= 0)
                 {
                     effective_feeds.Add(feed);
                 }
@@ -62,7 +65,7 @@ namespace PricingKanji.Model
             List<DataFeed> previous_feeds = new List<DataFeed>();
             foreach (DataFeed feed in feeds)
             {
-                if (feed.Date.CompareTo(new DateTime(2013, 03, 22)) < 0)
+                if (feed.Date.CompareTo(startdate) < 0)
                 {
                     previous_feeds.Add(feed);
                 }
@@ -117,7 +120,6 @@ namespace PricingKanji.Model
                     correlation_vector[size * i + j] = correlationMatrix[i, j];
 
             var effective_feeds = KanjiFeeds(feeds);
-            DateTime maturity_date = new DateTime(2021, 03, 26);
             DateTime start_date = effective_feeds.First().Date;
             DateTime last_date = effective_feeds.Last().Date;
             double maturity = (maturity_date - start_date).TotalDays;
@@ -146,7 +148,7 @@ namespace PricingKanji.Model
 
                 if (counter == previous_feeds.Count)
                 {
-                    wc.getPriceDeltaPerft(50000, matu_in_years, t_in_years, past, nb_dates, volatilities, correlation_vector, interest_rate);
+                    wc.getPriceDeltaPerft(matu_in_years, t_in_years, past, nb_dates, volatilities, correlation_vector, interest_rate);
                     portfolio.UpdateComposition(wc.getDeltas(), market, prevMarket, wc.getPrice(), start_date);
                     HedgeOutput returnStruct = new HedgeOutput();
                     returnStruct.portfolioValue = portfolio.Value;
@@ -166,7 +168,7 @@ namespace PricingKanji.Model
                         for (int j = 0; j < size; j++)
                             correlation_vector[size * i + j] = correlationMatrix[i, j];
 
-                    wc.getPriceDeltaPerft(50000, matu_in_years, t_in_years, past, nb_dates, volatilities, correlation_vector, interest_rate);
+                    wc.getPriceDeltaPerft(matu_in_years, t_in_years, past, nb_dates, volatilities, correlation_vector, interest_rate);
                     portfolio.UpdateComposition(wc.getDeltas(), market,prevMarket, wc.getPrice(), start_date);
                     HedgeOutput returnStruct = new HedgeOutput();
                     returnStruct.portfolioValue = portfolio.Value;
@@ -176,7 +178,7 @@ namespace PricingKanji.Model
                 }
                 else
                 {
-                    wc.getPriceDeltaPerft(50000, matu_in_years, t_in_years, past, nb_dates, volatilities, correlation_vector, interest_rate);
+                    wc.getPriceDeltaPerft(matu_in_years, t_in_years, past, nb_dates, volatilities, correlation_vector, interest_rate);
                     HedgeOutput returnStruct = new HedgeOutput();
                     returnStruct.portfolioValue = portfolio.GetValue(market, prevMarket, startdate);
                     returnStruct.optionValue = wc.getPrice();
