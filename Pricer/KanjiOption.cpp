@@ -4,6 +4,11 @@
 
 #include "KanjiOption.hpp"
 #include <iostream>
+
+KanjiOption::~KanjiOption()
+{
+	pnl_vect_free(&initial_values);
+}
 double KanjiOption::payoff(const PnlMat *path) {
 
 	double payoff = 0;

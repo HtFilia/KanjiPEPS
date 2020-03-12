@@ -4,7 +4,7 @@
 #include "pnl/pnl_matrix.h"
 #include "pnl/pnl_mathtools.h"
 
-enum optionType { call, kanji };
+enum optionType { call, kanji, quanto};
 
 /// \brief Classe Option abstraite
 class Option
