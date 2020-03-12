@@ -40,3 +40,15 @@ double Quanto::delta(double t, double spot_S, double spot_Z, PnlVect* r, PnlVect
 	double d1 = (log(spot_S / strike_) + (r_eur + sigma_s * sigma_x * corr + 0.5 * sigma_s * sigma_s) * (T_ - t)) / (pnl_vect_get(sigmas, 0) * sqrt(T_ - t));
 	return spot_X * exp((-r_usd + r_eur + sigma_s * sigma_x * corr) * (T_ - t)) * 0.5 * (1 + pnl_sf_erf(d1 / sqrt(2)));
 }
+
+double Quanto::delta_zc(double t, double spot_S, double spot_Z, PnlVect* r, PnlVect* sigmas, double corr) {
+	double sigma_s = pnl_vect_get(sigmas, 0);
+	double sigma_x = pnl_vect_get(sigmas, 1);
+	double r_eur = pnl_vect_get(r, 0);
+	double r_usd = pnl_vect_get(r, 1);
+
+	double derivative_spot_X = exp(-r_usd * t);
+	double d1 = (log(spot_S / strike_) + (r_eur + sigma_s * sigma_x * corr + 0.5 * sigma_s * sigma_s) * (T_ - t)) / (pnl_vect_get(sigmas, 0) * sqrt(T_ - t));
+	double d2 = d1 - pnl_vect_get(sigmas, 0) * sqrt(T_ - t);
+	return -strike_ * exp(-r_usd * T_) * 0.5 * (1 + pnl_sf_erf(d2 / sqrt(2))) + spot_S * derivative_spot_X * exp((-r_usd + r_eur + sigma_s * sigma_x * corr) * (T_ - t)) * 0.5 * (1 + pnl_sf_erf(d1 / sqrt(2)));
+}

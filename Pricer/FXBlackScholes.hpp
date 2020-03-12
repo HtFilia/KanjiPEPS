@@ -1,7 +1,6 @@
 #pragma once
 #include "BlackScholesModel.hpp"
-class FXBlackScholes :
-	public BlackScholesModel
+class FXBlackScholes :public BlackScholesModel
 {
 public:            // vecteur des taux d'intérets (r_eur, r_usd, t_hkd)  
 	PnlVect* vect_r;

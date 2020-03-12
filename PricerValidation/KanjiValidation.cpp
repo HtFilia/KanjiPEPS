@@ -13,7 +13,7 @@ void validate_kanji(PnlRng* rng) {
 	PnlVect *weights = pnl_vect_create_from_scalar(size, 1.0 / 3.0);
 	BlackScholesModel* model = new BlackScholesModel(size, r, 0.2, sigma, spot, trend);
 	KanjiOption *kanji = new KanjiOption(T, n_time_steps, size);
-	int n_samples = 50000;
+	int n_samples = 5000;
 	double epsilon = 0.000001;
 	double gamma = -1.0 / 4.0;
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
@@ -26,7 +26,7 @@ void validate_kanji(PnlRng* rng) {
 	//validate_delta_kanji(simulated_path, model, mc, rng);
 	//validate_mean_error_kanji(mc, model, rng, M, H, n_scenarios);
 	int n_freqs = 3;
-	const double *freqs_ptr = new double[n_freqs] {360, 180, 90};
+	const double *freqs_ptr = new double[n_freqs] {1, 10, 30};
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
 	histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
 	//pnl_mat_free(&simulated_path);
@@ -153,4 +153,42 @@ void validate_mean_error_kanji(MonteCarlo* mc, BlackScholesModel* model, PnlRng 
 	pnl_vect_free(&portfolio_values);
 	pnl_vect_free(&portfolio_values);
 	pnl_mat_free(&simulated_path);
+}
+void validate_kanjiFX(PnlRng* rng) {
+	int n_time_steps = 16;
+	double T = 4;
+	int size = 5;
+	PnlVect* r = pnl_vect_create_from_scalar(3, 0.0001);
+	pnl_vect_set(r, 1, 0.0002);
+	pnl_vect_set(r, 2, 0.0003);
+	double rho = 0.2;
+	PnlVect* sigma = pnl_vect_create_from_scalar(size, 0.2);
+	pnl_vect_set(sigma, 1, 0.02);
+	pnl_vect_set(sigma, 3, 0.02);
+	PnlVect* spot = pnl_vect_create_from_scalar(size, 100);
+	pnl_vect_set(spot, 1, 0.89);
+	pnl_vect_set(spot, 3, 0.11);
+	PnlVect* trend = pnl_vect_create_from_scalar(size, 0.0002);
+	PnlMat* corr = pnl_mat_create_from_scalar(size, size, rho);
+	for (int diag = 0; diag < size; diag++)
+		pnl_mat_set(corr, diag, diag, 1);
+	FXBlackScholes* model = new FXBlackScholes(size, r, sigma, spot, trend, corr);
+	KanjiOption* kanji = new KanjiOption(T, n_time_steps, size, pnl_vect_get(r, 1), pnl_vect_get(r, 2));
+	int n_samples = 5000;
+	double epsilon = 0.000001;
+	double gamma = -1.0 / 4.0;
+	double epsilon_n = epsilon * pow(n_samples, -gamma);
+	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, n_samples, 0.0001);
+	int M = 1440; //4 ans * 360j
+	int H = M;
+	int n_scenarios = 1;
+	PnlMat* simulated_path = pnl_mat_create(M + 1, size);
+	//validate_price_kanji(simulated_path, model, mc, rng);
+	//validate_delta_kanji(simulated_path, model, mc, rng);
+	//validate_mean_error_kanji(mc, model, rng, M, H, n_scenarios);
+	int n_freqs = 3;
+	const double* freqs_ptr = new double[n_freqs] {8, 4, 1};
+	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
+	histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
+	//pnl_mat_free(&simulated_path);
 }

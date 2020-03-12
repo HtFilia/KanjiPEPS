@@ -27,6 +27,9 @@
     <ClCompile Include="ValidateHedging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="QuantoValidation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CallValidation.hpp">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ValidateHedging.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QuantoValidation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

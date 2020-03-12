@@ -52,6 +52,8 @@ public:
 	*/
 	double price(double t, double spot_S, double spot_Z, PnlVect* r, PnlVect* sigma, double corr);
 	double delta(double t, double spot_S, double spot_Z, PnlVect* r, PnlVect* sigma, double corr);
+	double delta_zc(double t, double spot_S, double spot_Z, PnlVect* r, PnlVect* sigmas, double corr);
+
 
 	double payoff(const PnlMat* path);
 };
