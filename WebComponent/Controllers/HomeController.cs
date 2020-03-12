@@ -6,12 +6,14 @@ using System.Web.Mvc;
 using Wrapper;
 using WebComponent.Models;
 using Newtonsoft.Json;
+using System.IO;
+using System.Globalization;
 
 namespace WebComponent.Controllers
 {
     public class HomeController : Controller
     {
-        
+      
         public ActionResult Index()
         {
             if (Request.HttpMethod == "GET")
@@ -20,15 +22,34 @@ namespace WebComponent.Controllers
                 wrapper.getPriceDeltaPerft(2, 0, new double[] { 100, 100, 100 }, 16, new double[] { 0.2, 0.2, 0.2 }, new double[] { 1, 0.1, 0.1, 0.1, 1, 0.1, 0.1, 0.1, 1}, 0.07);
                 ViewBag.Price = wrapper.getPrice();
 
-
-                double count = 1000, y = 100;
-                Random random = new Random();
-                List<DataPoint> dataPoints = new List<DataPoint>();
-
-                for (int i = 0; i < count; i++)
+                List<string> dates = new List<string>();
+                List<string> cours = new List<string>();
+                using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\HangSeng.csv"))
                 {
-                    y += random.Next(-10, 11);
-                    dataPoints.Add(new DataPoint(i, y));
+                    
+                    int titres = 0;
+                    while (!reader.EndOfStream)
+                    {
+                        var line = reader.ReadLine();
+
+                        if (titres > 0)
+                        {
+                            
+                            var values = line.Split(',');
+                            dates.Add(values[0]);
+                            cours.Add(values[4]);
+                        }
+                        titres++;
+                        
+                    }
+                }
+
+                List<DataPoint> dataPoints = new List<DataPoint>();
+                NumberFormatInfo provider = new NumberFormatInfo();
+                provider.NumberGroupSeparator = ".";
+                for (int i = 0; i < dates.Count; i++)
+                {
+                    dataPoints.Add(new DataPoint(i, Convert.ToDouble(cours[i], provider)));
                 }
 
                 ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
@@ -46,7 +67,7 @@ namespace WebComponent.Controllers
                 wrapper.getPriceCallEuro(Maturity, InitialPrice, Strike, Volatility, RiskFreeRate);
                 ViewBag.Price = wrapper.getPrice();
             }
-            return View();
+            return View("Index");
         } 
 
        
