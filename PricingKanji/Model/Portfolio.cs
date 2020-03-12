@@ -36,7 +36,7 @@ namespace PricingKanji.Model
             }
             else
             {
-                Value = GetValue(market, prevMarket, startdate);
+                Value = GetValue(market, prevMarket);
             }
             // updates the deltas of the stocks.
             Dictionary<string, double> newComposition = new Dictionary<string, double>();
@@ -50,7 +50,7 @@ namespace PricingKanji.Model
             composition = newComposition;
         }
 
-        public double GetValue(DataFeed market, DataFeed prevMarket, DateTime startdate)
+        public double GetValue(DataFeed market, DataFeed prevMarket)
         {
                 double stockvalue = 0;
                 foreach (string stock in composition.Keys)

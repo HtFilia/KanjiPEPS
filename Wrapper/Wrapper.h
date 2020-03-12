@@ -20,6 +20,8 @@ namespace Wrapper {
 		void getPriceCallEuro(double T, double S0, double K, double sigma, double r);
 		void getPriceCallMC(double T, double S0, double K, double sigma, double r);
 		void getPriceDeltaPerf(double T, array<double, 1> ^spots, array<double, 1> ^sigmas, double correlation, double r);
+		void getDeltaPerft(double T, double t, array<double, 1>^ path, double nb_dates, array<double, 1>^ sigmas, array<double, 1>^ correlation, double r);
+		void getPricePerft(double T, double t, array<double, 1>^ path, double nb_dates, array<double, 1>^ sigmas, array<double, 1>^ correlation, double r);
 		void getPriceDeltaPerft(double T, double t, array<double, 1> ^path, double nb_dates, array<double, 1> ^sigmas, array<double, 1> ^correlation, double r);
 		void SimulMarket(double t, double maturity, int nbHedging_dates, array<double, 1> ^spots, array<double, 1> ^trends, array<double, 1> ^sigmas, array<double, 1> ^correlation, double r);
 		double getPrice() { return price; };

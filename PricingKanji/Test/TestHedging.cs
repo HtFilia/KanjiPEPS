@@ -19,8 +19,9 @@ namespace PricingKanji
             List<DataFeed> data = reader.ReadData();
             int freq = 1;
             int estimation_window = 80;
-            double r = 0.01;
-            Hedging hedging = new Hedging(estimation_window, freq, data, r);
+            Market market = new Market();
+            market.feeds = data;
+            Hedging hedging = new Hedging(estimation_window, freq, market);
             Dictionary<DateTime, HedgeOutput> output = hedging.HedgeKandji();
 
             foreach (DateTime date in output.Keys)
@@ -38,7 +39,7 @@ namespace PricingKanji
                 newLine = string.Format("{0};{1};{2};{3}", date.ToString("d"), output[date].optionValue.ToString().Replace(",","."), output[date].portfolioValue.ToString().Replace(",", "."), error.ToString().Replace(",", "."));
                 csv.AppendLine(newLine);
             }
-            File.WriteAllText(@"C:\Users\anas\source\repos\PEPS\hedging-res.csv", csv.ToString());
+            File.WriteAllText(@"C:\Users\anas\source\repos\PEPS\hedging-res1.csv", csv.ToString());
 
         }
 
