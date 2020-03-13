@@ -16,19 +16,22 @@
                         <div class="col-8">
                             <ul class="nav nav-pills justify-content-end">
                                 <!-- TODO: Data update -->
-                                <li class="nav-item mr-2 mr-md-0">
+                                <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#kanji-price" data-update="@ViewBag.HangSeng"
+                                    data-prefix="$" data-suffix="k">
                                     <a class="nav-link py-2 px-3 active show" href="#" data-toggle="tab">
-                                        <span class="d-none d-md-block">Quotidien</span>
+                                        <span class="d-none d-md-block">HangSeng</span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link py-2 px-3" href="#" data-toggle="tab">
-                                        <span class="d-none d-md-block">Hebdomadaire</span>
+                                <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#kanji-price" data-update="@ViewBag.Stoxx50"
+                                    data-prefix="$" data-suffix="k">
+                                    <a class="nav-link py-2 px-3 active show" href="#" data-toggle="tab">
+                                        <span class="d-none d-md-block">Stoxx50</span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link py-2 px-3" href="#" data-toggle="tab">
-                                        <span class="d-none d-md-block">Mensuel</span>
+                                <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#kanji-price" data-update="@ViewBag.SP500"
+                                    data-prefix="$" data-suffix="k">
+                                    <a class="nav-link py-2 px-3 active show" href="#" data-toggle="tab">
+                                        <span class="d-none d-md-block">S&P500</span>
                                     </a>
                                 </li>
                             </ul>
@@ -42,26 +45,10 @@
                                 <div class=""></div>
                             </div>
                             <div class="chartjs-size-monitor-shrink">
-                                <script>
-                                window.onload = function () {
-
-                                var chart = new CanvasJS.Chart("chartContainer", {
-
-
-	                                data: [{
-		                                type: "line",
-		                                dataPoints: @Html.Raw(ViewBag.DataPoints)
-	                                }]
-                                });
-
-                                chart.render();
-                                }
-                                </script>
-                                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-                                <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+                                <div class=""></div>
                             </div>
                         </div>
-
+                        <canvas id="kanji-price" class="chart-canvas chartjs-render-monitor" style="display: block; width: 630px; height: 350px;" width="630" height="350"></canvas>
                     </div>
                 </div>
             </div>

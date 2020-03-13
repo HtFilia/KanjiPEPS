@@ -15,38 +15,101 @@ namespace WebComponent.Controllers
         // GET: Underlying
         public ActionResult Index()
         {
-            List<string> dates = new List<string>();
-            List<string> cours = new List<string>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Stoxx50.csv"))
+            ViewBag.HangSeng = HangSeng();
+            ViewBag.Stoxx50 = Stoxx50();
+            ViewBag.SP500 = SP500();
+
+            return View();
+        }
+
+
+        private string HangSeng()
+        {
+
+            string json = "{\"data\":{\"datasets\":[{\"data\":[";
+
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\HangSeng.csv"))
             {
 
-                int titres = 0;
+                int compteur = 0;
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
 
-                    if (titres > 0)
+                    if (compteur > 0)
                     {
 
                         var values = line.Split(',');
-                        dates.Add(values[0]);
-                        cours.Add(values[4]);
+                        if (compteur == 1)
+                            json = json + values[1];
+                        else
+                            json = json + ", " + values[1];
                     }
-                    titres++;
+                    compteur++;
 
                 }
+                json = json + "]}]}}";
             }
-
-            List<DataPoint> dataPoints = new List<DataPoint>();
-            NumberFormatInfo provider = new NumberFormatInfo();
-            provider.NumberGroupSeparator = ".";
-            for (int i = 0; i < dates.Count; i++)
-            {
-                dataPoints.Add(new DataPoint(i, Convert.ToDouble(cours[i], provider)));
-            }
-
-            ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
-            return View();
+            return json;
         }
+
+        private string Stoxx50()
+        {
+            string json = "{\"data\":{\"datasets\":[{\"data\":[";
+
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Stoxx50.csv"))
+            {
+
+                int compteur = 0;
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+
+                    if (compteur > 0)
+                    {
+
+                        var values = line.Split(',');
+                        if (compteur == 1)
+                            json = json + values[1];
+                        else
+                            json = json + ", " + values[1];
+                    }
+                    compteur++;
+
+                }
+                json = json + "]}]}}";
+            }
+            return json;
+        }
+
+        private string SP500()
+        {
+            string json = "{\"data\":{\"datasets\":[{\"data\":[";
+
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\S&P500.csv"))
+            {
+
+                int compteur = 0;
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+
+                    if (compteur > 0)
+                    {
+
+                        var values = line.Split(',');
+                        if (compteur == 1)
+                            json = json + values[1];
+                        else
+                            json = json + ", " + values[1];
+                    }
+                    compteur++;
+
+                }
+                json = json + "]}]}}";
+            }
+            return json;
+        }
+
     }
 }

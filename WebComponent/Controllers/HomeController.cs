@@ -13,45 +13,21 @@ namespace WebComponent.Controllers
 {
     public class HomeController : Controller
     {
-      
+
+       
+
         public ActionResult Index()
         {
+            ViewBag.KanjiQuot = KanjiQuot();
+            ViewBag.KanjiMens = KanjiMens();
+            ViewBag.KanjiHebdo = KanjiHebdo();
 
-            List<string> dates = new List<string>();
-            List<string> cours = new List<string>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\HangSeng.csv"))
-            {
-
-                int titres = 0;
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-
-                    if (titres > 0)
-                    {
-
-                        var values = line.Split(',');
-                        dates.Add(values[0]);
-                        cours.Add(values[4]);
-                    }
-                    titres++;
-
-                }
-            }
-
-            List<DataPoint> dataPoints = new List<DataPoint>();
-            NumberFormatInfo provider = new NumberFormatInfo();
-            provider.NumberGroupSeparator = ".";
-            for (int i = 0; i < dates.Count; i++)
-            {
-                dataPoints.Add(new DataPoint(i, Convert.ToDouble(cours[i], provider)));
-            }
-
-            ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
 
 
             if (Request.HttpMethod == "GET")
             {
+               
+
                 WrapperClass wrapper = new WrapperClass();
                 wrapper.getPriceDeltaPerft(2, 0, new double[] { 100, 100, 100 }, 16, new double[] { 0.2, 0.2, 0.2 }, new double[] { 1, 0.1, 0.1, 0.1, 1, 0.1, 0.1, 0.1, 1}, 0.07);
                 ViewBag.Price = wrapper.getPrice();
@@ -72,8 +48,78 @@ namespace WebComponent.Controllers
                 ViewBag.Price = wrapper.getPrice();
             }
             return View();
-        } 
+        }
 
-       
+        // On test avec le cours Stoxx50 pour le moment, à changer dès qu'on a le csv des prix !!!!!!!!!!!!
+
+        private string KanjiQuot()
+        {
+            List<double> values = new List<double> { 0.92, 1.72, 1.89, 0.52, 1, 0.89, 1.92, 0.72, 0.89 };
+
+            string json = "{\"data\":{\"datasets\":[{\"data\":[";
+
+            for (int i = 0; i < values.Count; i++) {
+                if (i == 0)
+                    json = json +  values[i];
+                else
+                    json = json + ", " + values[i];
+            }
+ 
+                
+            json = json + "]}]}}";
+            
+            return json;
+        }
+
+        private string KanjiMens()
+        {
+
+            List<double> values = new List<double> { 0.92, 1.72, 1.89, 0.52, 1, 0.89, 1.92, 0.72, 0.89 };
+
+            string json = "{\"data\":{\"datasets\":[{\"data\":[";
+
+            for (int i = 0; i < values.Count; i++)
+            {
+                if (i % 30 == 0)
+                {
+                    if (i == 0)
+                        json = json + values[i];
+                    else
+                        json = json + ", " + values[i];
+                }
+            }
+
+
+            json = json + "]}]}}";
+
+            return json;
+        }
+
+        private string KanjiHebdo()
+        {
+
+            List<double> values = new List<double> { 0.92, 1.72, 1.89, 0.52, 1, 0.89, 1.92, 0.72, 0.89, 0.92, 1.72, 1.89, 0.52, 1, 0.89, 1.92, 0.72, 0.89, 0.92, 1.72, 1.89, 0.52, 1, 0.89, 1.92, 0.72, 0.89, 0.92, 1.72, 1.89, 0.52, 1, 0.89, 1.92, 0.72, 0.89, 0.92, 1.72, 1.89, 0.52, 1, 0.89, 1.92, 0.72, 0.89 };
+
+            string json = "{\"data\":{\"datasets\":[{\"data\":[";
+
+            for (int i = 0; i < values.Count; i++)
+            {
+                if (i % 7 == 0)
+                {
+                    if (i == 0)
+                        json = json + values[i];
+                    else
+                        json = json + ", " + values[i];
+                }
+            }
+
+
+            json = json + "]}]}}";
+
+            return json;
+        }
+
+
+
     }
 }
