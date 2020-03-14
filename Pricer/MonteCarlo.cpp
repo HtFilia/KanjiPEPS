@@ -92,10 +92,18 @@ void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic
 	PnlVect *differences = pnl_vect_create_from_scalar(opt_->size_, 0);
 	for (int m = 0; m < nbSamples_; ++m) {
 		mod_->asset(path, t, opt_->T_, opt_->nbTimeSteps_, rng_, past); //simule le reste du path a partir de past
+		//pnl_mat_print(path);
 		for (int d = 0; d < opt_->size_; ++d) {
 			mod_->shiftAsset(shifted_pathp, path, d, h, t, timestep); //on shift le path sur la d eme composante
+			//std::cout << std::endl;
+			//pnl_mat_print(shifted_pathp);
 			mod_->shiftAsset(shifted_pathm, path, d, -h, t, timestep);
-			difference = opt_->payoff(shifted_pathp) - opt_->payoff(shifted_pathm);//difference des payoffs des deux paths shiftes
+			//std::cout << std::endl;
+			//pnl_mat_print(shifted_pathm);
+			//std::cout << opt_->payoff(shifted_pathp) << std::endl;
+			//std::cout << opt_->payoff(shifted_pathm) << std::endl;
+			difference = opt_->payoff(shifted_pathp) - opt_->payoff(shifted_pathm);//difference des payoffs des deux paths shiftés
+			//std::cout << difference << std::endl;
 			pnl_vect_set(delta, d, difference + pnl_vect_get(delta, d));
 			pnl_vect_set(differences, d, difference + pnl_vect_get(differences, d));
 			pnl_vect_set(squared_differences, d, pnl_pow_i(difference, 2) + pnl_vect_get(squared_differences, d));
@@ -104,7 +112,11 @@ void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic
 	pnl_vect_mult_scalar(delta, (pnl_expm1(-mod_->r_ *(opt_->T_ - t)) + 1) / (2 * nbSamples_*h));
 	PnlVect *spot_t = pnl_vect_create(opt_->size_);
 	pnl_mat_get_row(spot_t, past, past->m - 1);
+	//pnl_vect_print(delta);
+	std::cout << std::endl;
+	//pnl_vect_print(spot_t);
 	pnl_vect_div_vect_term(delta, spot_t);
+
 
 	pnl_vect_mult_vect_term(differences, differences);
 	pnl_vect_div_scalar(differences, nbSamples_);

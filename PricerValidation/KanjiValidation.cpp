@@ -23,12 +23,12 @@ void validate_kanji(PnlRng* rng) {
 	int n_scenarios = 50;
 	PnlMat* simulated_path = pnl_mat_create(M+1, 1);
 	//validate_price_kanji(simulated_path, model, mc, rng);
-	//validate_delta_kanji(simulated_path, model, mc, rng);
+	validate_delta_kanji(simulated_path, model, mc, rng);
 	//validate_mean_error_kanji(mc, model, rng, M, H, n_scenarios);
-	int n_freqs = 3;
-	const double *freqs_ptr = new double[n_freqs] {1, 10, 30};
+	int n_freqs = 1;
+	const double *freqs_ptr = new double[n_freqs] {180};
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
-	histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
+	//histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
 	//pnl_mat_free(&simulated_path);
 }
 
@@ -54,7 +54,13 @@ void histogram_errors_kanji(MonteCarlo* mc, BlackScholesModel* model, PnlRng* rn
 		myfile.open(filename);
 		for (int i = 0; i < scenarios; i++) {
 			model->simul_market(simulated_path, T, M, rng);
+			//pnl_mat_print(simulated_path);
 			hedge.PnLfreq(simulated_path, n_time_steps + 1, freq, portfolio_values, option_values, error); // amine
+			PnlMat* comp = pnl_mat_create(simulated_path->m + 1, 2);
+			pnl_mat_set_col(comp, portfolio_values, 0 );
+			pnl_mat_set_col(comp, option_values,  1);
+			pnl_mat_print(comp);
+
 			std::cout << error << std::endl;
 			myfile << error << ";" << std::endl;
 		}
@@ -69,21 +75,29 @@ void histogram_errors_kanji(MonteCarlo* mc, BlackScholesModel* model, PnlRng* rn
 
 void validate_price_kanji(PnlMat* simulated_path, BlackScholesModel* model, MonteCarlo* mc, PnlRng *rng) {
 	std::ofstream myfile;
-	myfile.open("../Validation/price_kanji.txt");
+	myfile.open("../Validation/price_kanji_fx.txt");
 	KanjiOption* kanji = (KanjiOption*)mc->opt_;
 	PnlMat* past = pnl_mat_create(1, 1);
 	int n_time_steps = kanji->nbTimeSteps_;
 	double T = kanji->T_;
 	int M = simulated_path->m - 1;
 	model->simul_market(simulated_path, T, M, rng);
+	//pnl_mat_print(simulated_path);
+
 	double prix_mc = 0, ic = 0, t = 0, error = 0;
 	for (double i = 0.0; i <= double(M); i++)
 	{
 		t = T * i / (double)M;
 		model->getPast(past, simulated_path, t, n_time_steps, T);
+		//pnl_mat_print(past);
 		mc->price(past, t, prix_mc, ic);
 
+		std::cout << "prix en t = " << t << " Monte-Carlo : " << prix_mc << "\n";
 		myfile << "prix en t = " << t << " Monte-Carlo : " << prix_mc << "\n";
+
+		prix_mc = 0;
+		ic = 0;
+
 	}
 	myfile.close();
 	pnl_mat_free(&simulated_path);
@@ -93,13 +107,14 @@ void validate_price_kanji(PnlMat* simulated_path, BlackScholesModel* model, Mont
 
 void validate_delta_kanji(PnlMat* simulated_path, BlackScholesModel* model, MonteCarlo* mc, PnlRng *rng) {
 	std::ofstream myfile;
-	myfile.open("../Validation/delta_kanji.txt");
+	myfile.open("../Validation/delta_kanji_fx.txt");
 	KanjiOption* kanji = (KanjiOption*)mc->opt_;
 	int size = kanji->size_;
 	int n_time_steps = kanji->nbTimeSteps_;
 	double T = kanji->T_;
 	int M = simulated_path->m - 1;
 	model->simul_market(simulated_path, T, M, rng);
+	//pnl_mat_print(simulated_path);
 	double prix_mc = 0, t = 0, error = 0;
 	PnlMat* past = pnl_mat_create(1, 1);
 	PnlVect* delta = pnl_vect_create(size), *ic = pnl_vect_create(size);
@@ -107,13 +122,22 @@ void validate_delta_kanji(PnlMat* simulated_path, BlackScholesModel* model, Mont
 	{
 		t = T * i / (double)M;
 		model->getPast(past, simulated_path, t, n_time_steps, T);
+		//pnl_mat_print(past);
 		mc->delta(past, t, delta, ic);
+		std::cout << "delta en t = " << t << " Monte-Carlo : ";
+
 		myfile << "delta en t = " << t << " Monte-Carlo : ";
 		for (int i = 0; i < size; i++)
 		{
 			myfile << pnl_vect_get(delta, i) << " ";
+			std::cout << pnl_vect_get(delta, i) << " ";
+
 		}
 		myfile << std::endl;
+		std::cout << std::endl;
+
+		pnl_vect_set_all(delta, 0.0);
+		pnl_vect_set_all(ic, 0.0);
 	}
 	myfile.close();
 	pnl_vect_free(&delta);
@@ -165,10 +189,10 @@ void validate_kanjiFX(PnlRng* rng) {
 	PnlVect* sigma = pnl_vect_create_from_scalar(size, 0.2);
 	pnl_vect_set(sigma, 1, 0.02);
 	pnl_vect_set(sigma, 3, 0.02);
-	PnlVect* spot = pnl_vect_create_from_scalar(size, 100);
+	PnlVect* spot = pnl_vect_create_from_scalar(size, 1000);
 	pnl_vect_set(spot, 1, 0.89);
 	pnl_vect_set(spot, 3, 0.11);
-	PnlVect* trend = pnl_vect_create_from_scalar(size, 0.0002);
+	PnlVect* trend = pnl_vect_create_from_scalar(size, 0.0001);
 	PnlMat* corr = pnl_mat_create_from_scalar(size, size, rho);
 	for (int diag = 0; diag < size; diag++)
 		pnl_mat_set(corr, diag, diag, 1);
@@ -184,11 +208,11 @@ void validate_kanjiFX(PnlRng* rng) {
 	int n_scenarios = 1;
 	PnlMat* simulated_path = pnl_mat_create(M + 1, size);
 	//validate_price_kanji(simulated_path, model, mc, rng);
-	//validate_delta_kanji(simulated_path, model, mc, rng);
+	validate_delta_kanji(simulated_path, model, mc, rng);
 	//validate_mean_error_kanji(mc, model, rng, M, H, n_scenarios);
-	int n_freqs = 3;
-	const double* freqs_ptr = new double[n_freqs] {8, 4, 1};
+	int n_freqs = 1;
+	const double* freqs_ptr = new double[n_freqs] {1};
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
-	histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
+	//histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
 	//pnl_mat_free(&simulated_path);
 }

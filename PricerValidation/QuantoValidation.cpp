@@ -34,9 +34,9 @@ void validate_quanto(PnlRng* rng) {
 	int n_freqs = 4;
 	const double* freqs_ptr = new double[n_freqs] {1, 5, 10, 30};
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
-	histogram_erorrs_quanto(mc, model, rng, M, freqs, n_scenarios);
+	//histogram_erorrs_quanto(mc, model, rng, M, freqs, n_scenarios);
 	//validate_price_quanto(simulated_path, model, mc, n_scenarios, rho);
-	//validate_delta_quanto(simulated_path, model, mc, n_scenarios, rho);
+	validate_delta_quanto(simulated_path, model, mc, n_scenarios, rho);
 
 }
 
@@ -98,14 +98,14 @@ void validate_delta_quanto(PnlMat* simulated_path, FXBlackScholes* model, MonteC
 		S_t = MGET(simulated_path, int(i), 0);
 		Z_eur_t = MGET(simulated_path, int(i), 1);
 		closed_delta = quanto->delta(t, S_t, Z_eur_t, model->vect_r, model->sigma_, rho);
-		std::cout << "delta closed is: " << closed_delta << std::endl;
+		//std::cout << "delta closed is: " << closed_delta << std::endl;
 		closed_delta_zc = quanto->delta_zc(t, S_t, Z_eur_t, model->vect_r, model->sigma_, rho);
-		std::cout << "delta zc closed is: " << closed_delta_zc << std::endl;
+		//std::cout << "delta zc closed is: " << closed_delta_zc << std::endl;
 
 		for (int k = 0; k < n_scenarios; k++) {
 			mc->delta(past, t, mc_deltas, ic);
-			std::cout << "delta mc is: " << pnl_vect_get(mc_deltas, 0) << std::endl;
-			std::cout << "delta mc zc is " << pnl_vect_get(mc_deltas, 1) << std::endl;
+			//std::cout << "delta mc is: " << pnl_vect_get(mc_deltas, 0) << std::endl;
+			//std::cout << "delta mc zc is " << pnl_vect_get(mc_deltas, 1) << std::endl;
 			if (pnl_vect_get(mc_deltas, 0) - pnl_vect_get(ic, 0) / 2 <= closed_delta && closed_delta <= pnl_vect_get(mc_deltas, 0) + pnl_vect_get(ic, 0) / 2)
 			{
 				//myfile << " in ";
@@ -122,12 +122,16 @@ void validate_delta_quanto(PnlMat* simulated_path, FXBlackScholes* model, MonteC
 				//myfile << " not in ";
 			}
 			//myfile << "   [" << prix_mc - ic / 2 << ", " << prix_mc + ic / 2 << "] " << " ic = " << ic << std::endl;
+			pnl_vect_set_all(mc_deltas, 0.0);
+			pnl_vect_set_all(ic, 0);
 		}
 		myfile << std::endl << count << " / " << n_scenarios << "sont dans l'intervalle de confiance" << std::endl;
 		myfile << std::endl << count_zc << " / " << n_scenarios << "sont dans l'intervalle de confiance Zéro Coupon" << std::endl;
 
 		count = 0;
 		count_zc = 0;
+		pnl_vect_set_all(mc_deltas, 0.0);
+		pnl_vect_set_all(ic, 0);
 	}
 	pnl_mat_free(&past);
 	pnl_vect_free(&mc_deltas);
