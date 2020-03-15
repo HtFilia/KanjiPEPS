@@ -20,7 +20,7 @@ void validate_quanto(PnlRng* rng) {
 	PnlVect* trends = pnl_vect_create_from_ptr(size, list_trends);
 	Quanto* quanto = new Quanto(T, n_time_steps, size, 90, r);
 	FXBlackScholes* model = new FXBlackScholes(size, r, sigmas, spots, trends, corr);
-	int n_samples = 50000;
+	int n_samples = 1000;
 	double epsilon = 0.000001;
 	double gamma = -1.0 / 4.0;
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
@@ -34,9 +34,9 @@ void validate_quanto(PnlRng* rng) {
 	int n_freqs = 4;
 	const double* freqs_ptr = new double[n_freqs] {1, 5, 10, 30};
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
-	//histogram_erorrs_quanto(mc, model, rng, M, freqs, n_scenarios);
+	histogram_erorrs_quanto(mc, model, rng, M, freqs, n_scenarios);
 	//validate_price_quanto(simulated_path, model, mc, n_scenarios, rho);
-	validate_delta_quanto(simulated_path, model, mc, n_scenarios, rho);
+	//validate_delta_quanto(simulated_path, model, mc, n_scenarios, rho);
 
 }
 
@@ -83,7 +83,7 @@ void validate_delta_quanto(PnlMat* simulated_path, FXBlackScholes* model, MonteC
 	std::ofstream myfile;
 	Quanto* quanto = (Quanto*)mc->opt_;
 	double T = quanto->T_;
-	myfile.open("../Validation/delta_quanto.txt");
+	myfile.open("../Validation/delta_quanto_test.txt");
 	int count = 0, count_zc = 0;
 	double t = 0, S_t = 0, Z_eur_t = 0, closed_delta = 0, closed_delta_zc = 0;
 	PnlVect* mc_deltas = pnl_vect_create(2);
@@ -98,14 +98,14 @@ void validate_delta_quanto(PnlMat* simulated_path, FXBlackScholes* model, MonteC
 		S_t = MGET(simulated_path, int(i), 0);
 		Z_eur_t = MGET(simulated_path, int(i), 1);
 		closed_delta = quanto->delta(t, S_t, Z_eur_t, model->vect_r, model->sigma_, rho);
-		//std::cout << "delta closed is: " << closed_delta << std::endl;
+		std::cout << "delta closed is: " << closed_delta << std::endl;
 		closed_delta_zc = quanto->delta_zc(t, S_t, Z_eur_t, model->vect_r, model->sigma_, rho);
-		//std::cout << "delta zc closed is: " << closed_delta_zc << std::endl;
+		std::cout << "delta zc closed is: " << closed_delta_zc << std::endl;
 
 		for (int k = 0; k < n_scenarios; k++) {
 			mc->delta(past, t, mc_deltas, ic);
-			//std::cout << "delta mc is: " << pnl_vect_get(mc_deltas, 0) << std::endl;
-			//std::cout << "delta mc zc is " << pnl_vect_get(mc_deltas, 1) << std::endl;
+			std::cout << "delta mc is: " << pnl_vect_get(mc_deltas, 0) << std::endl;
+			std::cout << "delta mc zc is " << pnl_vect_get(mc_deltas, 1) << std::endl;
 			if (pnl_vect_get(mc_deltas, 0) - pnl_vect_get(ic, 0) / 2 <= closed_delta && closed_delta <= pnl_vect_get(mc_deltas, 0) + pnl_vect_get(ic, 0) / 2)
 			{
 				//myfile << " in ";
@@ -156,7 +156,7 @@ void histogram_erorrs_quanto(MonteCarlo* mc, FXBlackScholes* model, PnlRng* rng,
 
 	for (int k = 0; k < freqs->size; k++) {
 		freq = GET(freqs, k);
-		filename = "../Validation/quanto_histogram_errors_M" + std::to_string(M) + "_freq_" + std::to_string((int)freq) + ".csv";
+		filename = "../Validation/quantoo_histogram_errors_M" + std::to_string(M) + "_freq_" + std::to_string((int)freq) + ".csv";
 		myfile.open(filename);
 		for (int i = 0; i < scenarios; i++) {
 			model->simul_market(simulated_path, T, M, rng);

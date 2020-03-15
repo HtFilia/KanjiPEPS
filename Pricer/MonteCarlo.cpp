@@ -11,7 +11,7 @@ MonteCarlo::~MonteCarlo() {
 	pnl_rng_free(&rng_);
 }
 
-void MonteCarlo::price(double &prix, double &ic) {
+void MonteCarlo::price(double& prix, double& ic) {
 	if (opt_->type_ == call) {
 		VanillaCall* call = dynamic_cast<VanillaCall*> (opt_);
 		if (!call->mc_pricing) {
@@ -35,23 +35,23 @@ void MonteCarlo::price(double &prix, double &ic) {
 	}
 	payoffs = payoffs / nbSamples_;
 	payoffs_squared = payoffs_squared / nbSamples_;
-	double  var = (pnl_expm1(-2 * mod_->r_*opt_->T_) + 1)*(payoffs_squared - pnl_pow_i(payoffs, 2));
+	double  var = (pnl_expm1(-2 * mod_->r_ * opt_->T_) + 1) * (payoffs_squared - pnl_pow_i(payoffs, 2));
 	prix = ((expm1(-mod_->r_ * opt_->T_) + 1)) * payoffs;
-	ic = 2 * 1.96*sqrt(var) / sqrt(nbSamples_);
+	ic = 2 * 1.96 * sqrt(var) / sqrt(nbSamples_);
 	pnl_mat_free(&path);
 
 }
 
-void MonteCarlo::price(const PnlMat *past, double t, double &prix, double &ic) {
+void MonteCarlo::price(const PnlMat* past, double t, double& prix, double& ic) {
 	if (opt_->type_ == call) {
-	VanillaCall* call = dynamic_cast<VanillaCall*> (opt_);
-	if (!call->mc_pricing)
-	{
-		double spot = MGET(past, past->m - 1, 0);
-		prix = call->price(t, spot, mod_->r_, GET(mod_->sigma_, 0), opt_->T_, call->strike_);
-		return;
+		VanillaCall* call = dynamic_cast<VanillaCall*> (opt_);
+		if (!call->mc_pricing)
+		{
+			double spot = MGET(past, past->m - 1, 0);
+			prix = call->price(t, spot, mod_->r_, GET(mod_->sigma_, 0), opt_->T_, call->strike_);
+			return;
+		}
 	}
-}
 
 	PnlMat* path = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
 	double payoffs_squared = 0;
@@ -65,58 +65,48 @@ void MonteCarlo::price(const PnlMat *past, double t, double &prix, double &ic) {
 	}
 	payoffs = payoffs / nbSamples_;
 	payoffs_squared = payoffs_squared / nbSamples_;
-	double  var = (pnl_expm1(-2 * mod_->r_*opt_->T_) + 1)*(payoffs_squared - pnl_pow_i(payoffs, 2));
+	double  var = (pnl_expm1(-2 * mod_->r_ * opt_->T_) + 1) * (payoffs_squared - pnl_pow_i(payoffs, 2));
 	prix = ((expm1(-mod_->r_ * (opt_->T_ - t)) + 1)) * payoffs;
-	ic = 2 * 1.96*sqrt(var) / sqrt(nbSamples_);
+	ic = 2 * 1.96 * sqrt(var) / sqrt(nbSamples_);
 	pnl_mat_free(&path);
 }
 
 
-void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic) {
+void MonteCarlo::delta(const PnlMat* past, double t, PnlVect* delta, PnlVect* ic) {
+	pnl_vect_set_all(delta, 0.0);
+	pnl_vect_set_all(ic, 0.0);
 	if (opt_->type_ == call) {
-	VanillaCall* call = dynamic_cast<VanillaCall*> (opt_);
-	if (!call->mc_pricing) {
-		double spot = MGET(past, past->m - 1, 0);
-		double delta_ = call->delta(t, spot, mod_->r_, GET(mod_->sigma_, 0), opt_->T_, call->strike_);
-		pnl_vect_set(delta, 0, delta_);
-		return;
+		VanillaCall* call = dynamic_cast<VanillaCall*> (opt_);
+		if (!call->mc_pricing) {
+			double spot = MGET(past, past->m - 1, 0);
+			double delta_ = call->delta(t, spot, mod_->r_, GET(mod_->sigma_, 0), opt_->T_, call->strike_);
+			pnl_vect_set(delta, 0, delta_);
+			return;
+		}
 	}
-}
 
 	PnlMat* path = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_); //creation path, matrice ou on simule
 	double timestep = opt_->T_ / opt_->nbTimeSteps_; //pas de discretisation
 	PnlMat* shifted_pathp = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
 	PnlMat* shifted_pathm = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_); //creation de deux paths deviés
 	double difference;
-	PnlVect *squared_differences = pnl_vect_create_from_scalar(opt_->size_, 0);
-	PnlVect *differences = pnl_vect_create_from_scalar(opt_->size_, 0);
+	PnlVect* squared_differences = pnl_vect_create_from_scalar(opt_->size_, 0);
+	PnlVect* differences = pnl_vect_create_from_scalar(opt_->size_, 0);
 	for (int m = 0; m < nbSamples_; ++m) {
 		mod_->asset(path, t, opt_->T_, opt_->nbTimeSteps_, rng_, past); //simule le reste du path a partir de past
-		//pnl_mat_print(path);
 		for (int d = 0; d < opt_->size_; ++d) {
 			mod_->shiftAsset(shifted_pathp, path, d, h, t, timestep); //on shift le path sur la d eme composante
-			//std::cout << std::endl;
-			//pnl_mat_print(shifted_pathp);
 			mod_->shiftAsset(shifted_pathm, path, d, -h, t, timestep);
-			//std::cout << std::endl;
-			//pnl_mat_print(shifted_pathm);
-			//std::cout << opt_->payoff(shifted_pathp) << std::endl;
-			//std::cout << opt_->payoff(shifted_pathm) << std::endl;
-			difference = opt_->payoff(shifted_pathp) - opt_->payoff(shifted_pathm);//difference des payoffs des deux paths shiftés
-			//std::cout << difference << std::endl;
+			difference = opt_->payoff(shifted_pathp) - opt_->payoff(shifted_pathm);//difference des payoffs des deux paths shiftes
 			pnl_vect_set(delta, d, difference + pnl_vect_get(delta, d));
 			pnl_vect_set(differences, d, difference + pnl_vect_get(differences, d));
 			pnl_vect_set(squared_differences, d, pnl_pow_i(difference, 2) + pnl_vect_get(squared_differences, d));
 		}
 	}
-	pnl_vect_mult_scalar(delta, (pnl_expm1(-mod_->r_ *(opt_->T_ - t)) + 1) / (2 * nbSamples_*h));
-	PnlVect *spot_t = pnl_vect_create(opt_->size_);
+	pnl_vect_mult_scalar(delta, (pnl_expm1(-mod_->r_ * (opt_->T_ - t)) + 1) / (2 * nbSamples_ * h));
+	PnlVect* spot_t = pnl_vect_create(opt_->size_);
 	pnl_mat_get_row(spot_t, past, past->m - 1);
-	//pnl_vect_print(delta);
-	std::cout << std::endl;
-	//pnl_vect_print(spot_t);
 	pnl_vect_div_vect_term(delta, spot_t);
-
 
 	pnl_vect_mult_vect_term(differences, differences);
 	pnl_vect_div_scalar(differences, nbSamples_);
@@ -124,7 +114,7 @@ void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic
 
 	pnl_vect_mult_vect_term(spot_t, spot_t); // squared spots vector
 	pnl_vect_div_vect_term(squared_differences, spot_t);
-	double coeff = (pnl_expm1(-2 * mod_->r_*(opt_->T_ - t)) + 1) / (4 * nbSamples_*pnl_pow_i(h, 2));
+	double coeff = (pnl_expm1(-2 * mod_->r_ * (opt_->T_ - t)) + 1) / (4 * nbSamples_ * pnl_pow_i(h, 2));
 	pnl_vect_mult_scalar(squared_differences, coeff);
 	pnl_vect_clone(ic, squared_differences);
 
@@ -145,7 +135,7 @@ void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic
 	pnl_vect_free(&spot_t);
 }
 
-void MonteCarlo::price_and_delta(const PnlMat *past, double t, double &prix, double &ic, PnlVect *delta, PnlVect *icdelta) {
+void MonteCarlo::price_and_delta(const PnlMat* past, double t, double& prix, double& ic, PnlVect* delta, PnlVect* icdelta) {
 	if (opt_->type_ == call) {
 		VanillaCall* call = dynamic_cast<VanillaCall*> (opt_);
 		if (!call->mc_pricing) {
@@ -164,8 +154,8 @@ void MonteCarlo::price_and_delta(const PnlMat *past, double t, double &prix, dou
 	double timestep = opt_->T_ / opt_->nbTimeSteps_;
 	PnlMat* shifted_pathp = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
 	PnlMat* shifted_pathm = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
-	PnlVect *squared_differences = pnl_vect_create(opt_->size_);
-	PnlVect *differences = pnl_vect_create(opt_->size_);
+	PnlVect* squared_differences = pnl_vect_create(opt_->size_);
+	PnlVect* differences = pnl_vect_create(opt_->size_);
 	double difference;
 	double prev_payoff = opt_->payoff(past);
 	for (int m = 0; m < nbSamples_; m++) {
@@ -185,11 +175,11 @@ void MonteCarlo::price_and_delta(const PnlMat *past, double t, double &prix, dou
 	}
 	payoffs = payoffs / nbSamples_;
 	payoffs_squared = payoffs_squared / nbSamples_;
-	double  var = (pnl_expm1(-2 * mod_->r_*opt_->T_) + 1)*(payoffs_squared - pnl_pow_i(payoffs, 2));
+	double  var = (pnl_expm1(-2 * mod_->r_ * opt_->T_) + 1) * (payoffs_squared - pnl_pow_i(payoffs, 2));
 	prix = ((expm1(-mod_->r_ * (opt_->T_ - t)) + 1)) * payoffs;
-	ic = 2 * 1.96*sqrt(var) / sqrt(nbSamples_);
-	pnl_vect_mult_scalar(delta, (pnl_expm1(-mod_->r_ *(opt_->T_ - t)) + 1) / (2 * nbSamples_*h));
-	PnlVect *spot_t = pnl_vect_create(opt_->size_);
+	ic = 2 * 1.96 * sqrt(var) / sqrt(nbSamples_);
+	pnl_vect_mult_scalar(delta, (pnl_expm1(-mod_->r_ * (opt_->T_ - t)) + 1) / (2 * nbSamples_ * h));
+	PnlVect* spot_t = pnl_vect_create(opt_->size_);
 	pnl_mat_get_row(spot_t, past, past->m - 1);
 	pnl_vect_div_vect_term(delta, spot_t);
 
@@ -199,7 +189,7 @@ void MonteCarlo::price_and_delta(const PnlMat *past, double t, double &prix, dou
 
 	pnl_vect_mult_vect_term(spot_t, spot_t); // squared spots vector
 	pnl_vect_div_vect_term(squared_differences, spot_t);
-	double coeff = (pnl_expm1(-2 * mod_->r_*(opt_->T_ - t)) + 1) / (4 * nbSamples_*pnl_pow_i(h, 2));
+	double coeff = (pnl_expm1(-2 * mod_->r_ * (opt_->T_ - t)) + 1) / (4 * nbSamples_ * pnl_pow_i(h, 2));
 	pnl_vect_mult_scalar(squared_differences, coeff);
 	pnl_vect_clone(icdelta, squared_differences);
 
@@ -217,4 +207,3 @@ void MonteCarlo::price_and_delta(const PnlMat *past, double t, double &prix, dou
 	pnl_mat_free(&shifted_pathp);
 	pnl_vect_free(&spot_t);
 }
-
