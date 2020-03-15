@@ -55,7 +55,7 @@ namespace WebComponent.Controllers
         private void KanjiQuot()
         {
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Stoxx50.csv"))
+            using (var reader = new StreamReader(@"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS\WebComponent\Content\csv\Stoxx50.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -82,7 +82,7 @@ namespace WebComponent.Controllers
         {
 
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Stoxx50.csv"))
+            using (var reader = new StreamReader(@"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS\WebComponent\Content\csv\Stoxx50.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -112,7 +112,7 @@ namespace WebComponent.Controllers
         {
 
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Stoxx50.csv"))
+            using (var reader = new StreamReader(@"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS\WebComponent\Content\csv\Stoxx50.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";

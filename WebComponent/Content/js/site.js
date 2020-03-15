@@ -17,78 +17,12 @@ let SP500 = index_js.attr('data-SP500')
 
 var obj =   JSON.parse(HangSeng)
 
-//
-// Price chart
-//
-
-var PriceChart = (function () {
-
-    // Variables
-
-    var $chart = $('#kanji-price');
-
-
-    // Methods
-
-    function init($chart) {
-
-        var priceChart = new Chart($chart, {
-            type: 'line',
-            options: {
-                scales: {
-                    yAxes: [{
-                        gridLines: {
-                            lineWidth: 1,
-                            color: Charts.colors.gray[900],
-                            zeroLineColor: Charts.colors.gray[900]
-                        },
-                        ticks: {
-                            callback: function (value) {
-                                if (!(value % 10)) {
-                                    return '$' + value + 'k';
-                                }
-                            }
-                        }
-                    }]
-                },
-                tooltips: {
-                    callbacks: {
-                        label: function (item, data) {
-                            var label = data.datasets[item.datasetIndex].label || '';
-                            var yLabel = item.yLabel;
-                            var content = '';
-
-                            if (data.datasets.length > 1) {
-                                content += '<span class="popover-body-label mr-auto">' + label + '</span>';
-                            }
-
-                            content += '<span class="popover-body-value">$' + yLabel + 'k</span>';
-                            return content;
-                        }
-                    }
-                }
-            },
-            data: {
-                labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                datasets: [{
-                    label: 'Performance',
-                    data: [60, 20, 10, 30, 15, 40, 20, 60, 60]
-                }]
-            }
-        });
-
-        // Save to jQuery object
-
-        $chart.data('chart', priceChart);
-
-    };
-
-
-    // Events
-
-    if ($chart.length) {
-        init($chart);
-    }
-
-})();
 */
+
+function main() {
+    let site_js = $('script[src*=site]')
+
+    let KanjiQuot = site_js.attr('data-HangSeng')
+    let KanjiHebdo = site_js.attr('data-SP500')
+    let KanjiMens = site_js.attr('data-Stoxx50')
+}
