@@ -15,6 +15,7 @@ class BasketOption : public Option {
 public:                 /// strike de l'option panier
     double strike_;
     PnlVect* payOffCoeffs_;
+    PnlVect* V;
     /**
 * Constructeur de l'option panier
 *
@@ -30,6 +31,9 @@ public:                 /// strike de l'option panier
         size_ = size;
         payOffCoeffs_ = payOffCoeffs;
         strike_ = strike;
+        type_ = basket;
+        V = pnl_vect_create(size_);
+
     }
     /**
 * Payoff de l'option panier à partir du marché
@@ -42,6 +46,8 @@ public:                 /// strike de l'option panier
      */
     ~BasketOption() {
         pnl_vect_free(&payOffCoeffs_);
+        pnl_vect_free(&V);
+
     };
     /**
     * Version optimisée du calcul du payoff
