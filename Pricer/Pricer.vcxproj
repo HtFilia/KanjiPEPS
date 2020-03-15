@@ -122,6 +122,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BasketOption.cpp" />
     <ClCompile Include="BlackScholesModel.cpp" />
     <ClCompile Include="Computations.cpp" />
     <ClCompile Include="Computations.hpp" />
@@ -134,6 +135,7 @@
     <ClCompile Include="VanillaCall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasketOption.hpp" />
     <ClInclude Include="BlackScholesModel.hpp" />
     <ClInclude Include="FXBlackScholes.hpp" />
     <ClInclude Include="Hedge.hpp" />

@@ -22,8 +22,8 @@ void validate_kanji(PnlRng* rng) {
 	//validate_price_kanji(simulated_path, model, mc, rng);
 	//validate_delta_kanji(simulated_path, model, mc, rng);
 	//validate_mean_error_kanji(mc, model, rng, M, H, n_scenarios);
-	int n_freqs = 3;
-	const double *freqs_ptr = new double[n_freqs] {1, 10, 30};
+	int n_freqs = 1;
+	const double *freqs_ptr = new double[n_freqs] {1};
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
 	histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
 	//pnl_mat_free(&simulated_path);
