@@ -38,9 +38,6 @@ public:
 *
 * @param[in] path matrices des trajectoires des sous-jacents
 */
-	double payoff(double S_T);
-
-	double payoff(const PnlMat *path, double past_payoff, int past_len);
 	double payoff(const PnlMat *path);
 	double price(double t, double spot, double r, double sigma, double maturity, double strike);
 	double delta(double t, double spot, double r, double sigma, double maturity, double strike);

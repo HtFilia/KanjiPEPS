@@ -13,11 +13,9 @@
 class KanjiOption : public Option {
 
 public:
-    PnlVect* initial_values;
-    double rUSD_;
-    double rHKD_;
+	PnlVect *initial_values;
 
-    ~KanjiOption();
+	~KanjiOption();
     /**
 * Constructeur de l'option performance
 *
@@ -30,18 +28,8 @@ public:
         T_ = T;
         nbTimeSteps_ = nbTimeSteps;
         size_ = size;
-        initial_values = pnl_vect_create(size_);
-        type_ = kanji;
-    }
-
-    KanjiOption(double T, int nbTimeSteps, int size, double rUSD, double rHKD) {
-        T_ = T;
-        nbTimeSteps_ = nbTimeSteps;
-        size_ = size;
-        initial_values = pnl_vect_create(size_);
-        type_ = kanji;
-        rUSD_ = rUSD;
-        rHKD_ = rHKD;
+		initial_values = pnl_vect_create(size_);
+		type_ = kanji;
     }
     /**
 * Payoff de l'option performance à partir du marché
