@@ -18,21 +18,18 @@ namespace WebComponent.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.KanjiQuot = KanjiQuot();
-            ViewBag.KanjiMens = KanjiMens();
-            ViewBag.KanjiHebdo = KanjiHebdo();
+            KanjiQuot();
+            KanjiMens();
+            KanjiHebdo();
 
+            
 
 
             if (Request.HttpMethod == "GET")
             {
-               
-
                 WrapperClass wrapper = new WrapperClass();
                 wrapper.getPriceDeltaPerft(2, 0, new double[] { 100, 100, 100 }, 16, new double[] { 0.2, 0.2, 0.2 }, new double[] { 1, 0.1, 0.1, 0.1, 1, 0.1, 0.1, 0.1, 1}, 0.07);
                 ViewBag.Price = wrapper.getPrice();
-
-                
             }
             
             if (Request.HttpMethod == "POST")
@@ -50,73 +47,95 @@ namespace WebComponent.Controllers
             return View();
         }
 
+
+      
+
         // On test avec le cours Stoxx50 pour le moment, à changer dès qu'on a le csv des prix !!!!!!!!!!!!
 
-        private string KanjiQuot()
+        private void KanjiQuot()
         {
-            List<double> values = new List<double> { 0.92, 1.72, 1.89, 0.52, 1, 0.89, 1.92, 0.72, 0.89 };
-
-            string json = "{\"data\":{\"datasets\":[{\"data\":[";
-
-            for (int i = 0; i < values.Count; i++) {
-                if (i == 0)
-                    json = json +  values[i];
-                else
-                    json = json + ", " + values[i];
-            }
- 
-                
-            json = json + "]}]}}";
-            
-            return json;
-        }
-
-        private string KanjiMens()
-        {
-
-            List<double> values = new List<double> { 0.92, 1.72, 1.89, 0.52, 1, 0.89, 1.92, 0.72, 0.89 };
-
-            string json = "{\"data\":{\"datasets\":[{\"data\":[";
-
-            for (int i = 0; i < values.Count; i++)
+            List<DataPoint> dataPoints = new List<DataPoint>();
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Stoxx50.csv"))
             {
-                if (i % 30 == 0)
+                NumberFormatInfo provider = new NumberFormatInfo();
+                provider.NumberDecimalSeparator = ".";
+
+                int compteur = 0;
+                while (!reader.EndOfStream)
                 {
-                    if (i == 0)
-                        json = json + values[i];
-                    else
-                        json = json + ", " + values[i];
+                    var line = reader.ReadLine();
+
+                    if (compteur > 0)
+                    {
+                        var values = line.Split(',');
+                        dataPoints.Add(new DataPoint((Double)compteur - 1, Convert.ToDouble(values[1], provider)));
+                    }
+                    compteur++;
                 }
             }
 
 
-            json = json + "]}]}}";
-
-            return json;
+            ViewBag.KanjiQuot = JsonConvert.SerializeObject(dataPoints);
         }
 
-        private string KanjiHebdo()
+        private void KanjiMens()
         {
 
-            List<double> values = new List<double> { 0.92, 1.72, 1.89, 0.52, 1, 0.89, 1.92, 0.72, 0.89, 0.92, 1.72, 1.89, 0.52, 1, 0.89, 1.92, 0.72, 0.89, 0.92, 1.72, 1.89, 0.52, 1, 0.89, 1.92, 0.72, 0.89, 0.92, 1.72, 1.89, 0.52, 1, 0.89, 1.92, 0.72, 0.89, 0.92, 1.72, 1.89, 0.52, 1, 0.89, 1.92, 0.72, 0.89 };
-
-            string json = "{\"data\":{\"datasets\":[{\"data\":[";
-
-            for (int i = 0; i < values.Count; i++)
+            List<DataPoint> dataPoints = new List<DataPoint>();
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Stoxx50.csv"))
             {
-                if (i % 7 == 0)
+                NumberFormatInfo provider = new NumberFormatInfo();
+                provider.NumberDecimalSeparator = ".";
+
+                int compteur = 0;
+                while (!reader.EndOfStream)
                 {
-                    if (i == 0)
-                        json = json + values[i];
-                    else
-                        json = json + ", " + values[i];
+                    var line = reader.ReadLine();
+
+                    if (compteur > 0)
+                    {
+                        if ((compteur-1) % 30 == 0)
+                        {
+                            var values = line.Split(',');
+                            dataPoints.Add(new DataPoint((Double)compteur - 1, Convert.ToDouble(values[1], provider)));
+                        }
+                    }
+                    compteur++;
                 }
             }
 
 
-            json = json + "]}]}}";
+            ViewBag.KanjiMens = JsonConvert.SerializeObject(dataPoints);
+        }
 
-            return json;
+        private void KanjiHebdo()
+        {
+
+            List<DataPoint> dataPoints = new List<DataPoint>();
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Stoxx50.csv"))
+            {
+                NumberFormatInfo provider = new NumberFormatInfo();
+                provider.NumberDecimalSeparator = ".";
+
+                int compteur = 0;
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+
+                    if (compteur > 0)
+                    {
+                        if ((compteur-1) % 7 == 0)
+                        {
+                            var values = line.Split(',');
+                            dataPoints.Add(new DataPoint((Double)compteur - 1, Convert.ToDouble(values[1], provider)));
+                        }
+                    }
+                    compteur++;
+                }
+            }
+
+
+            ViewBag.KanjiHebdo = JsonConvert.SerializeObject(dataPoints);
         }
 
 
