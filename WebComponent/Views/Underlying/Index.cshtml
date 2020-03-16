@@ -17,17 +17,17 @@
                         <ul class="nav nav-pills justify-content-end">
                             <!-- TODO: Data update -->
                             <li class="nav-item mr-2 mr-md-0">
-                                <a href="#" id="chart-hg">
+                                <a class="nav-link py-2 px-3 active show" href="#" id="chart-hg">
                                     <span class="d-none d-md-block">HangSeng</span>
                                 </a>
                             </li>
                             <li class="nav-item mr-2 mr-md-0">
-                                <a href="#" id="chart-stoxx">
+                                <a class="nav-link py-2 px-3" href="#" id="chart-stoxx">
                                     <span class="d-none d-md-block">Stoxx50</span>
                                 </a>
                             </li>
                             <li class="nav-item mr-2 mr-md-0">
-                                <a href="#" id="chart-sp">
+                                <a class="nav-link py-2 px-3" href="#" id="chart-sp">
                                     <span class="d-none d-md-block">S&P500</span>
                                 </a>
                             </li>
@@ -54,7 +54,7 @@
 	                            zoomEnabled: true,
 	                            data: [{
 		                            type: "line",
-		                            dataPoints: 
+		                            dataPoints: @Html.Raw(ViewBag.HangSeng)
 	                            }]
                             });
 
@@ -75,6 +75,7 @@
     let sp = document.getElementById('chart-sp')
 
     stoxx.onclick = function () {
+        changeActive(this)
         var chart = new CanvasJS.Chart("chartContainer", {
             theme: "light2", // "light1", "light2", "dark1", "dark2"
             animationEnabled: true,
@@ -89,6 +90,7 @@
     }
 
     hg.onclick = function () {
+        changeActive(this)
         var chart = new CanvasJS.Chart("chartContainer", {
             theme: "light2", // "light1", "light2", "dark1", "dark2"
             animationEnabled: true,
@@ -103,6 +105,7 @@
     }
 
     sp.onclick = function () {
+        changeActive(this)
         var chart = new CanvasJS.Chart("chartContainer", {
             theme: "light2", // "light1", "light2", "dark1", "dark2"
             animationEnabled: true,
@@ -114,5 +117,12 @@
         });
 
         chart.render();
+    }
+
+    function changeActive(a) {
+        $(a).parent().parent().children("li").children("a").each(function () {
+            $(this).removeClass("active show")
+        })
+        $(a).addClass("active show")
     }
 </script>

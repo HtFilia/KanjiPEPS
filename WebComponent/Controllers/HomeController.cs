@@ -55,7 +55,7 @@ namespace WebComponent.Controllers
         private void KanjiQuot()
         {
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\source\repos\KanjiPEPS2\WebComponent\Content\csv\Stoxx50.csv"))
+            using (var reader = new StreamReader(@"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS\WebComponent\Content\csv\Stoxx50.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -82,7 +82,7 @@ namespace WebComponent.Controllers
         {
 
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\source\repos\KanjiPEPS2\WebComponent\Content\csv\Stoxx50.csv"))
+            using (var reader = new StreamReader(@"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS\WebComponent\Content\csv\Stoxx50.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -112,16 +112,17 @@ namespace WebComponent.Controllers
         {
 
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\source\repos\KanjiPEPS2\WebComponent\Content\csv\Stoxx50.csv"))
+            using (var reader = new StreamReader(@"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS\WebComponent\Content\csv\Stoxx50.csv"))
             {
-                NumberFormatInfo provider = new NumberFormatInfo();
-                provider.NumberDecimalSeparator = ".";
+                NumberFormatInfo provider = new NumberFormatInfo
+                {
+                    NumberDecimalSeparator = "."
+                };
 
                 int compteur = 0;
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
-
                     if (compteur > 0)
                     {
                         if ((compteur-1) % 7 == 0)
