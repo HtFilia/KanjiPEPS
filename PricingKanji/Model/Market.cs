@@ -12,12 +12,21 @@ namespace PricingKanji.Model
 {
     class Market
     {
-        public static double r = 0.001;
-        static double businessDdaysPerYear = 252;
+        public static double r;
+        static double businessDdaysPerYear;
         public List<DataFeed> feeds;
 
-        // returns the spots for a certain datafeed in a certain DateTime
-        public static double[] marketSpots(DataFeed market)
+        public Market()
+        {
+            DataReader reader = new DataReader();
+            List<DataFeed> data = reader.ReadData();
+            feeds = data;
+            r = 0.001;
+            businessDdaysPerYear = 252;
+    }
+
+    // returns the spots for a certain datafeed in a certain DateTime
+    public static double[] marketSpots(DataFeed market)
         {
             List<double> spots = new List<double>();
             foreach (double value in market.PriceList.Values)
@@ -68,5 +77,16 @@ namespace PricingKanji.Model
             return simulatedFeeds;
         }
 
+        internal DataFeed getFeed(DateTime date)
+        {
+            foreach (DataFeed feed in feeds)
+            {
+                if (feed.Date == date)
+                {
+                    return feed;
+                }
+            }
+            throw new Exception("Date introuvable sur le marché");
+        }
     }
 }

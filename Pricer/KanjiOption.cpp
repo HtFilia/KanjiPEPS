@@ -12,17 +12,15 @@ double KanjiOption::payoff(const PnlMat *path) {
 
 	double payoff = 0;
 	double perf = 0;
-	pnl_mat_get_row(initial_values, path, 0);
 	double timestep = T_ / (double)nbTimeSteps_;
 	double mean = 0, t = 0;
 	for (int i = 1; i <= nbTimeSteps_; i++) {
 		for (int d = 0; d < size_; d++)
 		{
 			perf += (pnl_mat_get(path, i, d) / pnl_vect_get(initial_values, d)) - 1;
-
 		}
 		payoff += MAX(perf, 0);
 		perf = 0;
 	}
-	return 1 + (double)(60.0 / (300.0*16.0))* payoff;
+	return netAssetValue_*(1 + (double)(60.0 / (300.0*16.0))* payoff);
 }

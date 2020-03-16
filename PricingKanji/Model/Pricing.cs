@@ -13,6 +13,13 @@ namespace PricingKanji.Model
 {
     class Pricing
     {
+        Kanji kanji;
+
+        public Pricing(Kanji option)
+        {
+            kanji = option;
+        }
+
         // function that takes a list of data feeds (between issue date of the product and X)
         // each feed corresponds to the value  of the three indices at time t betwen issue date and X
         // output : list of pricing results
@@ -63,7 +70,6 @@ namespace PricingKanji.Model
 
         double[] GetPast(DataFeed current_feed, List<DataFeed> feeds, List<int> instants)
         {
-
             List<DataFeed> previous_discret_feeds = new List<DataFeed>();
             foreach (DataFeed feed in feeds)
             {
@@ -114,8 +120,6 @@ namespace PricingKanji.Model
             double maturity = (maturity_date - start_date).TotalDays;
             double matu_in_years = maturity / 365.25;
 
-            int discretisation_number = Discretisation_number(matu_in_years, (last_date - start_date).TotalDays / 365.25);
-            List<int> discretisation_indices = Discretisation_instants(H, discretisation_number);
             foreach (DataFeed feed in effective_feeds)
             {
                 // there is only one occurence of the feed in the list of the effective feeds
@@ -150,13 +154,16 @@ namespace PricingKanji.Model
                 }
                 // after estimation 
                 previous_feeds.Add(feed);
+                int discretisation_number = Discretisation_number(matu_in_years, (last_date - start_date).TotalDays / 365.25);
+                List<int> discretisation_indices = Discretisation_instants(H, discretisation_number);
                 double[] past = GetPast(feed, effective_feeds, discretisation_indices);
                 int nb_dates = past.Length / 3;
                 double t = (feed.Date - start_date).TotalDays;
                 double t_in_years = t / 365.25;
                 WrapperClass wc = new WrapperClass();
                 //wc.getPriceDeltaPerf(maturity,spots, volatilities, correlation, interest_rate);
-                wc.getPriceDeltaPerft(matu_in_years, t_in_years, past, nb_dates, volatilities, correlation_vector, interest_rate);
+                double[] initial_values = kanji.InitialValues.Values.ToArray();
+                wc.getPriceDeltaPerft(kanji.NetAssetValue, matu_in_years, t_in_years, past,initial_values, nb_dates, volatilities, correlation_vector, interest_rate);
                 prices.Add(feed.Date, wc.getPrice());
                 Console.WriteLine("price at  " + feed.Date + " : " + wc.getPrice());
                 // add the feed as history (for the calibration)

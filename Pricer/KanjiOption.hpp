@@ -14,6 +14,7 @@ class KanjiOption : public Option {
 
 public:
 	PnlVect *initial_values;
+	double netAssetValue_;
 
 	~KanjiOption();
     /**
@@ -30,7 +31,18 @@ public:
         size_ = size;
 		initial_values = pnl_vect_create(size_);
 		type_ = kanji;
+		netAssetValue_ = 100;
     }
+
+	KanjiOption(double T, int nbTimeSteps, int size, PnlVect* values, double netAssetValue = 100) {
+		T_ = T;
+		nbTimeSteps_ = nbTimeSteps;
+		size_ = size;
+		initial_values = values;
+		type_ = kanji;
+		netAssetValue_ = netAssetValue;
+	}
+
     /**
 * Payoff de l'option performance à partir du marché
 *

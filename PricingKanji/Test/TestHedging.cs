@@ -15,13 +15,12 @@ namespace PricingKanji
     {
         static void Main(string[] args)
         {
-            DataReader reader = new DataReader();
-            List<DataFeed> data = reader.ReadData();
             int freq = 1;
             int estimation_window = 80;
             Market market = new Market();
-            market.feeds = data;
-            Hedging hedging = new Hedging(estimation_window, freq, market);
+            List<DateTime> dates = Kanji.initialValueDates();
+            Kanji kanji = new Kanji(market, dates);
+            Hedging hedging = new Hedging(estimation_window, freq, market, kanji);
             Dictionary<DateTime, HedgeOutput> output = hedging.HedgeKandji();
 
             foreach (DateTime date in output.Keys)

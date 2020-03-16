@@ -26,7 +26,8 @@ namespace PricingKanji
             int estimation_window = 80;
             Market market = new Market();
             market.feeds = feeds;
-            Hedging hedging = new Hedging(estimation_window, freq, market);
+            Kanji kanji = new Kanji(market, Kanji.initialValueDates());
+            Hedging hedging = new Hedging(estimation_window, freq, market, kanji);
             Dictionary<DateTime, HedgeOutput> output = hedging.HedgeKandji();
 
             foreach (DateTime date in output.Keys)

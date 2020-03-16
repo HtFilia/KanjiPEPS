@@ -81,7 +81,8 @@ void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic
 		return;
 	}
 }
-
+	pnl_vect_set_all(delta, 0);
+	pnl_vect_set_all(ic, 0);
 	double timestep = opt_->T_ / opt_->nbTimeSteps_; //pas de discretisation
 	PnlMat* shifted_pathp = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
 	PnlMat* shifted_pathm = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_); //creation de deux paths deviés
