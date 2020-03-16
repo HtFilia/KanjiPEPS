@@ -3,43 +3,11 @@
 }
 @model WebComponent.Models.PriceFormModel
 
-@using (Html.BeginForm())
-{
-<fieldset>
-    <legend>Modifier un restaurant</legend>
 
-    <div>
-        @Html.LabelFor(model => model.SampleNb)
-        @Html.TextBoxFor(model => model.SampleNb)
-    </div>
-    <div>
-        @Html.LabelFor(model => model.Maturity)
-        @Html.TextBoxFor(model => model.Maturity)
-    </div>
-    <div>
-        @Html.LabelFor(model => model.InitialPrice)
-        @Html.TextBoxFor(model => model.InitialPrice)
-    </div>
-    <div>
-        @Html.LabelFor(model => model.Strike)
-        @Html.TextBoxFor(model => model.Strike)
-    </div>
-    <div>
-        @Html.LabelFor(model => model.Volatility)
-        @Html.TextBoxFor(model => model.Volatility)
-    </div>
-    <div>
-        @Html.LabelFor(model => model.RiskFreeRate)
-        @Html.TextBoxFor(model => model.RiskFreeRate)
-    </div>
-    <br />
-    <input type="submit" value="Envoyer" />
-</fieldset>
-}
 
 <div class="text-center">
-    <h1 class="display-4">Bienvenue !</h1>
-    <h2>Prix Kanji le <span id="date"></span> :  @ViewBag.Price</h2>
+    <h1 class="display-4">Gestion du Produit Kanji</h1>
+    <h2>Prix Kanji Actuel<span id="date"></span> :  @ViewBag.Price</h2>
 
 </div>
 
@@ -56,17 +24,17 @@
                         <ul class="nav nav-pills justify-content-end">
                             <!-- TODO: Data update -->
                             <li class="nav-item mr-2 mr-md-0">
-                                <a class="nav-link py-2 px-3 active show" href="#" id="chart-quot">
+                                <a  href="#" id="chart-quot">
                                     <span class="d-none d-md-block">Quotidien</span>
                                 </a>
                             </li>
                             <li class="nav-item mr-2 mr-md-0">
-                                <a class="nav-link py-2 px-3" href="#" id="chart-hebd">
+                                <a  href="#" id="chart-hebd">
                                     <span class="d-none d-md-block">Hebdomadaire</span>
                                 </a>
                             </li>
                             <li class="nav-item mr-2 mr-md-0">
-                                <a class="nav-link py-2 px-3" href="#" id="chart-mens">
+                                <a  href="#" id="chart-mens">
                                     <span class="d-none d-md-block">Mensuel</span>
                                 </a>
                             </li>

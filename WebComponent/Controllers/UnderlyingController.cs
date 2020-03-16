@@ -15,21 +15,22 @@ namespace WebComponent.Controllers
         // GET: Underlying
         public ActionResult Index()
         {
-            ViewBag.HangSeng = HangSeng();
-            ViewBag.Stoxx50 = Stoxx50();
-            ViewBag.SP500 = SP500();
+            HangSeng();
+            Stoxx50();
+            SP500();
 
             return View();
         }
 
 
-        private string HangSeng()
+        private void HangSeng()
         {
 
-            string json = "{\"data\":{\"datasets\":[{\"data\":[";
-
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\HangSeng.csv"))
+            List<DataPoint> dataPoints = new List<DataPoint>();
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\source\repos\KanjiPEPS2\WebComponent\Content\csv\HangSeng.csv"))
             {
+                NumberFormatInfo provider = new NumberFormatInfo();
+                provider.NumberDecimalSeparator = ".";
 
                 int compteur = 0;
                 while (!reader.EndOfStream)
@@ -38,27 +39,24 @@ namespace WebComponent.Controllers
 
                     if (compteur > 0)
                     {
-
                         var values = line.Split(',');
-                        if (compteur == 1)
-                            json = json + values[1];
-                        else
-                            json = json + ", " + values[1];
+                        dataPoints.Add(new DataPoint((Double)compteur - 1, Convert.ToDouble(values[1], provider)));
                     }
                     compteur++;
-
                 }
-                json = json + "]}]}}";
             }
-            return json;
+
+
+            ViewBag.HangSeng = JsonConvert.SerializeObject(dataPoints);
         }
 
-        private string Stoxx50()
+        private void Stoxx50()
         {
-            string json = "{\"data\":{\"datasets\":[{\"data\":[";
-
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Stoxx50.csv"))
+            List<DataPoint> dataPoints = new List<DataPoint>();
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\source\repos\KanjiPEPS2\WebComponent\Content\csv\Stoxx50.csv"))
             {
+                NumberFormatInfo provider = new NumberFormatInfo();
+                provider.NumberDecimalSeparator = ".";
 
                 int compteur = 0;
                 while (!reader.EndOfStream)
@@ -67,27 +65,24 @@ namespace WebComponent.Controllers
 
                     if (compteur > 0)
                     {
-
                         var values = line.Split(',');
-                        if (compteur == 1)
-                            json = json + values[1];
-                        else
-                            json = json + ", " + values[1];
+                        dataPoints.Add(new DataPoint((Double)compteur - 1, Convert.ToDouble(values[1], provider)));
                     }
                     compteur++;
-
                 }
-                json = json + "]}]}}";
             }
-            return json;
+
+
+            ViewBag.Stoxx50 = JsonConvert.SerializeObject(dataPoints);
         }
 
-        private string SP500()
+        private void SP500()
         {
-            string json = "{\"data\":{\"datasets\":[{\"data\":[";
-
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\S&P500.csv"))
+            List<DataPoint> dataPoints = new List<DataPoint>();
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\source\repos\KanjiPEPS2\WebComponent\Content\csv\S&P500.csv"))
             {
+                NumberFormatInfo provider = new NumberFormatInfo();
+                provider.NumberDecimalSeparator = ".";
 
                 int compteur = 0;
                 while (!reader.EndOfStream)
@@ -96,19 +91,15 @@ namespace WebComponent.Controllers
 
                     if (compteur > 0)
                     {
-
                         var values = line.Split(',');
-                        if (compteur == 1)
-                            json = json + values[1];
-                        else
-                            json = json + ", " + values[1];
+                        dataPoints.Add(new DataPoint((Double)compteur - 1, Convert.ToDouble(values[1], provider)));
                     }
                     compteur++;
-
                 }
-                json = json + "]}]}}";
             }
-            return json;
+
+
+            ViewBag.SP500 = JsonConvert.SerializeObject(dataPoints);
         }
 
     }
