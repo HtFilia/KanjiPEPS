@@ -157,7 +157,6 @@ void MonteCarlo::price_and_delta(const PnlMat *past, double t, double &prix, dou
 	PnlVect *squared_differences = pnl_vect_create(opt_->size_);
 	PnlVect *differences = pnl_vect_create(opt_->size_);
 	double difference;
-	double prev_payoff = opt_->payoff(past);
 	for (int m = 0; m < nbSamples_; m++) {
 		mod_->asset(path, t, opt_->T_, opt_->nbTimeSteps_, rng_, past);
 		payoff = opt_->payoff(path);

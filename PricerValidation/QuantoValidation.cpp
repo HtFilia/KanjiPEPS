@@ -20,7 +20,7 @@ void validate_quanto(PnlRng* rng) {
 	PnlVect* trends = pnl_vect_create_from_ptr(size, list_trends);
 	Quanto* quanto = new Quanto(T, n_time_steps, size, 90, r);
 	FXBlackScholes* model = new FXBlackScholes(size, r, sigmas, spots, trends, corr);
-	int n_samples = 1000;
+	int n_samples = 50000;
 	double epsilon = 0.000001;
 	double gamma = -1.0 / 4.0;
 	double epsilon_n = epsilon * pow(n_samples, -gamma);
@@ -156,7 +156,7 @@ void histogram_erorrs_quanto(MonteCarlo* mc, FXBlackScholes* model, PnlRng* rng,
 
 	for (int k = 0; k < freqs->size; k++) {
 		freq = GET(freqs, k);
-		filename = "../Validation/quantoo_histogram_errors_M" + std::to_string(M) + "_freq_" + std::to_string((int)freq) + ".csv";
+		filename = "../Validation/quanto_histogram_errors_M" + std::to_string(M) + "_freq_" + std::to_string((int)freq) + ".csv";
 		myfile.open(filename);
 		for (int i = 0; i < scenarios; i++) {
 			model->simul_market(simulated_path, T, M, rng);

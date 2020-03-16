@@ -1,7 +1,3 @@
-//
-// Created by afrai on 9/13/19.
-//
-
 #ifndef MC_PRICER_PERFORMANCEOPTION_H
 #define MC_PRICER_PERFORMANCEOPTION_H
 
@@ -13,10 +9,12 @@
 class KanjiOption : public Option {
 
 public:
-	PnlVect *initial_values;
+	PnlVect* initial_values;
+	//double rUSD_;
+	//double rHKD_;
 
 	~KanjiOption();
-    /**
+	/**
 * Constructeur de l'option performance
 *
 * @param[in] T maturité de l'option
@@ -25,18 +23,21 @@ public:
  * @param[in] payOffCoeffs vecteur des coefficients de payoffs
 */
 	KanjiOption(double T, int nbTimeSteps, int size) {
-        T_ = T;
-        nbTimeSteps_ = nbTimeSteps;
-        size_ = size;
+		T_ = T;
+		nbTimeSteps_ = nbTimeSteps;
+		size_ = size;
 		initial_values = pnl_vect_create(size_);
 		type_ = kanji;
-    }
-    /**
+		//rUSD_ = rUSD;
+		//rHKD_ = rHKD;
+	}
+	/**
 * Payoff de l'option performance à partir du marché
 *
 * @param[in] path matrices des trajectoires des sous-jacents
 */
-    double payoff(const PnlMat *path);
+	double payoff(const PnlMat* path);
+
 };
 
 #endif //MC_PRICER_PERFORMANCEOPTION_H
