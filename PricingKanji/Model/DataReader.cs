@@ -42,7 +42,7 @@ namespace PricingKanji.Model
             IndexValue EURUSDValues = ParseFile("EURUSD");
             IndexValue EURHKDValues = ParseFile("EURHKD");
             double timeSpan = 1.0 / 252.0;
-            int t_counter = 0;
+            double t_counter = 0;
             foreach (DateTime date in EuroValues.cotations.Keys)
             {
                 
@@ -57,8 +57,7 @@ namespace PricingKanji.Model
                     PriceList.Add("HDK", (decimal)Math.Exp((double)r_hkd * t_counter) / EURHKDValues.cotations[date]);
                     feeds.Add(feed);
                 }
-                t_counter++;
-
+                t_counter += timeSpan;
             }
 
             return feeds;
