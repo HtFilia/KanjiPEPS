@@ -11,6 +11,7 @@ namespace PricingKanji.Model
     class Kanji
     {
         public Dictionary<string, double> InitialValues { get; set; }
+        public List<DateTime> observationDates { get; set; }
         DateTime maturity;
         DateTime startDate;
         int nbTimeSteps;
@@ -55,7 +56,11 @@ namespace PricingKanji.Model
                 InitialValues[name] = initialvalues[count];
                 count++;
             }
-
+            observationDates = new List<DateTime>
+            { new DateTime(2013, 9, 23), new DateTime(2014, 3, 24), new DateTime(2014, 9, 22), new DateTime(2015, 3, 23),
+            new DateTime(2015, 9, 22), new DateTime(2016, 3, 22), new DateTime(2016, 9, 22), new DateTime(2017, 3, 22),
+            new DateTime(2017, 9, 22), new DateTime(2018, 3, 22), new DateTime(2018, 9, 24), new DateTime(2019, 3, 22),
+            new DateTime(2019, 9, 23), new DateTime(2020, 3, 23), new DateTime(2020, 9, 22), new DateTime(2021, 3, 23)};
         }
 
         public void computeNetAssetValue(Market market, List<DateTime> dates)
@@ -63,7 +68,7 @@ namespace PricingKanji.Model
             List<double> prices = new List<double>();
             foreach (DateTime date in dates)
             {
-                //DataFeed feed =
+                
             }
         }
     }

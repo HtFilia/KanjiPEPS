@@ -13,7 +13,7 @@ namespace PricingKanji.Model
     class Market
     {
         public static double r;
-        static double businessDdaysPerYear;
+        public static double businessDdaysPerYear;
         public List<DataFeed> feeds;
 
         public Market()
@@ -77,7 +77,7 @@ namespace PricingKanji.Model
             return simulatedFeeds;
         }
 
-        internal DataFeed getFeed(DateTime date)
+        public DataFeed getFeed(DateTime date)
         {
             foreach (DataFeed feed in feeds)
             {
