@@ -22,10 +22,9 @@ namespace WebComponent.Controllers
             KanjiMens();
             KanjiHebdo();
 
-            
 
 
-            if (Request.HttpMethod == "GET")
+            /*if (Request.HttpMethod == "GET")
             {
                 WrapperClass wrapper = new WrapperClass();
                 wrapper.getPriceDeltaPerft(2, 0, new double[] { 100, 100, 100 }, 16, new double[] { 0.2, 0.2, 0.2 }, new double[] { 1, 0.1, 0.1, 0.1, 1, 0.1, 0.1, 0.1, 1}, 0.07);
@@ -34,7 +33,7 @@ namespace WebComponent.Controllers
             
             if (Request.HttpMethod == "POST")
             {
-                /*int SampleNb = Convert.ToInt32(Request.Form["SampleNb"]);
+                int SampleNb = Convert.ToInt32(Request.Form["SampleNb"]);
                 double Maturity = Convert.ToDouble(Request.Form["Maturity"]);
                 double InitialPrice = Convert.ToDouble(Request.Form["InitialPrice"]);
                 double Strike = Convert.ToDouble(Request.Form["Strike"]);
@@ -42,20 +41,19 @@ namespace WebComponent.Controllers
                 double RiskFreeRate = Convert.ToDouble(Request.Form["RiskFreeRate"]);
                 WrapperClass wrapper = new WrapperClass();
                 wrapper.getPriceCallEuro(Maturity, InitialPrice, Strike, Volatility, RiskFreeRate);
-                ViewBag.Price = wrapper.getPrice();*/
-            }
+                ViewBag.Price = wrapper.getPrice();
+            }*/
             return View();
         }
 
 
-      
 
         // On test avec le cours Stoxx50 pour le moment, à changer dès qu'on a le csv des prix !!!!!!!!!!!!
 
         private void KanjiQuot()
         {
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS\WebComponent\Content\csv\Stoxx50.csv"))
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Kanji.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -67,8 +65,8 @@ namespace WebComponent.Controllers
 
                     if (compteur > 0)
                     {
-                        var values = line.Split(',');
-                        dataPoints.Add(new DataPoint((Double)compteur - 1, Convert.ToDouble(values[1], provider)));
+                        var values = line.Split(';');
+                        dataPoints.Add(new DataPoint(values[0], Convert.ToDouble(values[1], provider)));
                     }
                     compteur++;
                 }
@@ -82,7 +80,7 @@ namespace WebComponent.Controllers
         {
 
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS\WebComponent\Content\csv\Stoxx50.csv"))
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Kanji.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -96,8 +94,8 @@ namespace WebComponent.Controllers
                     {
                         if ((compteur-1) % 30 == 0)
                         {
-                            var values = line.Split(',');
-                            dataPoints.Add(new DataPoint((Double)compteur - 1, Convert.ToDouble(values[1], provider)));
+                            var values = line.Split(';');
+                            dataPoints.Add(new DataPoint(values[0], Convert.ToDouble(values[1], provider)));
                         }
                     }
                     compteur++;
@@ -112,7 +110,7 @@ namespace WebComponent.Controllers
         {
 
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS\WebComponent\Content\csv\Stoxx50.csv"))
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Kanji.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo
                 {
@@ -127,8 +125,8 @@ namespace WebComponent.Controllers
                     {
                         if ((compteur-1) % 7 == 0)
                         {
-                            var values = line.Split(',');
-                            dataPoints.Add(new DataPoint((Double)compteur - 1, Convert.ToDouble(values[1], provider)));
+                            var values = line.Split(';');
+                            dataPoints.Add(new DataPoint(values[0], Convert.ToDouble(values[1], provider)));
                         }
                     }
                     compteur++;

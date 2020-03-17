@@ -27,7 +27,7 @@ namespace WebComponent.Controllers
         {
 
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS\WebComponent\Content\csv\HangSeng.csv"))
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\HangSeng.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -40,7 +40,7 @@ namespace WebComponent.Controllers
                     if (compteur > 0)
                     {
                         var values = line.Split(',');
-                        dataPoints.Add(new DataPoint((Double)compteur - 1, Convert.ToDouble(values[1], provider)));
+                        dataPoints.Add(new DataPoint(values[0], Convert.ToDouble(values[1], provider)));
                     }
                     compteur++;
                 }
@@ -53,7 +53,7 @@ namespace WebComponent.Controllers
         private void Stoxx50()
         {
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS\WebComponent\Content\csv\Stoxx50.csv"))
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Stoxx50.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -66,7 +66,7 @@ namespace WebComponent.Controllers
                     if (compteur > 0)
                     {
                         var values = line.Split(',');
-                        dataPoints.Add(new DataPoint((Double)compteur - 1, Convert.ToDouble(values[1], provider)));
+                        dataPoints.Add(new DataPoint(values[0], Convert.ToDouble(values[1], provider)));
                     }
                     compteur++;
                 }
@@ -79,7 +79,7 @@ namespace WebComponent.Controllers
         private void SP500()
         {
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS\WebComponent\Content\csv\S&P500.csv"))
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\S&P500.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -92,7 +92,7 @@ namespace WebComponent.Controllers
                     if (compteur > 0)
                     {
                         var values = line.Split(',');
-                        dataPoints.Add(new DataPoint((Double)compteur - 1, Convert.ToDouble(values[1], provider)));
+                        dataPoints.Add(new DataPoint(values[0], Convert.ToDouble(values[1], provider)));
                     }
                     compteur++;
                 }

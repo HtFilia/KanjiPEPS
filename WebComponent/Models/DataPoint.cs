@@ -10,15 +10,15 @@ namespace WebComponent.Models
     [DataContract]
     public class DataPoint
     {
-        public DataPoint(double x, double y)
+        public DataPoint(string label, double y)
         {
-            this.X = x;
+            this.Label = label;
             this.Y = y;
         }
 
         //Explicitly setting the name to be used while serializing to JSON.
-        [DataMember(Name = "x")]
-        public Nullable<double> X = null;
+        [DataMember(Name = "label")]
+        public string Label = "";
 
         //Explicitly setting the name to be used while serializing to JSON.
         [DataMember(Name = "y")]

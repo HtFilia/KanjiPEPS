@@ -204,6 +204,7 @@
     <Content Include="Content\csv\HangSeng.csv" />
     <Content Include="Content\csv\S&amp;P500.csv" />
     <Content Include="Content\csv\Stoxx50.csv" />
+    <Content Include="Content\csv\Kanji.csv" />
     <None Include="Content\js\jquery\jquery-3.4.1.intellisense.js" />
     <Content Include="Content\js\jquery\jquery-3.4.1.js" />
     <Content Include="Content\js\jquery\jquery-3.4.1.min.js" />
