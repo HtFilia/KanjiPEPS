@@ -45,7 +45,7 @@ namespace PricingKanji
                 newLine = string.Format("{0};{1};{2};{3}", date.ToString("d"), output[date].optionValue.ToString().Replace(",", "."), output[date].portfolioValue.ToString().Replace(",", "."), error.ToString().Replace(",", "."));
                 csv.AppendLine(newLine);
             }
-            File.WriteAllText(@"C:\Users\anas\source\repos\PEPS\semihistoric-hedging.csv", csv.ToString());
+            File.WriteAllText(@"C:\Users\IEUser\Desktop\Kanji\semihistoric-hedging.csv", csv.ToString());
 
         }
 

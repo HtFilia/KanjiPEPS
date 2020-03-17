@@ -23,9 +23,10 @@ namespace PricingKanji.Model
         }
         public void AddCotation(string[] csvArray)
         {
+            int close_indx = 4;
             if(csvArray[4] != "null")
             {
-                cotations.Add(Convert.ToDateTime(csvArray[0]), (decimal)Double.Parse(csvArray[4].Replace(".", ",")));
+                cotations.Add(Convert.ToDateTime(csvArray[0]), (decimal)Double.Parse(csvArray[close_indx]/*.Replace(".", ",")*/));
             }
         }
 
