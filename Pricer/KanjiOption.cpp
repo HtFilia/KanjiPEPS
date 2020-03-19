@@ -12,8 +12,7 @@ double KanjiOption::payoff(const PnlMat *path) {
 
 	double payoff = 0;
 	double perf = 0;
-	double timestep = T_ / (double)nbTimeSteps_;
-	double mean = 0, t = 0;
+	double mean = 0;
 	for (int i = 1; i <= nbTimeSteps_; i++) {
 		for (int d = 0; d < size_; d++)
 		{

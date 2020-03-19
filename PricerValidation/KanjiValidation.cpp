@@ -2,7 +2,7 @@
 
 void validate_kanji(PnlRng* rng) {
 	int n_time_steps = 16;
-	double T = 8;
+	double T = 1;
 	double r = 0.001;
 	double spot_ = 10000;
 	double sigma_ = 0.2;
@@ -12,12 +12,12 @@ void validate_kanji(PnlRng* rng) {
 	PnlVect *trend = pnl_vect_create_from_scalar(size, r);
 	PnlVect *weights = pnl_vect_create_from_scalar(size, 1.0 / 3.0);
 	BlackScholesModel* model = new BlackScholesModel(size, r, 0.2, sigma, spot, trend);
-	KanjiOption *kanji = new KanjiOption(T, n_time_steps, size);
-	int n_samples = 10000;
+	KanjiOption *kanji = new KanjiOption(T, n_time_steps, size,spot);
+	int n_samples = 1000;
 	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, n_samples, 0.0001);
-	int M = T*252;
+	int M = T*256;
 	int H = M;
-	int n_scenarios = 1;
+	int n_scenarios = 50;
 	PnlMat* simulated_path = pnl_mat_create(M+1, 1);
 	//validate_price_kanji(simulated_path, model, mc, rng);
 	//validate_delta_kanji(simulated_path, model, mc, rng);
@@ -51,11 +51,11 @@ void histogram_errors_kanji(MonteCarlo* mc, BlackScholesModel* model, PnlRng* rn
 		for (int i = 0; i < scenarios; i++) {
 			model->simul_market(simulated_path, T, M, rng);
 			hedge.PnLfreq(simulated_path, n_time_steps + 1, freq, portfolio_values, option_values, error); // amine
-			PnlMat* comp = pnl_mat_create(M + 1, 2);
-			pnl_mat_set_col(comp, portfolio_values, 0);
-			pnl_mat_set_col(comp, option_values, 1);
-			pnl_mat_print(comp);
-			std::cout << error << std::endl;
+			//PnlMat* comp = pnl_mat_create(M + 1, 2);
+			//pnl_mat_set_col(comp, portfolio_values, 0);
+			//pnl_mat_set_col(comp, option_values, 1);
+			//pnl_mat_print(comp);
+			//std::cout << error << std::endl;
 			myfile << error << ";" << std::endl;
 		}
 		myfile.close();

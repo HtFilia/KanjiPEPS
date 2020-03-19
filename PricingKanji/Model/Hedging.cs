@@ -90,10 +90,14 @@ namespace PricingKanji.Model
                 }
                 else
                 {
-                    HedgeOutput returnStruct = computePortfolio(portfolio, effective_feeds, counter - previous_feeds.Count, matu_in_years, past);
+                    HedgeOutput returnStruct = computePortfolio(portfolio, effective_feeds, counter, matu_in_years, past);
                     hedging.Add(feed.Date, returnStruct);
                 }
                 counter++;
+                if (counter == previous_feeds_number + 30)
+                {
+                    break;
+                }
             }
 
             return hedging;
@@ -117,6 +121,7 @@ namespace PricingKanji.Model
             HedgeOutput returnStruct = new HedgeOutput();
             returnStruct.portfolioValue = portfolio.Value;
             returnStruct.optionValue = wc.getPrice();
+            returnStruct.composition = new Dictionary<string, double>(portfolio.composition);
             return returnStruct;
         }
 
@@ -130,11 +135,12 @@ namespace PricingKanji.Model
             //double t = (feed.Date - start_date).TotalDays;
             double t_in_years = t / Market.businessDdaysPerYear;
             double[] initial_values = kanji.InitialValues.Values.ToArray();
-            wc.getPricePerft(matu_in_years, matu_in_years, t_in_years, past, initial_values, past.Length / kanji.size, volatilities, correlation_vector, Market.r);
+            wc.getPricePerft(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, past.Length / kanji.size, volatilities, correlation_vector, Market.r);
             HedgeOutput returnStruct = new HedgeOutput();
             portfolio.Value = portfolio.GetValue(feed, prevFeed);
             returnStruct.portfolioValue = portfolio.Value;
             returnStruct.optionValue = wc.getPrice();
+            returnStruct.composition = new Dictionary<string, double>( portfolio.composition);
             return returnStruct;
         }
 
@@ -149,6 +155,7 @@ namespace PricingKanji.Model
             HedgeOutput returnStruct = new HedgeOutput();
             returnStruct.portfolioValue = portfolio.Value;
             returnStruct.optionValue = wc.getPrice();
+            returnStruct.composition = new Dictionary<string, double>(portfolio.composition);
             return returnStruct;
         }
 

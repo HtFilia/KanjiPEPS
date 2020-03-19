@@ -12,8 +12,8 @@ namespace PricingKanji.Model
 {
     class Market
     {
-        public static double r;
-        public static double businessDdaysPerYear;
+        public static double r = 0.001;
+        public static double businessDdaysPerYear = 252.0;
         public List<DataFeed> feeds;
 
         public Market()
@@ -21,8 +21,6 @@ namespace PricingKanji.Model
             DataReader reader = new DataReader();
             List<DataFeed> data = reader.ReadData();
             feeds = data;
-            r = 0.001;
-            businessDdaysPerYear = 252;
     }
 
     // returns the spots for a certain datafeed in a certain DateTime

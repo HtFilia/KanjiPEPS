@@ -31,7 +31,7 @@ public:
         size_ = size;
 		initial_values = pnl_vect_create(size_);
 		type_ = kanji;
-		netAssetValue_ = 100;
+		netAssetValue_ = 100.0;
     }
 
 	KanjiOption(double T, int nbTimeSteps, int size, PnlVect* values, double netAssetValue = 100) {

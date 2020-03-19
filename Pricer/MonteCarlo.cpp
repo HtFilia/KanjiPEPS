@@ -84,17 +84,19 @@ void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic
 	pnl_vect_set_all(delta, 0);
 	pnl_vect_set_all(ic, 0);
 	double timestep = opt_->T_ / opt_->nbTimeSteps_; //pas de discretisation
-	PnlMat* shifted_pathp = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
-	PnlMat* shifted_pathm = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_); //creation de deux paths deviés
+	double payoffp = 0, payoffm = 0;
+	PnlMat* shifted_path = pnl_mat_create(opt_->nbTimeSteps_ + 1, opt_->size_);
 	double difference;
 	PnlVect *squared_differences = pnl_vect_create_from_scalar(opt_->size_, 0);
 	PnlVect *differences = pnl_vect_create_from_scalar(opt_->size_, 0);
 	for (int m = 0; m < nbSamples_; ++m) {
 		mod_->asset(path, t, opt_->T_, opt_->nbTimeSteps_, rng_, past); //simule le reste du path a partir de past
 		for (int d = 0; d < opt_->size_; ++d) {
-			mod_->shiftAsset(shifted_pathp, path, d, h, t, timestep); //on shift le path sur la d eme composante
-			mod_->shiftAsset(shifted_pathm, path, d, -h, t, timestep);
-			difference = opt_->payoff(shifted_pathp) - opt_->payoff(shifted_pathm);//difference des payoffs des deux paths shiftes
+			mod_->shiftAsset(shifted_path, path, d, h, t, timestep); //on shift le path sur la d eme composante
+			payoffp = opt_->payoff(shifted_path);
+			mod_->shiftAsset(shifted_path, path, d, -h, t, timestep);
+			payoffm = opt_->payoff(shifted_path);
+			difference = payoffp - payoffm;//difference des payoffs des deux paths shiftes
 			pnl_vect_set(delta, d, difference + pnl_vect_get(delta, d));
 			pnl_vect_set(differences, d, difference + pnl_vect_get(differences, d));
 			pnl_vect_set(squared_differences, d, pnl_pow_i(difference, 2) + pnl_vect_get(squared_differences, d));
@@ -126,8 +128,7 @@ void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic
 
 	pnl_vect_free(&differences);
 	pnl_vect_free(&squared_differences);
-	pnl_mat_free(&shifted_pathm);
-	pnl_mat_free(&shifted_pathp);
+	pnl_mat_free(&shifted_path);
 	pnl_vect_free(&spot_t);
 }
 

@@ -12,7 +12,7 @@ namespace PricingKanji.Model
     class Portfolio
     {
 
-        private Dictionary<string, double> composition;
+        public Dictionary<string, double> composition;
         public double Value { get; set; }
 
         public Portfolio()
