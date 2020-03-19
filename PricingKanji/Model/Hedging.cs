@@ -94,10 +94,6 @@ namespace PricingKanji.Model
                     hedging.Add(feed.Date, returnStruct);
                 }
                 counter++;
-                if (counter == previous_feeds_number + 30)
-                {
-                    break;
-                }
             }
 
             return hedging;

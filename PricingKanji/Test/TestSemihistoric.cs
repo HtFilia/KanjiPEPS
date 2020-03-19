@@ -25,7 +25,7 @@ namespace PricingKanji
             DateTime maturityDate = new DateTime(2021, 03, 26);
             List<DataFeed> simulatedfeeds = Market.simulate(feeds, maturityDate, estimationwindow);
             feeds = feeds.Concat(simulatedfeeds).ToList();
-            int freq = 3;
+            int freq = 1;
             int estimation_window = 80;
             Market market = new Market();
             market.feeds = feeds;
@@ -49,9 +49,9 @@ namespace PricingKanji
                 newLine = string.Format("{0};{1};{2};{3};{4};{5};{6}", date.ToString("d"), output[date].optionValue.ToString().Replace(",", "."), output[date].portfolioValue.ToString().Replace(",", "."), error.ToString().Replace(",", "."),deltas[0].ToString().Replace(",", "."), deltas[1].ToString().Replace(",", "."), deltas[2].ToString().Replace(",", "."));
                 csv.AppendLine(newLine);
             }
-            File.WriteAllText(@"C:\Users\anas\source\repos\PEPS\semihistoric-hedging.csv", csv.ToString());
             sw.Stop();
-            Console.WriteLine(sw.ElapsedMilliseconds/1000);
+            csv.AppendLine((sw.ElapsedMilliseconds / 1000).ToString());
+            File.WriteAllText(@"C:\Users\anas\source\repos\PEPS\semihistoric-hedging.csv", csv.ToString());
         }
 
     }
