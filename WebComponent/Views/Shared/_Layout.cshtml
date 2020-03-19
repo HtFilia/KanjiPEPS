@@ -12,32 +12,32 @@
 <body>
     <nav id="sidenav-main" class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white">
         <div class="container-fluid">
-            <a class="navbar-brand" asp-controller="Home">
-                <img src="~/Content/logo.png" />
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                <img src="~/Content/img/logo.png" />
             </a>
             <div id="sidenav-collapse-main" class="collapse navbar-collapse">
                 <hr class="my-3" />
                 <ul id="navbar-nav" class="navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link" asp-controller="Home">
+                        <a class="nav-link" href="@Url.Action("Index", "Home")">
                             <i class="fas fa-coins"></i>
                             <span>Options</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="@Url.Action("Index", "Underlying")">
                             <i class="fas fa-chart-line"></i>
                             <span>Évolution des sous-jacents</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="@Url.Action("Index", "Coverage")">
                             <i class="fas fa-home"></i>
                             <span>Couverture</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="@Url.Action("Index", "Backtesting")">
                             <i class="fas fa-vial"></i>
                             <span>Backtesting</span>
                         </a>

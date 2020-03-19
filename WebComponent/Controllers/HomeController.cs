@@ -10,23 +10,31 @@ namespace WebComponent.Controllers
 {
     public class HomeController : Controller
     {
-        [HttpGet]
+        
         public ActionResult Index()
         {
-            WrapperClass wrapper = new WrapperClass();
-            wrapper.getPriceCallEuro(3000, 2, 100, 100, 0.2, 0.07);
-            ViewBag.Price = 0;
+            if (Request.HttpMethod == "GET")
+            {
+                WrapperClass wrapper = new WrapperClass();
+                wrapper.getPriceDeltaPerft(2, 0, new double[] { 100, 100, 100 }, 16, new double[] { 0.2, 0.2, 0.2 }, new double[] { 1, 0.1, 0.1, 0.1, 1, 0.1, 0.1, 0.1, 1}, 0.07);
+                ViewBag.Price = wrapper.getPrice();
+            }
+            
+            if (Request.HttpMethod == "POST")
+            {
+                int SampleNb = Convert.ToInt32(Request.Form["SampleNb"]);
+                double Maturity = Convert.ToDouble(Request.Form["Maturity"]);
+                double InitialPrice = Convert.ToDouble(Request.Form["InitialPrice"]);
+                double Strike = Convert.ToDouble(Request.Form["Strike"]);
+                double Volatility = Convert.ToDouble(Request.Form["Volatility"]);
+                double RiskFreeRate = Convert.ToDouble(Request.Form["RiskFreeRate"]);
+                WrapperClass wrapper = new WrapperClass();
+                wrapper.getPriceCallEuro(Maturity, InitialPrice, Strike, Volatility, RiskFreeRate);
+                ViewBag.Price = wrapper.getPrice();
+            }
             return View();
-        }
+        } 
 
-        [HttpPost]
-        public ActionResult Index(PriceFormModel priceFormModel)
-        {
-            WrapperClass wrapper = new WrapperClass();
-            wrapper.getPriceCallEuro(priceFormModel.SampleNb, priceFormModel.Maturity, priceFormModel.InitialPrice,
-                priceFormModel.Strike, priceFormModel.Volatility, priceFormModel.RiskFreeRate);
-            ViewBag.Price = wrapper.getPrice();
-            return View();
-        }
+       
     }
 }

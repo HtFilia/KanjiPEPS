@@ -1,23 +1,42 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
-@model WebComponent.Models.PriceFormModel 
+@model WebComponent.Models.PriceFormModel
 
-<form asp-action="Index" asp-controller="Home">
-    <label asp-for="SampleNb"></label>
-    <input asp-for="SampleNb" placeholder="Nombre de Simulations MC" />
-    <label asp-for="Maturity"></label>
-    <input asp-for="Maturity" placeholder="Maturité de l'option" />
-    <label asp-for="InitialPrice"></label>
-    <input asp-for="InitialPrice" placeholder="Prix initial du sous-jacent" />
-    <label asp-for="Strike"></label>
-    <input asp-for="Strike" placeholder="Strike de l'option" />
-    <label asp-for="Volatility"></label>
-    <input asp-for="Volatility" placeholder="Volatilité du sous-jacent" />
-    <label asp-for="RiskFreeRate"></label>
-    <input asp-for="RiskFreeRate" placeholder="Taux sans-risque du marché" />
-    <input type="submit" />
-</form>
+@using (Html.BeginForm())
+{
+<fieldset>
+    <legend>Modifier un restaurant</legend>
+
+    <div>
+        @Html.LabelFor(model => model.SampleNb)
+        @Html.TextBoxFor(model => model.SampleNb)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.Maturity)
+        @Html.TextBoxFor(model => model.Maturity)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.InitialPrice)
+        @Html.TextBoxFor(model => model.InitialPrice)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.Strike)
+        @Html.TextBoxFor(model => model.Strike)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.Volatility)
+        @Html.TextBoxFor(model => model.Volatility)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.RiskFreeRate)
+        @Html.TextBoxFor(model => model.RiskFreeRate)
+    </div>
+    <br />
+    <input type="submit" value="Envoyer" />
+</fieldset>
+}
+
 <div class="text-center">
     <h1 class="display-4">Bienvenue !</h1>
     <h2>Prix Kanji le <span id="date"></span> :  @ViewBag.Price</h2>

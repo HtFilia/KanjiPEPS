@@ -23,7 +23,7 @@ void validate_call(PnlRng* rng) {
 	MonteCarlo* mc = new MonteCarlo(model, call, rng, T / n_time_steps, n_samples, 0.0001);
 	int M = 365;
 	int H = M/4;
-	int n_scenarios = 100;
+	int n_scenarios = 50;
 	PnlMat* simulated_path = pnl_mat_create(M+1, 1);
 	model->simul_market(simulated_path, T, M, rng);
 	//validate_price_call(simulated_path, mc, model, n_scenarios);
@@ -245,6 +245,8 @@ void histogram_errors_call(MonteCarlo* mc, BlackScholesModel* model, PnlRng* rng
 			pnl_mat_print(comparaison);
 			std::cout << error << std::endl;
 			myfile << error << ";" << std::endl;
+			std::cout << error << std::endl;
+
 		}
 		myfile.close();
 	}

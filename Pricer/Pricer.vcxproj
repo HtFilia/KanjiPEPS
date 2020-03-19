@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{CAFEB82F-9272-4C2D-9434-8FED782CB3E4}</ProjectGuid>
     <RootNamespace>Computations</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>Pricer</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -77,6 +77,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\pnl-win64-1.10.4\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -121,21 +122,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BasketOption.cpp" />
     <ClCompile Include="BlackScholesModel.cpp" />
     <ClCompile Include="Computations.cpp" />
     <ClCompile Include="Computations.hpp" />
+    <ClCompile Include="FXBlackScholes.cpp" />
     <ClCompile Include="Hedge.cpp" />
     <ClCompile Include="MonteCarlo.cpp" />
     <ClCompile Include="Option.cpp" />
     <ClCompile Include="KanjiOption.cpp" />
+    <ClCompile Include="Quanto.cpp" />
     <ClCompile Include="VanillaCall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasketOption.hpp" />
     <ClInclude Include="BlackScholesModel.hpp" />
+    <ClInclude Include="FXBlackScholes.hpp" />
     <ClInclude Include="Hedge.hpp" />
     <ClInclude Include="MonteCarlo.hpp" />
     <ClInclude Include="Option.hpp" />
     <ClInclude Include="KanjiOption.hpp" />
+    <ClInclude Include="Quanto.hpp" />
     <ClInclude Include="VanillaCall.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
