@@ -1,0 +1,29 @@
+Validation deltas
+
+50 / 50sont dans l'intervalle de confiance
+
+45 / 50sont dans l'intervalle de confiance Zéro Coupon
+
+48 / 50sont dans l'intervalle de confiance
+
+49 / 50sont dans l'intervalle de confiance Zéro Coupon
+
+45 / 50sont dans l'intervalle de confiance
+
+41 / 50sont dans l'intervalle de confiance Zéro Coupon
+
+49 / 50sont dans l'intervalle de confiance
+
+50 / 50sont dans l'intervalle de confiance Zéro Coupon
+
+48 / 50sont dans l'intervalle de confiance
+
+50 / 50sont dans l'intervalle de confiance Zéro Coupon
+
+47 / 50sont dans l'intervalle de confiance
+
+47 / 50sont dans l'intervalle de confiance Zéro Coupon
+
+46 / 50sont dans l'intervalle de confiance
+
+47 / 50sont dans l'intervalle de confiance Zéro Coupon

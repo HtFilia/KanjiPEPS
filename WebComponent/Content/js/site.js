@@ -6,18 +6,3 @@
 // Panel on Sideline Navbar
 
 window.addEventListener('load', main, false);
-
-// Draw graph of kanji's price on sidebars
-function createGraph() {
-    var ctx = document.getElementById('kanji-price').getContext('2d');
-    var kanjiPrice = new Chart(ctx, {
-        type: 'line',
-        data: data,
-        options: options
-    });
-}
-
-function main() {
-    // Draw graph of kanji's price over time
-    createGraph();
-}

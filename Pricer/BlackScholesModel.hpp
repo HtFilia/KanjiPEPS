@@ -52,6 +52,8 @@ public:         /// nombre d'actifs du modèle
 		Gi = pnl_vect_create(size_);
     }
 
+
+
 	BlackScholesModel(int size, double r, PnlVect *sigma, PnlVect *spot, PnlVect* trend, PnlMat *corr_matrix) {
 		size_ = size;
 		r_ = r;

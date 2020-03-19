@@ -80,7 +80,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\Pricer\x64\Debug;..\pnl-win64-1.10.4\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>BlackScholesModel.obj;Computations.obj;Hedge.obj;MonteCarlo.obj;Option.obj;VanillaCall.obj;KanjiOption.obj;libpnl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BlackScholesModel.obj;Computations.obj;Hedge.obj;MonteCarlo.obj;Option.obj;VanillaCall.obj;KanjiOption.obj;Quanto.obj;FXBlackScholes.obj;BasketOption.obj;libpnl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -120,14 +120,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BasketValidation.cpp" />
     <ClCompile Include="CallValidation.cpp" />
     <ClCompile Include="KanjiValidation.cpp" />
+    <ClCompile Include="QuantoValidation.cpp" />
     <ClCompile Include="ValidateHedging.cpp" />
     <ClCompile Include="Validation.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasketValidation.hpp" />
     <ClInclude Include="CallValidation.hpp" />
     <ClInclude Include="KanjiValidation.hpp" />
+    <ClInclude Include="QuantoValidation.hpp" />
     <ClInclude Include="ValidateHedging.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

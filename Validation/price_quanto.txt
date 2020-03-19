@@ -1,0 +1,3 @@
+Validation price
+
+50 / 50sont dans l'intervalle de confiance
