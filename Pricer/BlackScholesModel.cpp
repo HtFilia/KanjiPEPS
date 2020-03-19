@@ -105,9 +105,6 @@ void BlackScholesModel::simul_market(PnlMat *path, double T, int heg_dates_numbe
 
 	double timeSpan = T / heg_dates_number;
 
-	PnlVect* Ld = pnl_vect_create(size_);
-	PnlVect* Gi = pnl_vect_create(size_);
-
 	for (int d = 0; d < size_; d++) {
 		pnl_mat_get_row(Ld, corr, d);
 		for (int i = 1; i <= heg_dates_number; i++) {
