@@ -1,202 +1,138 @@
-/**
- * \file BlackScholesModel.cpp
- *
- *
- * \brief Fichier source de la classe BlackScholesModel
- *
- * \authors LEBIHAN Lucas, COUTE Lucas, MOMMEJA Léonard, PRÊTRE-HECKENROTH Raphaël
- * Fait le 11.09.2019
- *
- */
-
+//
+// Created by boutzatz on 9/13/19.
+//
 #include <iostream>
+#include <cassert>
 #include "BlackScholesModel.hpp"
-#include "math.h"
 
-/**
- * Génère une trajectoire du modèle et la stocke dans path
- *
- * @param[out] path contient une trajectoire du modèle.
- * C'est une matrice de taille (nbTimeSteps+1) x d
- * @param[in] T  maturité
- * @param[in] nbTimeSteps nombre de dates de constatation
- */
+
+BlackScholesModel::~BlackScholesModel() {
+	//std::cout << "destructor ---";
+	pnl_vect_free(&sigma_);
+	pnl_vect_free(&spot_);
+	pnl_mat_free(&corr);
+	pnl_mat_free(&G);
+	pnl_vect_free(&Ld);
+	pnl_vect_free(&Gi);
+	//pnl_vect_free(&trend_);
+}
 void BlackScholesModel::asset(PnlMat *path, double T, int nbTimeSteps, PnlRng *rng) {
-    // Calcul du timestep
-    double timestep = T / (double)nbTimeSteps;
 
-    // Calcul de L
-    PnlMat* L = pnl_mat_create_from_scalar(size_, size_, rho_);
-    for (int d = 0; d < size_; d++) {
-        pnl_mat_set(L, d, d, 1);
-    }
-    pnl_mat_chol(L);
-    PnlVect* L_d = pnl_vect_create(size_);
+	pnl_mat_set_row(path, spot_, 0);
 
-    // Calcul de G
-    PnlMat* G = pnl_mat_create(nbTimeSteps, size_);
-    pnl_mat_rng_normal(G, nbTimeSteps, size_, rng);
-    PnlVect* G_i = pnl_vect_create(size_);
+	pnl_mat_resize(G, nbTimeSteps, size_);
+	pnl_mat_rng_normal(G, nbTimeSteps, size_, rng);
 
-    // On copie les spots sur le marché
-    pnl_mat_set_row(path, spot_, 0);
+	double expo = 0;
 
-    // Pour chaque temps t_i
-    for (int i = 1; i <= nbTimeSteps; i++) {
-        // Récupération de G_i
-        pnl_mat_get_row(G_i, G, i - 1);
+	double timeSpan = T / nbTimeSteps;
 
-        // Pour chaque spot d
-        for (int d = 0; d < size_; d++) {
-            // Récupération de L_d
-            pnl_mat_get_row(L_d, L, d);
+	for (int d = 0; d < size_; d++) {
+		pnl_mat_get_row(Ld, corr, d);
+		for (int i = 1; i <= nbTimeSteps; i++) {
+			pnl_mat_get_row(Gi, G, i - 1);
+			expo = pnl_expm1((r_ - pnl_pow_i(GET(sigma_, d), 2) / 2)  * timeSpan +
+				GET(sigma_, d) * sqrt(timeSpan) * pnl_vect_scalar_prod(Ld, Gi)) + 1;
+			pnl_mat_set(path, i, d, pnl_mat_get(path, i - 1, d) * expo);
+		}
+	}
 
-            // Calcul de l'élément (t_i, d) de la matrice en fonction de l'élément (t_(i-1), d)
-            double exposant = (r_ - SQR(GET(sigma_, d)) / 2) * timestep + GET(sigma_, d) * sqrt(timestep) * pnl_vect_scalar_prod(L_d, G_i);
-            pnl_mat_set(path, i, d, pnl_mat_get(path, i - 1, d) * exp(exposant));
-        }
-    }
-
-    //free
-//    pnl_vect_free(&G_i);
-//    pnl_vect_free(&L_d);
-//    pnl_mat_free(&L);
-//    pnl_mat_free(&G);
 }
 
-/**
- * Calcule une trajectoire du modèle connaissant le
- * passé jusqu' à la date t
- *
- * @param[out] path  contient une trajectoire du sous-jacent
- * donnée jusqu'à l'instant t par la matrice past
- * @param[in] t date jusqu'à laquelle on connait la trajectoire.
- * t n'est pas forcément une date de discrétisation
- * @param[in] nbTimeSteps nombre de pas de constatation
- * @param[in] T date jusqu'à laquelle on simule la trajectoire
- * @param[in] past trajectoire réalisée jusqu'a la date t
- */
+
 void BlackScholesModel::asset(PnlMat *path, double t, double T, int nbTimeSteps, PnlRng *rng, const PnlMat *past) {
-    int index = ceil(t * nbTimeSteps / T);
-
-    // Calcul de L
-    PnlMat* L = pnl_mat_create_from_scalar(size_, size_, rho_);
-    for (int d = 0; d < size_; d++) {
-        pnl_mat_set(L, d, d, 1);
-    }
-    pnl_mat_chol(L);
-    PnlVect* L_d = pnl_vect_create(size_);
-
-    // Calcul de G
-    PnlMat* G = pnl_mat_create(nbTimeSteps - index + 1, size_);
-    pnl_mat_rng_normal(G, nbTimeSteps - index + 1, size_, rng);
-    PnlVect* G_i = pnl_vect_create(size_);
-
-    // On copie les résultats de past (lignes [0 ; i]) plus les résultats en t
-    pnl_mat_set_subblock(path, past, 0, 0);
-
-    // Remplacement des cours en t par ceux en t_(i+1) (ligne i+1)
-    pnl_mat_get_row(G_i, G, 0);
-
-    double timestep = (index * T / (double)nbTimeSteps) - t;
-    for (int d = 0; d < size_; d++) {
-        pnl_mat_get_row(L_d, L, d);
-        double exposant = (r_ - SQR(GET(getSigma(), d)) / 2) * timestep + GET(getSigma(), d) * sqrt(timestep) * pnl_vect_scalar_prod(L_d, G_i);
-        pnl_mat_set(path, index, d, pnl_mat_get(path, index, d) * exp(exposant));
-    }
-
-    timestep = T / (double)nbTimeSteps;
-    // Pour chaque temps restant (lignes [i+2 ; N])
-    for (int i = index + 1; i <= nbTimeSteps; i++) {
-        // Calcul de G_i
-        pnl_mat_get_row(G_i, G, i - index);
-
-        // Pour chaque spot
-        for (int d = 0; d < size_; d++) {
-            pnl_mat_get_row(L_d, L, d);
-            double exposant = (r_ - SQR(GET(getSigma(), d)) / 2) * timestep + GET(getSigma(), d) * sqrt(timestep) * pnl_vect_scalar_prod(L_d, G_i);
-            pnl_mat_set(path, i, d, pnl_mat_get(path, i - 1, d) * exp(exposant));
-        }
-    }
-
-    //free
-//    pnl_vect_free(&G_i);
-//    pnl_vect_free(&L_d);
-//    pnl_mat_free(&L);
-//    pnl_mat_free(&G);
+	double timespan = T / nbTimeSteps;
+	double expo;
+	int i = int(t / timespan);
+	double t_i = i * timespan;
+	bool is_discrete_time = t == t_i;
+	// extracting the past part to the path
+	pnl_mat_extract_subblock(path, past, 0, i + 1, 0, size_);
+	pnl_mat_resize(path, nbTimeSteps + 1, size_);
+	pnl_mat_resize(G, nbTimeSteps - i, size_);
+	pnl_mat_rng_normal(G, nbTimeSteps - i, size_, rng);
+	double sigma = 0;
+	double s = 0;
+	double x = 0;
+	double past_s = 0;
+	if (!is_discrete_time) {
+		double delta_t = (i + 1)*timespan - t;
+		pnl_mat_get_row(Gi, G, 0);
+		for (int d = 0; d < size_; d++) {
+			pnl_mat_get_row(Ld, corr, d);
+			sigma = GET(sigma_, d);
+			x = (r_ - 0.5*sigma * sigma) * delta_t + sigma * sqrt(delta_t)*pnl_vect_scalar_prod(Ld, Gi);
+			expo = exp(x);
+			past_s = pnl_mat_get(past, past->m - 1, d);
+			s = past_s * expo;
+			pnl_mat_set(path, i + 1, d, s);
+		}
+	}
+	int offset = !is_discrete_time;
+	// offset is 1 if t is not a discrete time so that we skip the first row after the past which was filled before
+	for (int d = 0; d < size_; d++) {
+		pnl_mat_get_row(Ld, corr, d);
+		sigma = GET(sigma_, d);
+		for (int k = i + 1 + offset; k <= nbTimeSteps; k++) {
+			pnl_mat_get_row(Gi, G, k - i - 1);
+			x = (r_ - 0.5*sigma*sigma) * timespan + sigma * sqrt(timespan)*pnl_vect_scalar_prod(Ld, Gi);
+			expo = exp(x);
+			past_s = pnl_mat_get(path, k - 1, d);
+			s = past_s * expo;
+			pnl_mat_set(path, k, d, s);
+		}
+	}
 }
 
-/**
- * Shift d'une trajectoire du sous-jacent
- *
- * @param[in]  path contient en input la trajectoire
- * du sous-jacent
- * @param[out] shift_path contient la trajectoire path
- * dont la composante d a été shiftée par (1+h)
- * à partir de la date t.
- * @param[in] t date à partir de laquelle on shift
- * @param[in] h pas de différences finies
- * @param[in] d indice du sous-jacent à shifter
- * @param[in] timestep pas de constatation du sous-jacent
- */
+
+
 void BlackScholesModel::shiftAsset(PnlMat *shift_path, const PnlMat *path, int d, double h, double t, double timestep) {
-
-    // Copy shift-path
-    pnl_mat_set_subblock(shift_path, path, 0, 0);
-
-    // Shifting Start
-    for (int i = floor(t / timestep) + 1; i < path->m; i++) {
-        pnl_mat_set(shift_path, i, d, pnl_mat_get(shift_path, i, d) * (1 + h));
-    }
+	int i = ceil(t / timestep);
+	pnl_mat_clone(shift_path, path);
+	for (int k = i; k < path->m; ++k) {
+		pnl_mat_set(shift_path, k, d, (1 + h)*pnl_mat_get(path, k, d));
+	}
 }
 
-/**
-     * Simulation du marché
-     *
-     * @param[out]  path contient en input la simulation du marché
-     * @param[in] T date jusqu'à laquelle on simule la trajectoire
-     * @param[in] H nombre de dates pour la simulation
-     * @param[in] rng générateur de nombres aléatoires
-     */
-void BlackScholesModel::simul_market(PnlMat *path, double T, int H, PnlRng *rng) {
-    // Calcul du timestep
-    double timestep = T / (double)H;
 
-    // Calcul de L
-    PnlMat* L = pnl_mat_create_from_scalar(size_, size_, rho_);
-    for (int d = 0; d < size_; d++) {
-        pnl_mat_set(L, d, d, 1);
-    }
-    pnl_mat_chol(L);
-    PnlVect* L_d = pnl_vect_create(size_);
+void BlackScholesModel::simul_market(PnlMat *path, double T, int heg_dates_number, PnlRng *rng) {
+	pnl_mat_resize(path, heg_dates_number + 1, size_);
+	pnl_mat_set_row(path, spot_, 0);
+	pnl_mat_resize(G, heg_dates_number, size_);
+	pnl_mat_rng_normal(G, heg_dates_number, size_, rng);
 
-    // Calcul de G
-    PnlMat* G = pnl_mat_create(H, size_);
-    pnl_mat_rng_normal(G, H, size_, rng);
-    PnlVect* G_i = pnl_vect_create(size_);
+	double expo = 0;
 
-    // On copie les spots sur le marché
-    pnl_mat_set_row(path, spot_, 0);
+	double timeSpan = T / heg_dates_number;
 
-    // Pour chaque temps t_i
-    for (int i = 1; i <= H; i++) {
-        // Récupération de G_i
-        pnl_mat_get_row(G_i, G, i - 1);
+	for (int d = 0; d < size_; d++) {
+		pnl_mat_get_row(Ld, corr, d);
+		for (int i = 1; i <= heg_dates_number; i++) {
+			pnl_mat_get_row(Gi, G, i - 1);
+			expo = pnl_expm1((GET(trend_, d) - pnl_pow_i(GET(sigma_, d), 2) / 2)  * timeSpan +
+				GET(sigma_, d) * sqrt(timeSpan) * pnl_vect_scalar_prod(Ld, Gi)) + 1;
+			pnl_mat_set(path, i, d, pnl_mat_get(path, i - 1, d) * expo);
+		}
+	}
+}
 
-        // Pour chaque spot d
-        for (int d = 0; d < size_; d++) {
-            // Récupération de L_d
-            pnl_mat_get_row(L_d, L, d);
 
-            // Calcul de l'élément (t_i, d) de la matrice en fonction de l'élément (t_(i-1), d)
-            double exposant = (GET(trend_, d) - SQR(GET(sigma_, d)) / 2) * timestep + GET(sigma_, d) * sqrt(timestep) * pnl_vect_scalar_prod(L_d, G_i);
-            pnl_mat_set(path, i, d, pnl_mat_get(path, i - 1, d) * exp(exposant));
-        }
-    }
-
-    //free
-    pnl_vect_free(&G_i);
-    pnl_vect_free(&L_d);
-    pnl_mat_free(&L);
-    pnl_mat_free(&G);
+void BlackScholesModel::getPast(PnlMat *past, PnlMat *path, double t, int n_time_steps, double T)
+{
+	int H = path->m - 1;
+	double timespan = T / n_time_steps;
+	int dates_till_t = ceil(t / timespan) + 1;
+	pnl_mat_resize(past, dates_till_t, size_);
+	PnlVect *tmp = pnl_vect_create(size_);
+	int index;
+	for (int i = 0; i < dates_till_t - 1; i++)
+	{
+		index = i * H / n_time_steps;
+		pnl_mat_get_row(tmp, path, index);
+		pnl_mat_set_row(past, tmp, i);
+	}
+	index = std::round(t*H / T);
+	pnl_mat_get_row(tmp, path, index);
+	pnl_mat_set_row(past, tmp, dates_till_t - 1);
+	pnl_vect_free(&tmp);
 }
