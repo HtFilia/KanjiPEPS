@@ -19,7 +19,7 @@ namespace PricingKanji
             Stopwatch sw = new Stopwatch();
             sw.Start();
             DataReader reader = new DataReader();
-            List<DataFeed> feeds = reader.ReadData();
+            List<DataFeed> feeds = reader.ReadDataBis((decimal) 0.05, (decimal) 0.07);
             DataFeed last = feeds.Last();
             int estimationwindow = 200;
             DateTime maturityDate = new DateTime(2021, 03, 26);
