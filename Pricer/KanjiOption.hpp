@@ -38,7 +38,7 @@ public:
 		T_ = T;
 		nbTimeSteps_ = nbTimeSteps;
 		size_ = size;
-		initial_values = values;
+		initial_values = pnl_vect_copy(values);
 		type_ = kanji;
 		netAssetValue_ = netAssetValue;
 	}

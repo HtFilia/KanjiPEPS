@@ -134,6 +134,11 @@
     <ClInclude Include="QuantoValidation.hpp" />
     <ClInclude Include="ValidateHedging.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pricer\Pricer.vcxproj">
+      <Project>{cafeb82f-9272-4c2d-9434-8fed782cb3e4}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

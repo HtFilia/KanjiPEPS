@@ -72,9 +72,6 @@ void MonteCarlo::price(const PnlMat *past, double t, double &prix, double &ic) {
 
 
 void MonteCarlo::delta(const PnlMat *past, double t, PnlVect *delta, PnlVect *ic) {
-	pnl_vect_set_all(delta, 0.0);
-	pnl_vect_set_all(ic, 0.0);
-
 	if (opt_->type_ == call) {
 	VanillaCall* call = dynamic_cast<VanillaCall*> (opt_);
 	if (!call->mc_pricing) {

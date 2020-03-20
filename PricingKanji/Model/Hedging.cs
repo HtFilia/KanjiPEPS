@@ -12,8 +12,8 @@ namespace PricingKanji.Model
 {
     class Hedging
     {
-        private DateTime startdate;
-        private DateTime maturity_date;
+        public DateTime startdate;
+        public DateTime maturity_date;
         int estimationWindow;
         int rebalancingFrequency;
         Market market;
@@ -29,8 +29,8 @@ namespace PricingKanji.Model
             this.estimationWindow = estimation;
             this.rebalancingFrequency = freq;
             this.market = market_;
-            startdate = new DateTime(2013, 03, 22);
-            maturity_date = new DateTime(2021, 03, 26);
+            startdate = new DateTime(2013, 03, 26);
+            maturity_date = new DateTime(2021, 03, 23);
             size = market.feeds.First().PriceList.Count;
             volatilities = new double[size];
             correlation_vector = new double[size * size];
@@ -46,7 +46,7 @@ namespace PricingKanji.Model
                 if (feed.Date.CompareTo(startdate) < 0)
                 {
                     count++;
-                }
+                }   
             }
             return count;
         }
@@ -65,16 +65,15 @@ namespace PricingKanji.Model
 
             DateTime start_date = effective_feeds.First().Date;
             DateTime last_date = effective_feeds.Last().Date;
-            double maturity = (maturity_date - start_date).TotalDays;
-            double matu_in_years = maturity / Market.businessDdaysPerYear;
+            double matu_in_years = computeTime(start_date, maturity_date);
             DataFeed prevFeed = null;
             foreach (DataFeed feed in effective_feeds)
             {
-                spots = Market.marketSpots(feed);
+                spots = Utilities.ToDouble(market.getFeed(feed.Date).PriceList.Values.ToArray());
+                //spots = Market.marketSpots(feed);
                 double[] past = getPast(feed.Date);
                 int nb_dates = past.Length / kanji.size;
-                double t = (feed.Date - start_date).TotalDays;
-                double t_in_years = t / Market.businessDdaysPerYear;
+                double t_in_years = computeTime(start_date, feed.Date);
 
                 if (counter == previous_feeds.Count)
                 {
@@ -155,7 +154,7 @@ namespace PricingKanji.Model
             return returnStruct;
         }
 
-        void calibrateParameters(int counter)
+        public void calibrateParameters(int counter)
         { //estimate correlation and volatilities with prior estimationWindow dates, counter is date index in market.feeds
             List<DataFeed> estimationSample = market.feeds.GetRange(counter - estimationWindow, estimationWindow);
             double[,] correlationMatrix = Calibration.CorrMatrix(estimationSample);
@@ -192,14 +191,19 @@ namespace PricingKanji.Model
             return past;
 
         }
-
+        public double computeTime(DateTime start, DateTime end)
+        {
+            int count = market.feeds.IndexOf(market.getFeed(end)) - market.feeds.IndexOf(market.getFeed(start));
+            return count / 252.0;
+        }
         public double price(DateTime date)
         {
             DataFeed feed = market.getFeed(date);
             List<DataFeed> effectiveFeeds = market.feeds.GetRange(previous_feeds_number, market.feeds.Count - previous_feeds_number);
             DateTime start_date = effectiveFeeds.First().Date;
             DateTime last_date = effectiveFeeds.Last().Date;
-            double maturity = (maturity_date - start_date).TotalDays;
+            double maturity = DayCount.CountBusinessDays(start_date, maturity_date);
+            //double maturity = (maturity_date - start_date).TotalDays;
             double matu_in_years = maturity / Market.businessDdaysPerYear;
             double t = DayCount.CountBusinessDays(start_date, feed.Date);
             double t_in_years = t / Market.businessDdaysPerYear;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PricingKanji.Model
 {
-    class Utilities
+    public static class Utilities
     {
         // Adds busniessDayCount days to the startDate
         public static DateTime AddBusinessDays(DateTime startDate, int businessDayCount)
@@ -68,6 +68,8 @@ namespace PricingKanji.Model
         }
 
 
+        public static double[] ToDouble(this decimal[] arr) =>
+                                 Array.ConvertAll(arr, x => (double)x);
 
 
     }

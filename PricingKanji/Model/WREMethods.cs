@@ -13,7 +13,7 @@ namespace PricingKanji.Model
     {
 
         // import WRE dlls
-        [DllImport(@"C:\Users\IEUser\Desktop\Kanji\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCov", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"C:\Users\anas\source\repos\PEPS\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCov", CallingConvention = CallingConvention.Cdecl)]
         // declaration
         public static extern int WREmodelingCov(
             ref int returnsSize,
@@ -23,7 +23,7 @@ namespace PricingKanji.Model
             ref int info
         );
 
-        [DllImport(@"C:\Users\IEUser\Desktop\Kanji\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingLogReturns", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"C:\Users\anas\source\repos\PEPS\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingLogReturns", CallingConvention = CallingConvention.Cdecl)]
         public static extern int WREmodelingLogReturns(
             ref int nbValues,
             ref int nbAssets,
@@ -31,7 +31,7 @@ namespace PricingKanji.Model
             ref int horizon,
             double[,] assetsReturns,
             ref int info);
-        [DllImport(@"C:\Users\IEUser\Desktop\Kanji\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"C:\Users\anas\source\repos\PEPS\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr", CallingConvention = CallingConvention.Cdecl)]
         public static extern int WREmodelingCorr(
             ref int nbValues,
             ref int nbAssets,
@@ -47,7 +47,7 @@ namespace PricingKanji.Model
             double[,] corr,
             ref int info);
 
-        [DllImport(@"C:\Users\IEUser\Desktop\Kanji\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingMeanReturn", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"C:\Users\anas\source\repos\PEPS\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingMeanReturn", CallingConvention = CallingConvention.Cdecl)]
         public static extern int WREmodelingMeanReturn(
         ref int nbDates,
         ref int nbAssets,
@@ -55,7 +55,7 @@ namespace PricingKanji.Model
         double[] MeanReturn,
         ref int info);
 
-        [DllImport(@"C:\Users\IEUser\Desktop\Kanji\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingReturns", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"C:\Users\anas\source\repos\PEPS\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingReturns", CallingConvention = CallingConvention.Cdecl)]
         public static extern int WREmodelingReturns(
         ref int nbValues,
         ref int nbAssets,

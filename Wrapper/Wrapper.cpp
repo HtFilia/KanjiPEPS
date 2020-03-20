@@ -60,8 +60,7 @@ namespace Wrapper {
 	}
 
 	void WrapperClass::SimulMarket(double t, double maturity, int nbHedging_dates, array<double, 1> ^spots, array<double, 1> ^trends, array<double, 1> ^sigmas, array<double, 1> ^correlation, double r) {
-		int path_size = (int)(t * nbHedging_dates) / maturity;
-		array<double, 1>^ path = gcnew array<double, 1>(3 * path_size);
+		array<double, 1>^ path = gcnew array<double, 1>(3 * nbHedging_dates);
 		pin_ptr<double> ptr_path = &path[0];
 		pin_ptr<double> ptr_S0 = &spots[0];
 		pin_ptr<double> ptr_sigma = &sigmas[0];

@@ -1,3 +1,6 @@
+#ifndef COMPUTATIONS
+#define COMPUTATIONS
+
 #include "Computations.hpp"
 #include <iostream>
 #include <time.h>
@@ -74,10 +77,9 @@ void Computations::performance_delta_t(double netAssetValue, double ic_deltas[],
 }
 
 
-void Computations::simul_market(double path_[], double t, double maturity, int nbHedging_dates, double s0_[], double trends_[], double sigmas_[], double correlation[], double r)
+void Computations::simul_market(double path_[], double t, double maturity, int nb_dates, double s0_[], double trends_[], double sigmas_[], double correlation[], double r)
 {
-	int size_path = (t * nbHedging_dates) / maturity;
-	PnlMat* path = pnl_mat_create(size_path, size);
+	PnlMat* path = pnl_mat_create(nb_dates + 1, size);
 	PnlVect* s0 = pnl_vect_create_from_ptr(size, s0_);
 	PnlVect* sigma = pnl_vect_create_from_ptr(size, sigmas_);
 	PnlVect* trend_vec = pnl_vect_create_from_ptr(size, trends_);
@@ -87,7 +89,7 @@ void Computations::simul_market(double path_[], double t, double maturity, int n
 	PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
 	pnl_rng_sseed(rng, time(NULL));
 
-	model->simul_market(path, maturity, nbHedging_dates, rng);
+	model->simul_market(path, maturity-t, nb_dates, rng);
 	for (int index_row = 0; index_row < path->m; index_row++) {
 		for (int index_col = 0; index_col < path->n; index_col++) {
 			path_[index_row * path->n + index_col] = pnl_mat_get(path, index_row, index_col);
@@ -110,3 +112,4 @@ MonteCarlo* Computations::initialize_mc(int nb_samples, double T, double past_[]
 	MonteCarlo *mc = new MonteCarlo(model, perf_option, rng, T / n_time_steps, nb_samples, 0.07);
 	return mc;
 }
+#endif

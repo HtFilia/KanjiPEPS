@@ -51,12 +51,17 @@ namespace PricingKanji.Model
             DateTime simulatedDate = lastDay;
             DataFeed feed;
             Dictionary<string, decimal> priceList = null;
-            double matu_in_years = (DayCount.CountBusinessDays(lastDay,maturity) ) / businessDdaysPerYear;
+            double matu_in_years = (DayCount.CountBusinessDays(firstDay,maturity) ) / businessDdaysPerYear;
             double t_in_years = DayCount.CountBusinessDays(firstDay, lastDay) / businessDdaysPerYear;
             double[] contigous_correlation = new double[estimated_correlation.Length];
-            Buffer.BlockCopy(estimated_correlation, 0, contigous_correlation, 0, estimated_correlation.Length);
+            int k = 0;
+            foreach(double x in estimated_correlation)
+            {
+                contigous_correlation[k] = x;
+                k++;
+            }
             double[] spots = Market.marketSpots(feeds.Last());
-            wc.SimulMarket(t_in_years, matu_in_years, nbSimulatedDates, spots, estimated_trend, estimated_volatilities, contigous_correlation, r);
+            wc.SimulMarket(t_in_years, matu_in_years, nbSimulatedDates+1, spots, estimated_trend, estimated_volatilities, contigous_correlation, r);
             double[] path = wc.getPath();
             DataFeed firstFeed = feeds.First();
             int size = firstFeed.PriceList.Count;
