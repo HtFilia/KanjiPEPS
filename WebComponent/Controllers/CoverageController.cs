@@ -30,7 +30,7 @@ namespace WebComponent.Controllers
         private void PrixKanji()
         {
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Kanji.csv"))
+            using (var reader = new StreamReader(@"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS\WebComponent\Content\csv\Kanji.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -57,7 +57,9 @@ namespace WebComponent.Controllers
         private void CouvertureKanji()
         {
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Kanji.csv"))
+            List<DataPoint> percentages = new List<DataPoint>();
+
+            using (var reader = new StreamReader(@"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS\WebComponent\Content\csv\Kanji.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -76,8 +78,13 @@ namespace WebComponent.Controllers
                 }
             }
 
+            /* TODO: Actual percentages in portfolio */
+            percentages.Add(new DataPoint("Hang Seng", 60));
+            percentages.Add(new DataPoint("Euronext", 30));
+            percentages.Add(new DataPoint("S&P 500", 10));
 
             ViewBag.CouvertureKanji = JsonConvert.SerializeObject(dataPoints);
+            ViewBag.PercentageCoverage = JsonConvert.SerializeObject(percentages);
         }
 
     }
