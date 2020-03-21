@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{EBD4F94D-03DB-484C-AA51-A73B103C4653}</ProjectGuid>
     <RootNamespace>PricerValidation</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -41,7 +41,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -122,16 +122,20 @@
   <ItemGroup>
     <ClCompile Include="BasketValidation.cpp" />
     <ClCompile Include="CallValidation.cpp" />
+    <ClCompile Include="DataMarketReader.cpp" />
     <ClCompile Include="KanjiValidation.cpp" />
     <ClCompile Include="QuantoValidation.cpp" />
+    <ClCompile Include="SemiHistoricKanji.cpp" />
     <ClCompile Include="ValidateHedging.cpp" />
     <ClCompile Include="Validation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasketValidation.hpp" />
     <ClInclude Include="CallValidation.hpp" />
+    <ClInclude Include="DataMarketReader.h" />
     <ClInclude Include="KanjiValidation.hpp" />
     <ClInclude Include="QuantoValidation.hpp" />
+    <ClInclude Include="SemiHistoricKanji.hpp" />
     <ClInclude Include="ValidateHedging.hpp" />
   </ItemGroup>
   <ItemGroup>
