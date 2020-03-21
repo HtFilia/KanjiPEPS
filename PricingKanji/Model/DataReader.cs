@@ -68,19 +68,19 @@ namespace PricingKanji.Model
             String Path = "";
             switch(Name){
                 case "ESTX 50":
-                    Path = "../../../../eurostoxx.csv";
+                    Path = "../../../../MarketData/eurostoxx.csv";
                     break;
                 case "S&P 500":
-                    Path = "../../../../snp500.csv";
+                    Path = "../../../../MarketData/snp500.csv";
                     break;
                 case "HANG SENG INDEX":
-                    Path = "../../../../hsi.csv";
+                    Path = "../../../../MarketData/hsi.csv";
                     break;
                 case "EURUSD":
-                    Path = "../../../../EURUSD.csv";
+                    Path = "../../../../MarketData/EURUSD.csv";
                     break;
                 case "EURHKD":
-                    Path = "../../../../EURHKD.csv";
+                    Path = "../../../../MarketData/EURHKD.csv";
                     break;
             }
 
