@@ -7,6 +7,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebComponent.Models;
+using PricingLibrary.FinancialProducts;
+using PricingKanji.Model;
+using PricingLibrary.Utilities.MarketDataFeed;
+using System.Diagnostics;
 
 namespace WebComponent.Controllers
 {
@@ -22,6 +26,13 @@ namespace WebComponent.Controllers
             {
                 int freq = Convert.ToInt32(Request.Form["Freq"]);
                 int estimationWidow = Convert.ToInt32(Request.Form["EstimationWindow"]);
+                DataReader reader = new DataReader();
+                List<DataFeed> data = reader.ReadData();
+                int estimation_window = 80;
+                double r = 0.01;
+                Hedging hedging = new Hedging(estimation_window, freq, data, r);
+                Dictionary<DateTime, HedgeOutput> output = hedging.HedgeKandji();
+
             }
             return View();
         }
@@ -30,7 +41,7 @@ namespace WebComponent.Controllers
         private void PrixKanji()
         {
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS\WebComponent\Content\csv\Kanji.csv"))
+            using (var reader = new StreamReader(@"C:\Users\anas\source\repos\PEPS\WebComponent\Content\csv\Kanji.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -58,8 +69,11 @@ namespace WebComponent.Controllers
         {
             List<DataPoint> dataPoints = new List<DataPoint>();
             List<DataPoint> percentages = new List<DataPoint>();
-
-            using (var reader = new StreamReader(@"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS\WebComponent\Content\csv\Kanji.csv"))
+            string filePath = System.IO.Path.GetFullPath("Kanji.csv");
+            string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+            string dir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            string file = dir + @"\TestDir\TestFile.txt";
+            using (var reader = new StreamReader(@"C:\Users\anas\source\repos\PEPS\WebComponent\Content\csv\Kanji.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";

@@ -10,7 +10,7 @@ using System.Globalization;
 
 namespace PricingKanji.Model
 {
-    class DataReader
+    public class DataReader
     {
         public List<DataFeed> ReadData()
         {
@@ -38,7 +38,7 @@ namespace PricingKanji.Model
             return feeds;
         }
 
-        public IndexValue ParseFile(String Name)
+        IndexValue ParseFile(String Name)
         {
             String Path = "";
             switch(Name){

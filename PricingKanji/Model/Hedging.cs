@@ -9,7 +9,7 @@ using Wrapper;
 
 namespace PricingKanji.Model
 {
-    class Hedging
+    public class Hedging
     {
         private DateTime startdate ;
         private DateTime maturity_date;
