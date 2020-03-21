@@ -58,6 +58,7 @@ namespace PricingKanji
                 }
                 s += "\n";
             }
+            Console.WriteLine(s);
             File.WriteAllText(@"../../../../kanji_market.dat", s);
         }
     }
