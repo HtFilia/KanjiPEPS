@@ -8,12 +8,13 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>PricingKanji</RootNamespace>
     <AssemblyName>PricingKanji</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -89,6 +90,7 @@
     <Compile Include="Model\HedgeOutput.cs" />
     <Compile Include="Model\Hedging.cs" />
     <Compile Include="Model\IndexValue.cs" />
+    <Compile Include="Model\KanjiOption.cs" />
     <Compile Include="Model\Market.cs" />
     <Compile Include="Model\Portfolio.cs" />
     <Compile Include="Model\Pricing.cs" />
@@ -117,9 +119,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Wrapper\Wrapper.vcxproj">
-      <Project>{8bce29e0-8083-486f-be80-302ad76af2b2}</Project>
-      <Name>Wrapper</Name>
+    <ProjectReference Include="..\WrapperComponent\WrapperComponent.vcxproj">
+      <Project>{1d60021a-bc78-458d-b18c-b1d3845fb77e}</Project>
+      <Name>WrapperComponent</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

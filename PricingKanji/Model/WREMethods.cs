@@ -13,7 +13,7 @@ namespace PricingKanji.Model
     {
 
         // import WRE dlls
-        [DllImport(@"C:\Users\anas\source\repos\PEPS\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCov", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCov", CallingConvention = CallingConvention.Cdecl)]
         // declaration
         public static extern int WREmodelingCov(
             ref int returnsSize,
@@ -23,7 +23,7 @@ namespace PricingKanji.Model
             ref int info
         );
 
-        [DllImport(@"C:\Users\anas\source\repos\PEPS\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingLogReturns", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingLogReturns", CallingConvention = CallingConvention.Cdecl)]
         public static extern int WREmodelingLogReturns(
             ref int nbValues,
             ref int nbAssets,
@@ -31,7 +31,7 @@ namespace PricingKanji.Model
             ref int horizon,
             double[,] assetsReturns,
             ref int info);
-        [DllImport(@"C:\Users\anas\source\repos\PEPS\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr", CallingConvention = CallingConvention.Cdecl)]
         public static extern int WREmodelingCorr(
             ref int nbValues,
             ref int nbAssets,
@@ -39,7 +39,7 @@ namespace PricingKanji.Model
             double[,] corr,
             ref int info);
 
-        [DllImport(@"C:\Users\anas\source\repos\PEPS\wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility", CallingConvention = CallingConvention.Cdecl)]
         public static extern int WREanalysisExpostVolatility(
             ref int nbValues,
             ref int nbAssets,
@@ -47,12 +47,13 @@ namespace PricingKanji.Model
             double[,] corr,
             ref int info);
 
-        [DllImport(@"C:\Users\anas\source\repos\PEPS\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingMeanReturn", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int WREmodelingMeanReturn(
-        ref int nbDates,
+        [DllImport(@"wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingReturns", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int WREmodelingReturns(
+        ref int nbValues,
         ref int nbAssets,
-        double[,] HistoricalReturns,
-        double[] MeanReturn,
+        double[,] assetsValues,
+        ref int horizon,
+        double[,] assetsReturns,
         ref int info);
 
 
@@ -78,6 +79,38 @@ namespace PricingKanji.Model
             int info = 0;
             int res;
             res = WREmodelingLogReturns(ref nbValues, ref nbAssets, assetsValues, ref horizon, assetsReturns, ref info);
+            if (res != 0)
+            {
+                if (res < 0)
+                    throw new Exception("ERROR: WREmodelingLogReturns encountred a problem. See info parameter for more details");
+                else
+                    throw new Exception("WARNING: WREmodelingLogReturns encountred a problem. See info parameter for more details");
+            }
+            return assetsReturns;
+        }
+
+
+        public static double[,] arithmeticReturns(List<DataFeed> dataFeeds)
+        {
+            int nbValues = dataFeeds.Count;
+            int nbAssets = dataFeeds.ElementAt(0).PriceList.Count;
+            double[,] assetsValues = new double[nbValues, nbAssets];
+            int keyCount;
+            foreach (DataFeed feed in dataFeeds)
+            {
+                keyCount = 0;
+                foreach (string key in feed.PriceList.Keys)
+                {
+                    assetsValues[dataFeeds.IndexOf(feed), keyCount] = (double)feed.PriceList[key];
+                    keyCount++;
+                }
+            }
+            int horizon = 1;
+
+            double[,] assetsReturns = new double[nbValues - horizon, nbAssets];
+            int info = 0;
+            int res;
+            res = WREmodelingReturns(ref nbValues, ref nbAssets, assetsValues, ref horizon, assetsReturns, ref info);
             if (res != 0)
             {
                 if (res < 0)
@@ -128,18 +161,28 @@ namespace PricingKanji.Model
 
         public static double[] ComputeTrend(int nbDates, int nbAssets, double[,] HistoricalReturns)
         {
-            double[] MeanReturn = new double[nbAssets];
-            int info = 0;
-            int res = WREmodelingMeanReturn(ref nbDates, ref nbAssets, HistoricalReturns, MeanReturn, ref info);
-            if (res != 0)
+            double[] meanReturn = new double[nbAssets];
+            for (int i = 0; i < nbDates - 1; i++)
             {
-                if (res < 0)
-                    throw new Exception("ERROR: WREmodelingCorrelation encountred a problem. See info parameter for more details");
-                else
-                    throw new Exception("WARNING: WREmodelingCorrelation encountred a problem. See info parameter for more details");
+                for (int asset = 0; asset < nbAssets; asset++)
+                {
+                    meanReturn[asset] += HistoricalReturns[i, asset] / (nbDates - 1);
+                }
             }
+            return meanReturn;
+        }
+        public static double[] ComputeMeanLogReturn(int nbDates, int nbAssets, double[,] logreturns)
+        {
+            double[] meanLogReturn = new double[nbAssets];
+            for (int i = 0; i < nbDates - 1; i++)
+            {
+                for (int asset = 0; asset < nbAssets; asset++)
+                {
+                    meanLogReturn[asset] += logreturns[i, asset] / (nbDates - 1);
+                }
+            }
+            return meanLogReturn;
 
-            return MeanReturn;
         }
 
     }

@@ -1,3 +1,6 @@
+#ifndef COMPUTATIONS
+#define COMPUTATIONS
+
 #include "Computations.hpp"
 #include <iostream>
 #include <time.h>
@@ -50,68 +53,33 @@ void Computations::calleuro(double &ic, double &prix, int nb_samples, double T,
 	ic = 1.96 * sqrt(var / nb_samples);
 	pnl_rng_free(&rng);
 }
-void  Computations::performance_price_hedge(double &ic, double &prix, double ic_deltas[], double deltas[], int nb_samples, double T,
-	double S0_[], double sigma_[], double correlation, double r) {
-	int size = 3;
-	PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
-	pnl_rng_sseed(rng, time(NULL));
 
-	PnlVect * deltass = pnl_vect_create(3);
-	PnlVect * ic_deltass = pnl_vect_create(3);
-
-	int M = 50000;
-	int n_time_steps = 16;
-
-
-	double spot_ = 2681;
-
-	PnlVect *spot = pnl_vect_create_from_ptr(size, S0_);
-	PnlVect* sigma = pnl_vect_create_from_ptr(size, sigma_);
-	PnlVect *trend = pnl_vect_create_from_scalar(size, r);
-	BlackScholesModel* model = new BlackScholesModel(size, r, correlation, sigma, spot, trend);
-	KanjiOption *kanji = new KanjiOption(T, n_time_steps, size);
-	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, M, 0.1);
-	PnlMat *past = pnl_mat_create_from_double(1, 3, 0);
-	pnl_mat_set_row(past, spot, 0);
-	for (int i = 0; i < 3; i++) {
-		deltas[i] = pnl_vect_get(deltass, i);
-	}
+void Computations::performance_price_t(double netAssetValue, double &ic, double &prix, int nb_samples, double T,
+	double t, double past_[], double inital_values[], int nb_dates, double sigma_[], double correlation[], double r)
+{
+	PnlMat *past = pnl_mat_create_from_ptr(nb_dates, size, past_);
+	MonteCarlo *mc = initialize_mc(nb_samples, T, past_, netAssetValue, inital_values, nb_dates, sigma_, correlation, r);
+	mc->price(past, t, prix, ic);
 }
 
-void Computations::performance_price_hedge_t(double &ic, double &prix, double ic_deltas[], double deltas[], int nb_samples, double T,
-	double t, double past_[], double nb_dates, double sigma_[], double correlation[], double r)
+void Computations::performance_delta_t(double netAssetValue, double ic_deltas[], double deltas[], int nb_samples, double T,
+	double t, double past_[], double inital_values[], int nb_dates, double sigma_[], double correlation[], double r)
 {
-	int size = 3;
 	PnlVect* ic_delta = pnl_vect_create_from_ptr(size, ic_deltas);
 	PnlVect* delta = pnl_vect_create_from_ptr(size, deltas);
-	PnlMat* correlation_matrix = pnl_mat_create_from_ptr(size, size, correlation);
 	PnlMat *past = pnl_mat_create_from_ptr(nb_dates, size, past_);
-	PnlVect* S0 = pnl_vect_create(3);
-	pnl_mat_get_row(S0, past, 0);
-	PnlVect* sigma = pnl_vect_create_from_ptr(size, sigma_);
-	PnlVect* trend_vec = pnl_vect_create_from_double(1, r);
-	BlackScholesModel *model = new BlackScholesModel(size, r, sigma, S0, trend_vec, correlation_matrix);
-	int timesteps = 16; //voir boucle dans perf payoff
-
-
-	KanjiOption *perf_option = new KanjiOption(T, timesteps, size);
-	PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
-	pnl_rng_sseed(rng, time(NULL));
-
-	MonteCarlo *mc = new MonteCarlo(model, perf_option, rng, T / timesteps, nb_samples, 0.07);
-	//pnl_mat_print(past);
-	mc->price(past, t, prix, ic);
+	MonteCarlo *mc = initialize_mc(nb_samples, T, past_, netAssetValue, inital_values, nb_dates, sigma_, correlation, r);
 	mc->delta(past, t, delta, ic_delta);
 	for (int i = 0; i < delta->size; i++) {
 		deltas[i] = pnl_vect_get(delta, i);
 		ic_deltas[i] = pnl_vect_get(ic_delta, i);
 	}
 }
-void Computations::simul_market(double path_[], double t, double maturity, int nbHedging_dates, double s0_[], double trends_[], double sigmas_[], double correlation[], double r)
+
+
+void Computations::simul_market(double path_[], double t, double maturity, int nb_dates, double s0_[], double trends_[], double sigmas_[], double correlation[], double r)
 {
-	int size_path = (t * nbHedging_dates) / maturity;
-	int size = 3; //should be generalized
-	PnlMat* path = pnl_mat_create(size_path, size);
+	PnlMat* path = pnl_mat_create(nb_dates + 1, size);
 	PnlVect* s0 = pnl_vect_create_from_ptr(size, s0_);
 	PnlVect* sigma = pnl_vect_create_from_ptr(size, sigmas_);
 	PnlVect* trend_vec = pnl_vect_create_from_ptr(size, trends_);
@@ -121,11 +89,27 @@ void Computations::simul_market(double path_[], double t, double maturity, int n
 	PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
 	pnl_rng_sseed(rng, time(NULL));
 
-	model->simul_market(path, maturity, nbHedging_dates, rng);
+	model->simul_market(path, maturity - t, nb_dates, rng);
 	for (int index_row = 0; index_row < path->m; index_row++) {
 		for (int index_col = 0; index_col < path->n; index_col++) {
 			path_[index_row * path->n + index_col] = pnl_mat_get(path, index_row, index_col);
 		}
-
 	}
 }
+
+MonteCarlo* Computations::initialize_mc(int nb_samples, double T, double past_[], double netAssetValue, double inital_values[], int nb_dates, double sigma_[], double correlation[], double r) {
+	PnlMat* correlation_matrix = pnl_mat_create_from_ptr(size, size, correlation);
+	PnlMat *past = pnl_mat_create_from_ptr(nb_dates, size, past_);
+	PnlVect* S0 = pnl_vect_create(3);
+	pnl_mat_get_row(S0, past, 0);
+	PnlVect* sigma = pnl_vect_create_from_ptr(size, sigma_);
+	PnlVect* trend_vec = pnl_vect_create_from_double(1, r);
+	BlackScholesModel *model = new BlackScholesModel(size, r, sigma, S0, trend_vec, correlation_matrix);
+	PnlVect *inital_values_ = pnl_vect_create_from_ptr(3, inital_values);
+	KanjiOption *perf_option = new KanjiOption(T, n_time_steps, size, inital_values_, netAssetValue);
+	PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
+	pnl_rng_sseed(rng, time(NULL));
+	MonteCarlo *mc = new MonteCarlo(model, perf_option, rng, T / n_time_steps, nb_samples, 0.07);
+	return mc;
+}
+#endif

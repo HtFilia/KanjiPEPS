@@ -10,6 +10,6 @@ namespace PricingKanji.Model
     {
         internal double portfolioValue;
         internal double optionValue;
-
+        public Dictionary<string, double> composition;
     }
 }

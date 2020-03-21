@@ -127,6 +127,8 @@ namespace PricingKanji.Model
 
             // now, for each effective feed, we will estimate the vol and the correlation matrix from the whole data feeds
             List<DataFeed> previous_feeds = new List<DataFeed>();
+            double netAssetValue = 100;
+            double[] initial_values = Utilities.ToDouble(effective_feeds.First().PriceList.Values.ToArray());
 
             foreach (DataFeed feed in effective_feeds)
             {
@@ -156,7 +158,7 @@ namespace PricingKanji.Model
                 double t_in_years = t / 365.25;
                 WrapperClass wc = new WrapperClass();
                 //wc.getPriceDeltaPerf(maturity,spots, volatilities, correlation, interest_rate);
-                wc.getPriceDeltaPerft(matu_in_years, t_in_years, past, nb_dates, volatilities, correlation_vector, interest_rate);
+                wc.getPriceDeltaPerft(netAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, interest_rate);
                 prices.Add(feed.Date, wc.getPrice());
                 Console.WriteLine("price at  " + feed.Date + " : " + wc.getPrice());
                 // add the feed as history (for the calibration)

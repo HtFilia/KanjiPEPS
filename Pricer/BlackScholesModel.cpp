@@ -20,7 +20,7 @@ void BlackScholesModel::asset(PnlMat *path, double T, int nbTimeSteps, PnlRng *r
 
 	pnl_mat_set_row(path, spot_, 0);
 
-	pnl_mat_resize(G,nbTimeSteps, size_);
+	pnl_mat_resize(G, nbTimeSteps, size_);
 	pnl_mat_rng_normal(G, nbTimeSteps, size_, rng);
 
 	double expo = 0;
@@ -49,7 +49,7 @@ void BlackScholesModel::asset(PnlMat *path, double t, double T, int nbTimeSteps,
 	// extracting the past part to the path
 	pnl_mat_extract_subblock(path, past, 0, i + 1, 0, size_);
 	pnl_mat_resize(path, nbTimeSteps + 1, size_);
-	pnl_mat_resize(G,nbTimeSteps - i, size_);
+	pnl_mat_resize(G, nbTimeSteps - i, size_);
 	pnl_mat_rng_normal(G, nbTimeSteps - i, size_, rng);
 	double sigma = 0;
 	double s = 0;
@@ -98,22 +98,18 @@ void BlackScholesModel::shiftAsset(PnlMat *shift_path, const PnlMat *path, int d
 void BlackScholesModel::simul_market(PnlMat *path, double T, int heg_dates_number, PnlRng *rng) {
 	pnl_mat_resize(path, heg_dates_number + 1, size_);
 	pnl_mat_set_row(path, spot_, 0);
-	pnl_mat_resize(G,heg_dates_number, size_);
+	pnl_mat_resize(G, heg_dates_number, size_);
 	pnl_mat_rng_normal(G, heg_dates_number, size_, rng);
-
 	double expo = 0;
 
 	double timeSpan = T / heg_dates_number;
-
-	PnlVect* Ld = pnl_vect_create(size_);
-	PnlVect* Gi = pnl_vect_create(size_);
 
 	for (int d = 0; d < size_; d++) {
 		pnl_mat_get_row(Ld, corr, d);
 		for (int i = 1; i <= heg_dates_number; i++) {
 			pnl_mat_get_row(Gi, G, i - 1);
-			expo = pnl_expm1((GET(trend_, d) - pnl_pow_i(GET(sigma_, d), 2) / 2)  * timeSpan +
-				GET(sigma_, d) * sqrt(timeSpan) * pnl_vect_scalar_prod(Ld, Gi)) + 1;
+			expo = exp((GET(trend_, d) - pow(GET(sigma_, d), 2) / 2) * timeSpan +
+				GET(sigma_, d) * sqrt(timeSpan) * pnl_vect_scalar_prod(Ld, Gi));
 			pnl_mat_set(path, i, d, pnl_mat_get(path, i - 1, d) * expo);
 		}
 	}

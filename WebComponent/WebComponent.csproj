@@ -281,10 +281,6 @@
       <Project>{1d60021a-bc78-458d-b18c-b1d3845fb77e}</Project>
       <Name>WrapperComponent</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Wrapper\Wrapper.vcxproj">
-      <Project>{8bce29e0-8083-486f-be80-302ad76af2b2}</Project>
-      <Name>Wrapper</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

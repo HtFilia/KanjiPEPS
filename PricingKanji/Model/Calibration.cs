@@ -11,6 +11,7 @@ namespace PricingKanji.Model
 {
     class Calibration
     {
+        public static double timespan = 1.0 / 252.0;
         // Estimated assets covariance matrix from a datafeed
         public static double[,] CovMatrix(List<DataFeed> dataFeeds)
         {
@@ -37,7 +38,7 @@ namespace PricingKanji.Model
             int diagIndex = 0;
             while (diagIndex < volatilities.Length)
             {
-                volatilities[diagIndex] = Math.Sqrt(covM[diagIndex, diagIndex] *252 );
+                volatilities[diagIndex] = Math.Sqrt(covM[diagIndex, diagIndex] / timespan);
                 diagIndex++;
             }
             return volatilities;
@@ -46,11 +47,32 @@ namespace PricingKanji.Model
         {
             int nbAssets = dataFeeds.ElementAt(0).PriceList.Keys.Count;
             int nbDates = dataFeeds.Count;
-            double[] MeanReturn = new double[nbAssets];
-            double[,] logreturns = WREMethods.LogReturns(dataFeeds);
-            MeanReturn = WREMethods.ComputeTrend(nbDates, nbAssets, logreturns);
-            return MeanReturn;
+            double[] meanReturn = new double[nbAssets];
+            double[] trends = new double[nbAssets];
+            double[,] returns = WREMethods.arithmeticReturns(dataFeeds);
+            meanReturn = WREMethods.ComputeTrend(nbDates, nbAssets, returns);
+            for (int i = 0; i < nbAssets; i++)
+            {
+                trends[i] = Math.Log(1 + meanReturn[i]) / timespan;
+            }
+            return trends;
         }
+
+        public static double[] Trends(List<DataFeed> dataFeeds, double[] Volatilities)
+        {
+            int nbAssets = dataFeeds.ElementAt(0).PriceList.Keys.Count;
+            int nbDates = dataFeeds.Count;
+            double[] meanLogReturn = new double[nbAssets];
+            double[] trends = new double[nbAssets];
+            double[,] logreturns = WREMethods.LogReturns(dataFeeds);
+            meanLogReturn = WREMethods.ComputeMeanLogReturn(nbDates, nbAssets, logreturns);
+            for (int i = 0; i < nbAssets; i++)
+            {
+                trends[i] = meanLogReturn[i] / timespan + 0.5 * Volatilities[i] * Volatilities[i];
+            }
+            return trends;
+        }
+
     }
 
 }
