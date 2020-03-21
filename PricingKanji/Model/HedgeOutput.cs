@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace PricingKanji.Model
 {
-    class HedgeOutput
+    public class HedgeOutput
     {
-        public double portfolioValue;
-        public double optionValue;
+        internal double portfolioValue;
+        internal double optionValue;
 
     }
 }
