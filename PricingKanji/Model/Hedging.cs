@@ -184,7 +184,7 @@ namespace PricingKanji.Model
                     returnStruct.optionValue = wc.getPrice();
                     hedging.Add(market.Date, returnStruct);
                 }
-                Console.WriteLine(100*(hedging[market.Date].portfolioValue - hedging[market.Date].optionValue) + "\t" + (counter- previous_feeds.Count));
+                //Console.WriteLine(hedging[market.Date].portfolioValue - hedging[market.Date].optionValue + "\t" + (counter- previous_feeds.Count));
                 counter++;
             }
 
