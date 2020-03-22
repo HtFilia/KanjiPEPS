@@ -63,13 +63,25 @@ namespace PricingKanji.Model
             new DateTime(2019, 9, 23), new DateTime(2020, 3, 23), new DateTime(2020, 9, 22), new DateTime(2021, 3, 23)};
         }
 
-        public void computeNetAssetValue(Market market, List<DateTime> dates)
-        {
-            List<double> prices = new List<double>();
-            foreach (DateTime date in dates)
-            {
 
+        public List<DataFeed> netassetValueFeeds(List<DataFeed> feeds)
+        {
+            DateTime firstDate = new DateTime(2013, 1, 11);
+            DateTime lastDate = new DateTime(2013, 3, 22);
+            List<DataFeed> returnFeeds = new List<DataFeed>();
+            foreach (var feed in feeds)
+            {
+                if (feed.Date.CompareTo(firstDate) >= 0 && feed.Date.CompareTo(lastDate) <= 0)
+                {
+                    returnFeeds.Add(feed);
+                }
+                if(feed.Date >= lastDate)
+                {
+                    break;
+                }
             }
+            return returnFeeds;
         }
+        
     }
 }

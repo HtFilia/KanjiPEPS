@@ -28,7 +28,7 @@ namespace PricingKanji
             estimationwindow = 60;
             int freq = 1;
             Hedging hedging = new Hedging(estimationwindow, freq, feeds);
-            Dictionary<DateTime, HedgeOutput> output = hedging.HedgeKandji();
+            Dictionary<DateTime, HedgeState> output = hedging.HedgeKandji();
             var csv = new StringBuilder();
             var newLine = string.Format("{0};{1};{2};{3};{4};{5};{6}", "Date", "Kanji Price", "Hedging Portfolio", "Error ", "EUROSTOXX", "S&P500", "Hang Seng");
             csv.AppendLine(newLine);
@@ -36,8 +36,8 @@ namespace PricingKanji
             foreach (DateTime date in output.Keys)
             {
                 error = (output[date].portfolioValue - output[date].optionValue);
-                List<double> deltas = output[date].composition.Values.ToList();
-                newLine = string.Format("{0};{1};{2};{3};{4};{5};{6}", date.ToString("d"), output[date].optionValue.ToString().Replace(",", "."), output[date].portfolioValue.ToString().Replace(",", "."), error.ToString().Replace(",", "."), deltas[0].ToString().Replace(",", "."), deltas[1].ToString().Replace(",", "."), deltas[2].ToString().Replace(",", "."));
+                List<double> parts = output[date].getAssetParts().Values.ToList();
+                newLine = string.Format("{0};{1};{2};{3};{4};{5};{6}", date.ToString("d"), output[date].optionValue.ToString().Replace(",", "."), output[date].portfolioValue.ToString().Replace(",", "."), error.ToString().Replace(",", "."), parts[0].ToString().Replace(",", "."), parts[1].ToString().Replace(",", "."), parts[2].ToString().Replace(",", "."));
                 csv.AppendLine(newLine);
             }
             sw.Stop();
