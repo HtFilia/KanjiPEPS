@@ -10,7 +10,7 @@ using Wrapper;
 
 namespace PricingKanji.Model
 {
-    class Market
+    public class Market
     {
         public static double r = 0.001;
         public static double businessDdaysPerYear = 252.0;

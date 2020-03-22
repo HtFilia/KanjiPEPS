@@ -132,5 +132,12 @@ namespace PricingKanji.Model
                     .Select(x => matrix[rowNumber, x])
                     .ToArray();
         }
+
+        public static double ComputeTime(DateTime start, DateTime end, Market market)
+        {
+            int count = market.feeds.IndexOf(market.getFeed(end)) - market.feeds.IndexOf(market.getFeed(start));
+            return count / 252.0;
+        }
+
     }
 }

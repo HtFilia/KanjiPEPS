@@ -19,24 +19,23 @@ namespace PricingKanji.Model
         {
 
             this.composition = new Dictionary<string, double>();
-
             composition.Add("ESTX 50", 0);
             composition.Add("S&P 500", 0);
             composition.Add("HANG SENG INDEX", 0);
         }
 
         
-        public void UpdateComposition(double[] deltas, DataFeed market, DataFeed prevMarket, double optionPrice, DateTime startdate)
+        public void UpdateComposition(double[] deltas, DataFeed feed, DataFeed prevFeed, double optionPrice, DateTime startdate, Market market)
         {
 
             // computes the quantity of the zero coupons to be bought/sold.
-            if (market.Date == startdate)
+            if (feed.Date == startdate)
             {
                 Value = optionPrice;
             }
             else
             {
-                Value = GetValue(market, prevMarket, startdate);
+                Value = GetValue(feed, prevFeed, startdate, market);
             }
             // updates the deltas of the stocks.
             Dictionary<string, double> newComposition = new Dictionary<string, double>();
@@ -50,25 +49,24 @@ namespace PricingKanji.Model
             composition = newComposition;
         }
 
-        public double GetValue(DataFeed market, DataFeed prevMarket, DateTime startdate)
+        public double GetValue(DataFeed feed, DataFeed prevFeed, DateTime startdate, Market market)
         {
                 double stockvalue = 0;
                 foreach (string stock in composition.Keys)
                 {
-                    stockvalue += composition[stock] * (double)market.PriceList[stock];
+                    stockvalue += composition[stock] * (double)feed.PriceList[stock];
                 }
 
                 double prev_stockvalue = 0;
                 foreach (string stock in composition.Keys)
                 {
-                    prev_stockvalue += composition[stock] * (double)prevMarket.PriceList[stock];
+                    prev_stockvalue += composition[stock] * (double)prevFeed.PriceList[stock];
                 }
 
-                int investment_time = DayCount.CountBusinessDays(prevMarket.Date, market.Date);
-                double factor = RiskFreeRateProvider.GetRiskFreeRateAccruedValue(DayCount.ConvertToDouble(investment_time, 365));
+                double investment_time = Utilities.ComputeTime(prevFeed.Date, feed.Date, market);
+                double factor = Math.Exp(Market.r * investment_time);
                 double riskfree_part = factor * (Value - prev_stockvalue);
-                Value = stockvalue + riskfree_part;
-                return Value;
+                return stockvalue + riskfree_part;
             }
     }
 }

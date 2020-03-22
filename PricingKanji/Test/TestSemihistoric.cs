@@ -26,9 +26,8 @@ namespace PricingKanji
             List<DataFeed> simulatedfeeds = Market.simulate(feeds, maturityDate, estimationwindow);
             feeds = feeds.Concat(simulatedfeeds).ToList();
             estimationwindow = 60;
-            double r = 0.01;
             int freq = 1;
-            Hedging hedging = new Hedging(estimationwindow, freq, feeds, r);
+            Hedging hedging = new Hedging(estimationwindow, freq, feeds);
             Dictionary<DateTime, HedgeOutput> output = hedging.HedgeKandji();
             var csv = new StringBuilder();
             var newLine = string.Format("{0};{1};{2};{3};{4};{5};{6}", "Date", "Kanji Price", "Hedging Portfolio", "Error ", "EUROSTOXX", "S&P500", "Hang Seng");
