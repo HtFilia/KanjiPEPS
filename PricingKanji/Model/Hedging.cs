@@ -150,8 +150,8 @@ namespace PricingKanji.Model
         public void calibrateParameters(int counter)
         { //estimate correlation and volatilities with prior estimationWindow dates, counter is date index in market.feeds
             List<DataFeed> estimationSample = feeds.GetRange(counter - estimationWindow, estimationWindow);
-            double[,] correlationMatrix = Calibration.CorrMatrix(estimationSample);
-            volatilities = Calibration.Volatilities(estimationSample);
+            double[,] correlationMatrix = Calibration.getCorrelations(estimationSample);
+            volatilities = Calibration.getVolatilities(estimationSample);
             for (int i = 0; i < size; i++)
                 for (int j = 0; j < size; j++)
                     correlation_vector[size * i + j] = correlationMatrix[i, j];

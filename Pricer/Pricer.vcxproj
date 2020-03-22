@@ -128,6 +128,7 @@
     <ClCompile Include="Computations.hpp" />
     <ClCompile Include="FXBlackScholes.cpp" />
     <ClCompile Include="Hedge.cpp" />
+    <ClCompile Include="KanjiOptionFX.cpp" />
     <ClCompile Include="MonteCarlo.cpp" />
     <ClCompile Include="Option.cpp" />
     <ClCompile Include="KanjiOption.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="BlackScholesModel.hpp" />
     <ClInclude Include="FXBlackScholes.hpp" />
     <ClInclude Include="Hedge.hpp" />
+    <ClInclude Include="KanjiOptionFX.hpp" />
     <ClInclude Include="MonteCarlo.hpp" />
     <ClInclude Include="Option.hpp" />
     <ClInclude Include="KanjiOption.hpp" />

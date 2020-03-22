@@ -47,7 +47,7 @@ namespace PricingKanji.Model
             double[] estimated_volatilities = Calibration.getVolatilities(estimationFeeds);
             double[,] estimated_correlation = Calibration.getCorrelations(estimationFeeds);
             //double[] estimated_trend = Calibration.Trends(estimationFeeds);
-            double[] estimated_trend = Calibration.Trends(estimationFeeds, estimated_volatilities);
+            double[] estimated_trend = Calibration.getTrend(estimationFeeds);
             List<DataFeed> simulatedFeeds = new List<DataFeed>();
             DateTime lastDay = feeds.Last().Date;
             DateTime firstDay = feeds.First().Date;
