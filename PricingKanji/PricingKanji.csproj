@@ -86,7 +86,7 @@
     <Compile Include="Model\DataReader.cs" />
     <Compile Include="Model\Calibration.cs" />
     <Compile Include="Model\Foo.cs" />
-    <Compile Include="Model\HedgeOutput.cs" />
+    <Compile Include="Model\HedgeState.cs" />
     <Compile Include="Model\Hedging.cs" />
     <Compile Include="Model\IndexValue.cs" />
     <Compile Include="Model\KanjiOption.cs" />
