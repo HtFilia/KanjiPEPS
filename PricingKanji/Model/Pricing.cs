@@ -139,8 +139,8 @@ namespace PricingKanji.Model
 
                 }
                 // estimate the parameters of the model
-                volatilities = Calibration.Volatilities(previous_feeds);
-                correlation = Calibration.CorrMatrix(previous_feeds);
+                volatilities = Calibration.getVolatilities(previous_feeds);
+                correlation = Calibration.getCorrelations(previous_feeds);
                 // fill the correlation 
                 double[] correlation_vector = new double[size * size];
                 for (int i = 0; i < size; i++)

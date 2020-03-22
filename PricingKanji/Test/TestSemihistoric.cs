@@ -44,8 +44,6 @@ namespace PricingKanji
             sw.Stop();
             csv.AppendLine((sw.ElapsedMilliseconds / 1000).ToString());
             File.WriteAllText(@"../../../../semihistoric-hedging.csv", csv.ToString());
-
         }
-
     }
 }

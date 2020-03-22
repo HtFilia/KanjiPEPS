@@ -44,8 +44,8 @@ namespace PricingKanji.Model
             WrapperClass wc = new WrapperClass();
             int nbDates = feeds.Count;
             List<DataFeed> estimationFeeds = feeds.GetRange(nbDates - estimationwindow, estimationwindow);
-            double[] estimated_volatilities = Calibration.Volatilities(estimationFeeds);
-            double[,] estimated_correlation = Calibration.CorrMatrix(estimationFeeds);
+            double[] estimated_volatilities = Calibration.getVolatilities(estimationFeeds);
+            double[,] estimated_correlation = Calibration.getCorrelations(estimationFeeds);
             //double[] estimated_trend = Calibration.Trends(estimationFeeds);
             double[] estimated_trend = Calibration.Trends(estimationFeeds, estimated_volatilities);
             List<DataFeed> simulatedFeeds = new List<DataFeed>();

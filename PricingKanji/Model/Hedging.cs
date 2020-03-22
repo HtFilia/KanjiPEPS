@@ -114,19 +114,10 @@ namespace PricingKanji.Model
 
             Dictionary<DateTime, HedgeOutput> hedging = new Dictionary<DateTime, HedgeOutput>();
             Portfolio portfolio = new Portfolio();
-
-            List<DataFeed> estimationSample;
             double[] spots = { };
-
             var previous_feeds = PreviousFeeds(feeds);
             int counter = previous_feeds.Count;
-            var volatilities = Calibration.Volatilities(previous_feeds);
-            var correlationMatrix = Calibration.CorrMatrix(previous_feeds);
-            double[] correlation_vector = new double[size * size];
-            for (int i = 0; i < size; i++)
-                for (int j = 0; j < size; j++)
-                    correlation_vector[size * i + j] = correlationMatrix[i, j];
-
+            calibrateParameters(counter);
             var effective_feeds = KanjiFeeds(feeds);
             DateTime start_date = effective_feeds.First().Date;
             DateTime last_date = effective_feeds.Last().Date;
@@ -157,16 +148,7 @@ namespace PricingKanji.Model
                 }
                 else if ((counter- previous_feeds.Count) % rebalancingFrequency == 0)
                 {
-                    //Console.WriteLine("REBALANCEMENT");
-                    // at rebanlancing date we estimate the parameters
-                    estimationSample = feeds.GetRange(counter - estimationWindow, estimationWindow);
-                    correlationMatrix = Calibration.CorrMatrix(estimationSample);
-                    volatilities = Calibration.Volatilities(estimationSample);
-
-                    for (int i = 0; i < size; i++)
-                        for (int j = 0; j < size; j++)
-                            correlation_vector[size * i + j] = correlationMatrix[i, j];
-
+                    calibrateParameters(counter);
                     wc.getPriceDeltaPerft(netAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, interest_rate);
                     portfolio.UpdateComposition(wc.getDeltas(), feed,prevMarket, wc.getPrice(), start_date);
                     returnStruct.portfolioValue = portfolio.Value;
@@ -183,7 +165,7 @@ namespace PricingKanji.Model
                     returnStruct.composition = new Dictionary<string, double>(portfolio.composition);
                     hedging.Add(feed.Date, returnStruct);
                 }
-                Console.WriteLine(returnStruct.optionValue + " " + returnStruct.portfolioValue);
+                Console.WriteLine(returnStruct.optionValue + " " + returnStruct.portfolioValue + " " + (returnStruct.portfolioValue- returnStruct.optionValue));
                 counter++;
             }
             Console.WriteLine("done");
@@ -195,8 +177,8 @@ namespace PricingKanji.Model
         public void calibrateParameters(int counter)
         { //estimate correlation and volatilities with prior estimationWindow dates, counter is date index in market.feeds
             List<DataFeed> estimationSample = feeds.GetRange(counter - estimationWindow, estimationWindow);
-            double[,] correlationMatrix = Calibration.CorrMatrix(estimationSample);
-            volatilities = Calibration.Volatilities(estimationSample);
+            double[,] correlationMatrix = Calibration.getCorrelations(estimationSample);
+            volatilities = Calibration.getVolatilities(estimationSample);
             for (int i = 0; i < size; i++)
                 for (int j = 0; j < size; j++)
                     correlation_vector[size * i + j] = correlationMatrix[i, j];

@@ -67,7 +67,8 @@ namespace PricingKanji.Model
                 int investment_time = DayCount.CountBusinessDays(prevMarket.Date, market.Date);
                 double factor = RiskFreeRateProvider.GetRiskFreeRateAccruedValue(DayCount.ConvertToDouble(investment_time, 365));
                 double riskfree_part = factor * (Value - prev_stockvalue);
-                return stockvalue + riskfree_part;
+                Value = stockvalue + riskfree_part;
+                return Value;
             }
     }
 }
