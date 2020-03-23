@@ -29,8 +29,8 @@ namespace WebComponent.Controllers
                 DataReader reader = new DataReader();
                 List<DataFeed> data = reader.ReadData();
                 int estimation_window = 80;
-                double r = 0.01;
-                Hedging hedging = new Hedging(estimation_window, freq, data);
+                DateTime userDate = new DateTime(2013, 3, 20);
+                Hedging hedging = new Hedging(estimation_window, freq, userDate);
                 Dictionary<DateTime, HedgeState> output = hedging.HedgeKandji();
 
             }

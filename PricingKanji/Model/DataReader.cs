@@ -10,7 +10,7 @@ using System.Globalization;
 
 namespace PricingKanji.Model
 {
-    class DataReader
+    public class DataReader
     {
         public List<DataFeed> ReadData()
         {
