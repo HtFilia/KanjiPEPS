@@ -4,22 +4,24 @@
     ViewBag.Title = "Index";
 }
 
-<div>
-    <form action="/Coverage" method="post">
-        <br />
+@{
+    using (Html.BeginForm("Index", "Coverage", FormMethod.Post))
+    {
         <label>Choisissez une fréquence de rebalancement :</label>
-        <br />
-        <input type="number" name="Freq" />
-        <br />
+        @Html.TextBox("Freq", null, new { @class = "form-control" })
         <label>Choisissez une fenêtre d'estimation :</label>
-        <br />
-        <input type="number" name="EstimationWindow" />
-        <br />
-    </form>
-    <input type="submit" value="Me Couvrir" />
-</div>
-<br />
+        @Html.TextBox("EstimationWindow", null, new { @class = "form-control" })
 
+        <input type="submit" value="Me Couvrir" />
+    }
+}
+@if (ViewBag.Posted)
+{
+    <script>
+        console.log(@ViewBag.Freq)
+        console.log(@ViewBag.EstWindow)
+    </script>
+}
 <div class="row">
     <div class="col-xl-8 mb-5 mb-xl-0">
         <div class="card bg-gradient-default shadow">
@@ -135,7 +137,7 @@
         changeActive(this)
 		var chart = new CanvasJS.Chart("pie-coverage", {
 	title:{
-		text: "Percentage of People Involved in Traffic Accidents by Modes of Transport"
+		text: "Evolution de la composition du portefeuille de couverture dans le temps"
 	},
 	theme: "light2", // "light1", "light2", "dark1", "dark2"
 	animationEnabled: true,
