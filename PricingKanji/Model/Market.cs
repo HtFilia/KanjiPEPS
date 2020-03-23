@@ -10,18 +10,25 @@ using Wrapper;
 
 namespace PricingKanji.Model
 {
-    class Market
+    public class Market
     {
         public static double r = 0.001;
         public static double businessDdaysPerYear = 252.0;
         public List<DataFeed> feeds;
-
-        public Market()
+        public Market(DateTime userDate)
         {
+            feeds = new List<DataFeed>();
             DataReader reader = new DataReader();
             List<DataFeed> data = reader.ReadData();
-            feeds = data;
+            foreach (DataFeed feed in data)
+            {
+                if (feed.Date.CompareTo(userDate) <= 0)
+                {
+                    feeds.Add(feed);
+                }
+            }
         }
+
         public Market(List<DataFeed> feeds_)
         {
             feeds = feeds_;
@@ -38,16 +45,21 @@ namespace PricingKanji.Model
             return spots.ToArray();
         }
 
+        public void completeMarket(DateTime maturity, int estimationwindow)
+        {
+            List<DataFeed> simulatedFeeds = Market.simulateMarket(feeds, maturity, estimationwindow);
+            feeds = feeds.Concat(simulatedFeeds).ToList();
+        }
+
         // Returns a list of simulated datafeeds for a certain option starting from startdate
-        public static List<DataFeed> simulate(List<DataFeed> feeds, DateTime maturity, int estimationwindow)
+        public static List<DataFeed> simulateMarket(List<DataFeed> feeds, DateTime maturity, int estimationwindow)
         {
             WrapperClass wc = new WrapperClass();
             int nbDates = feeds.Count;
             List<DataFeed> estimationFeeds = feeds.GetRange(nbDates - estimationwindow, estimationwindow);
-            double[] estimated_volatilities = Calibration.Volatilities(estimationFeeds);
-            double[,] estimated_correlation = Calibration.CorrMatrix(estimationFeeds);
-            //double[] estimated_trend = Calibration.Trends(estimationFeeds);
-            double[] estimated_trend = Calibration.Trends(estimationFeeds, estimated_volatilities);
+            double[] estimated_volatilities = Calibration.getVolatilities(estimationFeeds);
+            double[,] estimated_correlation = Calibration.getCorrelations(estimationFeeds);
+            double[] estimated_trend = Calibration.getTrend(estimationFeeds);
             List<DataFeed> simulatedFeeds = new List<DataFeed>();
             DateTime lastDay = feeds.Last().Date;
             DateTime firstDay = feeds.First().Date;
@@ -95,5 +107,33 @@ namespace PricingKanji.Model
             }
             throw new Exception("Date introuvable sur le marché");
         }
+
+        public List<DataFeed> KanjiFeeds(List<DataFeed> feeds, DateTime startdate, DateTime maturity)
+        {
+            List<DataFeed> effective_feeds = new List<DataFeed>();
+            foreach (DataFeed feed in feeds)
+            {
+                if (feed.Date.CompareTo(startdate) >= 0 && feed.Date.CompareTo(maturity) <= 0)
+                {
+                    effective_feeds.Add(feed);
+                }
+            }
+            return effective_feeds;
+        }
+
+        public List<DataFeed> PreviousFeeds(List<DataFeed> feeds, DateTime startdate)
+        {
+            List<DataFeed> previous_feeds = new List<DataFeed>();
+            foreach (DataFeed feed in feeds)
+            {
+                if (feed.Date.CompareTo(startdate) < 0)
+                {
+                    previous_feeds.Add(feed);
+                }
+            }
+            return previous_feeds;
+        }
+
+
     }
 }

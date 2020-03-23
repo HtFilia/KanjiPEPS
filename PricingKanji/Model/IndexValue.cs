@@ -7,7 +7,7 @@ using PricingLibrary.Utilities.MarketDataFeed;
 
 namespace PricingKanji.Model
 {
-    class IndexValue
+    public class IndexValue
     {
         public String Name { get; set; }
         public DateTime Date { get; set; }

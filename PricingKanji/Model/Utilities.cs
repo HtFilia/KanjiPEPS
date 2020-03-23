@@ -70,7 +70,74 @@ namespace PricingKanji.Model
         public static double[] ToDouble(this decimal[] arr) =>
                          Array.ConvertAll(arr, x => (double)x);
 
+        public static double[,] DotProduct(double[] a, double[] b)
+        {
+            int n = a.Length;
+            double[,] c = new double[n, n];
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    c[i, j] = a[i] * b[j];
+                }
+            }
+            return c;
+        }
+        public static double[,] addMatrix(double[,] a, double[,] b)
+        {
+            double[,] matrix = new double[a.GetLength(0),a.GetLength(1)];
+            for (int i = 0; i < a.GetLength(0); i++)
+            {
+                for (int j = 0; j < a.GetLength(1); j++)
+                {
+                    matrix[i, j] = a[i, j] + b[i, j];
+                }
+            }
+            return matrix;
+        }
 
+        public static double[] subVect(double[] a, double[] b)
+        {
+            int n = a.Length;
+            double[] vect = new double[n];
+            for (int i = 0; i < n; i++)
+            {
+                vect[i] = a[i] - b[i];
+            }
+            return vect;
+        }
+
+        public static void multiplyScalar(double[,]a, double scalar)
+        {
+            for (int i = 0; i < a.GetLength(0); i++)
+            {
+                for (int j = 0; j < a.GetLength(1); j++)
+                {
+                    a[i, j] *= scalar;
+                }
+            }
+
+        }
+
+        public static double[] GetColumn(double[,] matrix, int columnNumber)
+        {
+            return Enumerable.Range(0, matrix.GetLength(0))
+                    .Select(x => matrix[x, columnNumber])
+                    .ToArray();
+        }
+
+        public static double[] GetRow(double [,] matrix, int rowNumber)
+        {
+            return Enumerable.Range(0, matrix.GetLength(1))
+                    .Select(x => matrix[rowNumber, x])
+                    .ToArray();
+        }
+
+        public static double ComputeTime(DateTime start, DateTime end, Market market)
+        {
+            int count = market.feeds.IndexOf(market.getFeed(end)) - market.feeds.IndexOf(market.getFeed(start));
+            return count / 252.0;
+        }
 
     }
 }

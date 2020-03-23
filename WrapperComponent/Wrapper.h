@@ -13,7 +13,7 @@ namespace Wrapper {
 		array<double, 1> ^deltas;
 		array<double, 1> ^ic_deltas;
 		array<double, 1> ^path;
-		int sampleNb = 5000;
+		int sampleNb = 1000;
 		// gestion des tableaux manags a revoir
 
 	public:
