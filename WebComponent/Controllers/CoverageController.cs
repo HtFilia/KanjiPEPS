@@ -41,7 +41,7 @@ namespace WebComponent.Controllers
         private void PrixKanji()
         {
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\anas\source\repos\PEPS\WebComponent\Content\csv\Kanji.csv"))
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Kanji.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -73,7 +73,7 @@ namespace WebComponent.Controllers
             string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
             string dir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             string file = dir + @"\TestDir\TestFile.txt";
-            using (var reader = new StreamReader(@"C:\Users\anas\source\repos\PEPS\WebComponent\Content\csv\Kanji.csv"))
+            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Kanji.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
