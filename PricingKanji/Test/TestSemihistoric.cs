@@ -17,17 +17,11 @@ namespace PricingKanji
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            DataReader reader = new DataReader();
-            //List<DataFeed> feeds = reader.ReadDataBis((decimal) 0.05, (decimal) 0.07);
-            List<DataFeed> feeds = reader.ReadData();
-            DataFeed last = feeds.Last();
             int estimationwindow = 200;
-            DateTime maturityDate = new DateTime(2021, 03, 26);
-            List<DataFeed> simulatedfeeds = Market.simulate(feeds, maturityDate, estimationwindow);
-            feeds = feeds.Concat(simulatedfeeds).ToList();
             estimationwindow = 60;
             int freq = 1;
-            Hedging hedging = new Hedging(estimationwindow, freq, feeds);
+            DateTime userDate = new DateTime(2015, 3, 20);
+            Hedging hedging = new Hedging(estimationwindow, freq, userDate);
             Dictionary<DateTime, HedgeState> output = hedging.HedgeKandji();
             var csv = new StringBuilder();
             var newLine = string.Format("{0};{1};{2};{3};{4};{5};{6}", "Date", "Kanji Price", "Hedging Portfolio", "Error ", "EUROSTOXX", "S&P500", "Hang Seng");

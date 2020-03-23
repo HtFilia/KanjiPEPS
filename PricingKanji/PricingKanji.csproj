@@ -92,7 +92,6 @@
     <Compile Include="Model\KanjiOption.cs" />
     <Compile Include="Model\Market.cs" />
     <Compile Include="Model\Portfolio.cs" />
-    <Compile Include="Model\Pricing.cs" />
     <Compile Include="Model\Utilities.cs" />
     <Compile Include="Model\WREMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
