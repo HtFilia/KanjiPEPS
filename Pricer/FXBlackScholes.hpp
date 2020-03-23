@@ -26,7 +26,6 @@ public:            // vecteur des taux d'intérets (r_eur, r_usd, t_hkd)
 		// case quanto product
 		else if (size == 2) {
 			pnl_vect_set(trend_, 1, pnl_vect_get(trends, 1) + pnl_vect_get(r, 1));
-
 		}
 
 
