@@ -7,136 +7,15 @@
 @using (Ajax.BeginForm("Index", "Home", new AjaxOptions { UpdateTargetId = "userDate" }))
 {
     <div id="userDate"></div>
-    @Html.Label("Date de calcul souhaitée")
+    @Html.Label("Entrez la date où vous voulez vous situer :")
     <br />
     @Html.EditorFor(model => model.DesiredDate, new { @type = "date" })
     <button>Calculate</button>
+    <span style="color:red">@ViewBag.MessageEr</span>
 }
-@if(ViewBag.Posted)
+@if (ViewBag.Posted)
 {
     <script>
         console.log("@ViewBag.DesiredDate")
     </script>
 }
-<div class="row">
-    <div class="col-xl-8 mb-5 mb-xl-0">
-        <div class="card bg-gradient-default shadow">
-            <div class="card-header bg-transparent">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <h2 class="text-white mb-0">Evolution du Prix Kanji</h2>
-                    </div>
-                    <div class="col-8">
-                        <ul class="nav nav-pills justify-content-end">
-                            <!-- TODO: Data update -->
-                            <li class="nav-item mr-2 mr-md-0">
-                                <a class="nav-link py-2 px-3 active show" href="#" id="chart-quot">
-                                    <span class="d-none d-md-block">Quotidien</span>
-                                </a>
-                            </li>
-                            <li class="nav-item mr-2 mr-md-0">
-                                <a class="nav-link py-2 px-3" href="#" id="chart-hebd">
-                                    <span class="d-none d-md-block">Hebdomadaire</span>
-                                </a>
-                            </li>
-                            <li class="nav-item mr-2 mr-md-0">
-                                <a class="nav-link py-2 px-3" href="#" id="chart-mens">
-                                    <span class="d-none d-md-block">Mensuel</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="chart">
-                    <div class="chartjs-size-monitor">
-                        <div class="chartjs-size-monitor-expand">
-                            <div class=""></div>
-                        </div>
-                        <div class="chartjs-size-monitor-shrink">
-                            <div class=""></div>
-                        </div>
-                    </div>
-                    <script>
-                            window.onload = function () {
-
-                            var chart = new CanvasJS.Chart("chartContainer", {
-	                            theme: "light2", // "light1", "light2", "dark1", "dark2"
-	                            animationEnabled: true,
-	                            zoomEnabled: true,
-	                            data: [{
-                                    type: "line",
-
-		                            dataPoints: @Html.Raw(ViewBag.KanjiQuot)
-	                            }]
-                            });
-
-                            chart.render();
-                            }
-                    </script>
-                    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-                    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="~/Content/js/site.js"></script>
-<script>
-    let quot = document.getElementById('chart-quot')
-    let hebd = document.getElementById('chart-hebd')
-    let mens = document.getElementById('chart-mens')
-
-    quot.onclick = function () {
-        changeActive(this)
-        var chart = new CanvasJS.Chart("chartContainer", {
-            theme: "light2", // "light1", "light2", "dark1", "dark2"
-            animationEnabled: true,
-            zoomEnabled: true,
-            data: [{
-                type: "line",
-                dataPoints: @Html.Raw(ViewBag.KanjiQuot)
-                }]
-        });
-
-        chart.render();
-    }
-
-    hebd.onclick = function () {
-        changeActive(this)
-        var chart = new CanvasJS.Chart("chartContainer", {
-            theme: "light2", // "light1", "light2", "dark1", "dark2"
-            animationEnabled: true,
-            zoomEnabled: true,
-            data: [{
-                type: "line",
-                dataPoints: @Html.Raw(ViewBag.KanjiHebdo)
-                }]
-        });
-
-        chart.render();
-    }
-
-    mens.onclick = function () {
-        changeActive(this)
-        var chart = new CanvasJS.Chart("chartContainer", {
-            theme: "light2", // "light1", "light2", "dark1", "dark2"
-            animationEnabled: true,
-            zoomEnabled: true,
-            data: [{
-                type: "line",
-                dataPoints: @Html.Raw(ViewBag.KanjiMens)
-                }]
-        });
-
-        chart.render();
-    }
-
-    function changeActive(a) {
-        $(a).parent().parent().children("li").children("a").each(function () {
-            $(this).removeClass("active show")
-        })
-        $(a).addClass("active show")
-    }
-</script>
