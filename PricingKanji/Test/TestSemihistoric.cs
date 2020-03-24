@@ -19,7 +19,7 @@ namespace PricingKanji
             sw.Start();
             int estimationwindow = 200;
             estimationwindow = 60;
-            int freq = 1;
+            int freq = 80;
             DataReader reader = new DataReader();
             List<DataFeed> data = reader.ReadData();
             DateTime userDate = data.Last().Date;
