@@ -12,6 +12,9 @@ namespace WebComponent.Controllers
 {
     public class UnderlyingController : Controller
     {
+
+        public Utilities.Path path = new Utilities.Path();
+
         // GET: Underlying
         public ActionResult Index()
         {
@@ -27,7 +30,7 @@ namespace WebComponent.Controllers
         {
 
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\HangSeng.csv"))
+            using (var reader = new StreamReader(path.Chemin + @"\WebComponent\Content\csv\HangSeng.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -53,7 +56,7 @@ namespace WebComponent.Controllers
         private void Stoxx50()
         {
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Stoxx50.csv"))
+            using (var reader = new StreamReader(path.Chemin + @"\WebComponent\Content\csv\Stoxx50.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -79,7 +82,7 @@ namespace WebComponent.Controllers
         private void SP500()
         {
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\S&P500.csv"))
+            using (var reader = new StreamReader(path.Chemin + @"\WebComponent\Content\csv\S&P500.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";

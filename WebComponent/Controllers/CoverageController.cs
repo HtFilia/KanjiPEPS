@@ -16,32 +16,40 @@ namespace WebComponent.Controllers
 {
     public class CoverageController : Controller
     {
+
+        public Utilities.Path path = new Utilities.Path();
+
         // GET: Coverage
+        [HttpGet]
         public ActionResult Index()
         {
             PrixKanji();
             CouvertureKanji();
-
-            if (Request.HttpMethod == "POST" && Request.Form["Freq"] != null && Request.Form["EstimationWindow"] != null)
-            {
-                int freq = Convert.ToInt32(Request.Form["Freq"]);
-                int estimationWidow = Convert.ToInt32(Request.Form["EstimationWindow"]);
-                DataReader reader = new DataReader();
-                List<DataFeed> data = reader.ReadData();
-                int estimation_window = 80;
-                DateTime userDate = new DateTime(2013, 3, 20);
-                Hedging hedging = new Hedging(estimation_window, freq, userDate);
-                Dictionary<DateTime, HedgeState> output = hedging.HedgeKandji();
-
-            }
+            ViewBag.Posted = false;
             return View();
         }
 
 
+        [HttpPost]
+        public ActionResult Index(PriceFormModel priceFormModel)
+        {
+            DataReader reader = new DataReader();
+            List<DataFeed> data = reader.ReadData();
+            DateTime userDate = new DateTime(2013, 3, 20);
+            Hedging hedging = new Hedging(priceFormModel.EstimationWindow, priceFormModel.Freq, userDate);
+            Dictionary<DateTime, HedgeState> output = hedging.HedgeKandji();
+            PrixKanji();
+            CouvertureKanji();
+            ViewBag.Posted = true;
+            ViewBag.Freq = priceFormModel.Freq;
+            ViewBag.EstWindow = priceFormModel.EstimationWindow;
+            return View();
+        }
+
         private void PrixKanji()
         {
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Kanji.csv"))
+            using (var reader = new StreamReader(path.Chemin + @"\WebComponent\Content\csv\Kanji.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -73,7 +81,7 @@ namespace WebComponent.Controllers
             string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
             string dir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             string file = dir + @"\TestDir\TestFile.txt";
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Kanji.csv"))
+            using (var reader = new StreamReader(path.Chemin + @"\WebComponent\Content\csv\Kanji.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";

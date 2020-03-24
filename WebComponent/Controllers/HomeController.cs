@@ -14,13 +14,13 @@ namespace WebComponent.Controllers
     public class HomeController : Controller
     {
 
-       
+        public Utilities.Path path = new Utilities.Path();
 
         public ActionResult Index()
         {
             KanjiQuot();
-            //KanjiMens();
-            //KanjiHebdo();
+            KanjiMens();
+            KanjiHebdo();
 
 
 
@@ -53,7 +53,7 @@ namespace WebComponent.Controllers
         private void KanjiQuot()
         {
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Kanji.csv"))
+            using (var reader = new StreamReader(path.Chemin + @"\WebComponent\Content\csv\Kanji.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -80,7 +80,7 @@ namespace WebComponent.Controllers
         {
 
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Kanji.csv"))
+            using (var reader = new StreamReader(path.Chemin + @"\WebComponent\Content\csv\Kanji.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
@@ -110,7 +110,7 @@ namespace WebComponent.Controllers
         {
 
             List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2\WebComponent\Content\csv\Kanji.csv"))
+            using (var reader = new StreamReader(path.Chemin + @"\WebComponent\Content\csv\Kanji.csv"))
             {
                 NumberFormatInfo provider = new NumberFormatInfo
                 {

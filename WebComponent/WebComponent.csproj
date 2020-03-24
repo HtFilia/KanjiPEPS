@@ -151,6 +151,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\Path.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\argon\argon.css" />
