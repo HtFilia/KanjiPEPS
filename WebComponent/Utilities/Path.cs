@@ -11,7 +11,7 @@ namespace WebComponent.Utilities
 
         public Path()
         {
-            this.Chemin = @"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2";
+            this.Chemin = @"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS";
         }
     }
 }

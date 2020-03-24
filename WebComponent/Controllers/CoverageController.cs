@@ -18,14 +18,13 @@ namespace WebComponent.Controllers
     public class CoverageController : Controller
     {
 
-        
-
         public Utilities.Path path = new Utilities.Path();
 
         // GET: Coverage
         [HttpGet]
         public ActionResult Index()
         {
+            ViewBag.UserDate = HomeController.userDate;
             //PrixKanji();
             //CouvertureKanji();
             ViewBag.Posted = false;
@@ -36,6 +35,7 @@ namespace WebComponent.Controllers
         [HttpPost]
         public ActionResult Index(PriceFormModel priceFormModel)
         {
+            ViewBag.UserDate = HomeController.userDate;
             ViewBag.Posted = true;
             int max = HomeController.hedging.market.PreviousFeeds(HomeController.hedging.market.feeds, HomeController.hedging.startdate).Count + 30;
             if (priceFormModel.Freq <= 0)

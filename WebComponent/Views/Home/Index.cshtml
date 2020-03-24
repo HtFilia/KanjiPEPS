@@ -1,11 +1,23 @@
-﻿@{
+﻿@model WebComponent.Models.DateFormModel
+
+@{
     ViewBag.Title = "Index";
 }
-@model WebComponent.Models.PriceFormModel
 
-
-
-
+@using (Ajax.BeginForm("Index", "Home", new AjaxOptions { UpdateTargetId = "userDate" }))
+{
+    <div id="userDate"></div>
+    @Html.Label("Date de calcul souhaitée")
+    <br />
+    @Html.EditorFor(model => model.DesiredDate, new { @type = "date" })
+    <button>Calculate</button>
+}
+@if(ViewBag.Posted)
+{
+    <script>
+        console.log("@ViewBag.DesiredDate")
+    </script>
+}
 <div class="row">
     <div class="col-xl-8 mb-5 mb-xl-0">
         <div class="card bg-gradient-default shadow">
@@ -79,7 +91,7 @@
     quot.onclick = function () {
         changeActive(this)
         var chart = new CanvasJS.Chart("chartContainer", {
-            theme: "dark2", // "light1", "light2", "dark1", "dark2"
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
             animationEnabled: true,
             zoomEnabled: true,
             data: [{

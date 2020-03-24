@@ -9,25 +9,26 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Globalization;
 using PricingKanji.Model;
+using WebComponent.Utilities;
 
 namespace WebComponent.Controllers
 {
     public class HomeController : Controller
     {
-        public static DateTime userDate = new DateTime(2020, 1, 16);
+        public static DateTime userDate = DateTime.Today;
 
         public static Hedging hedging = new Hedging(80, 1, userDate);
 
         public Utilities.Path path = new Utilities.Path();
 
+        [HttpGet]
         public ActionResult Index()
         {
             KanjiQuot();
             KanjiMens();
             KanjiHebdo();
-
-
-
+            ViewBag.UserDate = HomeController.userDate;
+            ViewBag.Posted = false;
             /*if (Request.HttpMethod == "GET")
             {
                 WrapperClass wrapper = new WrapperClass();
@@ -50,6 +51,17 @@ namespace WebComponent.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Index(DateFormModel requestForm)
+        {
+            KanjiQuot();
+            KanjiMens();
+            KanjiHebdo();
+            ViewBag.Posted = true;
+            userDate = requestForm.DesiredDate;
+            ViewBag.UserDate = requestForm.DesiredDate;
+            return View();
+        }
 
 
         // On test avec le cours Stoxx50 pour le moment, à changer dès qu'on a le csv des prix !!!!!!!!!!!!

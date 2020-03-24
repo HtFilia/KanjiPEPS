@@ -20,6 +20,8 @@ namespace WebComponent.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            ViewBag.UserDate = HomeController.userDate;
+
             data();
             ViewBag.Posted = false;
             return View();
