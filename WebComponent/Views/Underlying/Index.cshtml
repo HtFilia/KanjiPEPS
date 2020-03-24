@@ -4,6 +4,22 @@
     ViewBag.Title = "View";
 }
 
+@{
+    using (Html.BeginForm("Index", "Underlying", FormMethod.Post))
+    {
+        <label>Choisissez une fenêtre d'estimation :</label>
+        @Html.TextBox("EstimationWindow", null, new { @class = "form-control" })
+        <input type="submit" value="Resimuler" />
+        <span style="color:red">@ViewBag.MessageErreur</span>
+    }
+}
+@if (ViewBag.Posted)
+{
+    <script>
+        console.log(@ViewBag.EstWindow)
+    </script>
+}
+
 <div class="row">
     <div class="col-xl-8 mb-5 mb-xl-0">
         <div class="card bg-gradient-default shadow">

@@ -12,11 +12,11 @@ namespace PricingKanji.Model
 {
     public class Hedging
     {
-        private DateTime startdate ;
-        private DateTime maturity_date;
-        int estimationWindow;
-        int rebalancingFrequency;
-        Market market;
+        public DateTime startdate;
+        public DateTime maturity_date;
+        public int estimationWindow;
+        public int rebalancingFrequency;
+        public Market market;
         public double[] volatilities;
         public double[] correlation_vector;
         int size = 3;
@@ -39,13 +39,13 @@ namespace PricingKanji.Model
             volatilities = new double[size];
             correlation_vector = new double[size * size];
             portfolio = new Portfolio();
-            kanji = new KanjiOption(market,KanjiOption.initialValueDates());
+            kanji = new KanjiOption(market, KanjiOption.initialValueDates());
             wc = new WrapperClass();
         }
 
         public Dictionary<DateTime, HedgeState> HedgeKandji()
         {
-            computeNetAssetValue();
+            //computeNetAssetValue();
             Dictionary<DateTime, HedgeState> hedging = new Dictionary<DateTime, HedgeState>();
             double[] spots = { };
             var previous_feeds = market.PreviousFeeds(market.feeds, startdate);
@@ -60,7 +60,7 @@ namespace PricingKanji.Model
             {
                 returnStruct = hedgingStep(counter);
                 hedging.Add(feed.Date, returnStruct);
-                Console.WriteLine(returnStruct.optionValue + " " + returnStruct.portfolioValue + " " + (returnStruct.portfolioValue- returnStruct.optionValue));
+                Console.WriteLine(returnStruct.optionValue + " " + returnStruct.portfolioValue + " " + (returnStruct.portfolioValue - returnStruct.optionValue));
                 counter++;
             }
             return hedging;

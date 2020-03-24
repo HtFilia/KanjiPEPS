@@ -8,11 +8,15 @@ using WebComponent.Models;
 using Newtonsoft.Json;
 using System.IO;
 using System.Globalization;
+using PricingKanji.Model;
 
 namespace WebComponent.Controllers
 {
     public class HomeController : Controller
     {
+        public static DateTime userDate = new DateTime(2020, 1, 16);
+
+        public static Hedging hedging = new Hedging(80, 1, userDate);
 
         public Utilities.Path path = new Utilities.Path();
 

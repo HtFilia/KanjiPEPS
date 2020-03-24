@@ -14,6 +14,7 @@ namespace PricingKanji.Model
     {
         public static double r = 0.001;
         public static double businessDdaysPerYear = 252.0;
+        public List<DataFeed> pastFeeds;
         public List<DataFeed> feeds;
         public Market(DateTime userDate)
         {
@@ -27,7 +28,9 @@ namespace PricingKanji.Model
                     feeds.Add(feed);
                 }
             }
+            pastFeeds = feeds;
         }
+
 
         public Market(List<DataFeed> feeds_)
         {
@@ -47,8 +50,8 @@ namespace PricingKanji.Model
 
         public void completeMarket(DateTime maturity, int estimationwindow)
         {
-            List<DataFeed> simulatedFeeds = Market.simulateMarket(feeds, maturity, estimationwindow);
-            feeds = feeds.Concat(simulatedFeeds).ToList();
+            List<DataFeed> simulatedFeeds = Market.simulateMarket(pastFeeds, maturity, estimationwindow);
+            feeds = pastFeeds.Concat(simulatedFeeds).ToList();
         }
 
         // Returns a list of simulated datafeeds for a certain option starting from startdate
