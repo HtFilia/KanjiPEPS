@@ -115,7 +115,7 @@ void validate_delta_kanji(PnlMat* simulated_path, BlackScholesModel* model, Mont
 		myfile << "delta en t = " << t << " Monte-Carlo : ";
 		for (int i = 0; i < size; i++)
 		{
-			std::cout << pnl_vect_get(delta, i) << "\n";
+			std::cout << pnl_vect_get(delta, i) << "\t";
 			myfile << pnl_vect_get(delta, i) << " ";
 		}
 		std::cout << std::endl;
@@ -209,7 +209,7 @@ void validate_kanjiFX(PnlRng* rng) {
 	PnlVect* sigma = pnl_vect_create_from_scalar(size, 0.2);
 	pnl_vect_set(sigma, 1, 0.02);
 	pnl_vect_set(sigma, 3, 0.02);
-	PnlVect* spot = pnl_vect_create_from_scalar(size, 1000);
+	PnlVect* spot = pnl_vect_create_from_scalar(size, 2000);
 	pnl_vect_set(spot, 1, 0.89);
 	pnl_vect_set(spot, 3, 0.11);
 	PnlVect* trend = pnl_vect_create_from_scalar(size, 0.0002);
@@ -228,11 +228,11 @@ void validate_kanjiFX(PnlRng* rng) {
 	int n_scenarios = 50;
 	PnlMat* simulated_path = pnl_mat_create(M + 1, size);
 	//validate_price_kanji(simulated_path, model, mc, rng);
-	//validate_delta_kanji(simulated_path, model, mc, rng);
+	validate_delta_kanji(simulated_path, model, mc, rng);
 	//validate_mean_error_kanji(mc, model, rng, M, H, n_scenarios);
 	int n_freqs = 5;
 	const double* freqs_ptr = new double[n_freqs] {1, 5, 10, 30, 50};
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
-	histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
+	//histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
 	//pnl_mat_free(&simulated_path);
 }

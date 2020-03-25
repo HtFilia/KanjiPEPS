@@ -17,11 +17,21 @@ namespace PricingKanji.Model
         public static double r_hkd = 0.001;
         public static double businessDdaysPerYear = 252.0;
         public List<DataFeed> feeds;
-        public Market(DateTime userDate)
+        public static bool FX;
+        public Market(DateTime userDate, bool FX_)
         {
+            FX = FX_;
             feeds = new List<DataFeed>();
             DataReader reader = new DataReader();
-            List<DataFeed> data = reader.ReadDataFX(r_usd, r_hkd);
+            List<DataFeed> data;
+            if (FX)
+            {
+                data = reader.ReadDataFX(r_usd, r_hkd);
+            }
+            else
+            {
+                data = reader.ReadData();
+            }
             foreach (DataFeed feed in data)
             {
                 if (feed.Date.CompareTo(userDate) <= 0)
@@ -79,8 +89,8 @@ namespace PricingKanji.Model
                 k++;
             }
             double[] spots = Market.marketSpots(feeds.Last());
-            wc.SimulMarket(t_in_years, matu_in_years, nbSimulatedDates + 1, spots, estimated_trend, estimated_volatilities, contigous_correlation, r, r_usd, r_hkd);
-            double[] path = wc.getPath_fx();
+            wc.SimulMarket(t_in_years, matu_in_years, nbSimulatedDates + 1, spots, estimated_trend, estimated_volatilities, contigous_correlation, r, r_usd, r_hkd, FX);
+            double[] path = wc.getPath(FX);
             DataFeed firstFeed = feeds.First();
             int size = firstFeed.PriceList.Count;
             List<string> names = firstFeed.PriceList.Keys.ToList();
@@ -110,7 +120,7 @@ namespace PricingKanji.Model
             throw new Exception("Date introuvable sur le marché");
         }
 
-        public List<DataFeed> KanjiFeeds(List<DataFeed> feeds, DateTime startdate, DateTime maturity)
+        public List<DataFeed> KanjiFeeds(List<DataFeed> feeds, DateTime startdate, DateTime maturity, bool FX)
         {
             List<DataFeed> effective_feeds = new List<DataFeed>();
             foreach (DataFeed feed in feeds)
@@ -118,6 +128,16 @@ namespace PricingKanji.Model
                 if (feed.Date.CompareTo(startdate) >= 0 && feed.Date.CompareTo(maturity) <= 0)
                 {
                     effective_feeds.Add(feed);
+                }
+            }
+            if (FX)
+            {
+                double t = 0;
+                foreach (DataFeed feed in effective_feeds)
+                {
+                    feed.PriceList["USDEUR"] *= (decimal)Math.Exp(Market.r_usd * t);
+                    feed.PriceList["HKDEUR"] *= (decimal)Math.Exp(Market.r_hkd * t);
+                    t += 1.0 / businessDdaysPerYear;
                 }
             }
             return effective_feeds;
@@ -136,6 +156,19 @@ namespace PricingKanji.Model
             return previous_feeds;
         }
 
-
+        public List<DataFeed> domesticFeeds(List<DataFeed> feeds)
+        {
+            List<DataFeed> domestic_feeds = new List<DataFeed>(feeds);
+            double t = 0;
+            foreach (DataFeed feed in domestic_feeds)
+            {
+                feed.PriceList["USDEUR"] /= (decimal)Math.Exp(Market.r_usd * t);
+                feed.PriceList["HKDEUR"] /= (decimal)Math.Exp(Market.r_hkd * t);
+                feed.PriceList["S&P 500"] /= feed.PriceList["USDEUR"];
+                feed.PriceList["HANG SENG INDEX"] /= feed.PriceList["HKDEUR"];
+                t += 1.0 / businessDdaysPerYear;
+            }
+            return domestic_feeds;
+        }
     }
 }
