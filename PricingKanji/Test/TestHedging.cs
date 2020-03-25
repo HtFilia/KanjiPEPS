@@ -20,7 +20,7 @@ namespace PricingKanji
             int freq = 1;
             int estimation_window = 80;
             DateTime userDate = new DateTime(2013, 3, 26);
-            Hedging hedging = new Hedging(estimation_window, freq, userDate);
+            Hedging hedging = new Hedging(estimation_window, freq, userDate, false);
             Dictionary<DateTime, HedgeState> output = hedging.HedgeKandji();
 
             foreach (DateTime date in output.Keys)

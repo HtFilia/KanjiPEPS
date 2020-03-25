@@ -22,7 +22,7 @@ namespace PricingKanji
             int freq = 1;
             DataReader reader = new DataReader();
             DateTime userDate = new DateTime(2017, 03, 21);
-            Hedging hedging = new Hedging(estimationwindow, freq, userDate);
+            Hedging hedging = new Hedging(estimationwindow, freq, userDate, true);
             Dictionary<DateTime, HedgeState> output = hedging.HedgeKandji();
             var csv = new StringBuilder();
             var newLine = string.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8}", "Date", "Kanji Price", "Hedging Portfolio", "Error ", "EUROSTOXX", "USDEUR", "S&P500", "HKDEUR", "HANG SENG");
@@ -37,7 +37,7 @@ namespace PricingKanji
             }
             sw.Stop();
             csv.AppendLine((sw.ElapsedMilliseconds / 1000).ToString());
-            File.WriteAllText(@"../../../../semihistoric-hedging.csv", csv.ToString());
+            File.WriteAllText(@"../../../../semihistoric-hedging-FX.csv", csv.ToString());
         }
     }
 }

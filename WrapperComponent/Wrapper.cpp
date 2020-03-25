@@ -182,13 +182,11 @@ namespace Wrapper {
 	}
 	void WrapperClass::ComputePriceDelta(double netAssetValue, double T, double t, array<double, 1>^ past, array<double, 1>^ initial_values, int nb_dates, array<double, 1>^ sigmas, array<double, 1>^ correlation, double r, double r_US, double r_HK, bool fx) {
 		if (fx) {
-			getPricePerft_fx(netAssetValue, T, t, past, initial_values, nb_dates, sigmas, correlation, r, r_US, r_HK);
-			getDeltaPerft_fx(netAssetValue, T, t, past, initial_values, nb_dates, sigmas, correlation, r, r_US, r_HK);
+			getPriceDeltaPerft_fx(netAssetValue, T, t, past, initial_values, nb_dates, sigmas, correlation, r, r_US, r_HK);
 		}
 		else
 		{
-			getPricePerft(netAssetValue, T, t, past, initial_values, nb_dates, sigmas, correlation, r);
-			getDeltaPerft(netAssetValue, T, t, past, initial_values, nb_dates, sigmas, correlation, r);
+			getPriceDeltaPerft(netAssetValue, T, t, past, initial_values, nb_dates, sigmas, correlation, r);
 		}
 
 	}
