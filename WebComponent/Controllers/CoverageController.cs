@@ -45,15 +45,18 @@ namespace WebComponent.Controllers
             else if (priceFormModel.EstimationWindow > max || priceFormModel.EstimationWindow <= 2)
             {
                 ViewBag.MessageErr = "La fenêtre d'estimation doit être inferieur à : " + max + ", et superieur à : 3.";
-            }  else {
+            } else if (priceFormModel.CompositionDate > HomeController.hedging.market.feeds.Last().Date || priceFormModel.CompositionDate < HomeController.hedging.startdate)
+            {
+                ViewBag.MessageErr = "La date doit être entre : " + HomeController.hedging.startdate.ToString("d") + " et " + HomeController.hedging.market.feeds.Last().Date.ToString("d");
+            } else {
 
                 HomeController.hedging.estimationWindow = priceFormModel.EstimationWindow;
                 HomeController.hedging.rebalancingFrequency = priceFormModel.Freq;
                 Dictionary<DateTime, HedgeState> output = HomeController.hedging.HedgeKandji();
                 Couverture(output);
-                Dictionary<string, double> assetValues = output[HomeController.hedging.market.feeds.Last().Date].getAssetValues();
+                Dictionary<string, double> assetValues = output[priceFormModel.CompositionDate].getAssetValues();
                 Portfolio(assetValues);
-                
+
                 ViewBag.Freq = priceFormModel.Freq;
                 ViewBag.EstWindow = priceFormModel.EstimationWindow;
             }
@@ -99,6 +102,10 @@ namespace WebComponent.Controllers
 
 
 
+      
+
+
+       
 
     }
 }

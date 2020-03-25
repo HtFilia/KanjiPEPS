@@ -8,9 +8,13 @@
     using (Html.BeginForm("Index", "Underlying", FormMethod.Post))
     {
         <label>Choisissez une fenêtre d'estimation :</label>
+        <br />
         @Html.TextBox("EstimationWindow", null, new { @class = "form-control" })
+        <br />
         <input type="submit" value="Resimuler" />
+        <br />
         <span style="color:red">@ViewBag.MessageErreur</span>
+        <br />
     }
 }
 @if (ViewBag.Posted)

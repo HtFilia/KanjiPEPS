@@ -10,7 +10,7 @@
     @Html.Label("Entrez la date où vous voulez vous situer :")
     <br />
     @Html.EditorFor(model => model.DesiredDate, new { @type = "date" })
-    <button>Calculate</button>
+    <button>Valider</button>
     <span style="color:red">@ViewBag.MessageEr</span>
 }
 @if (ViewBag.Posted)
