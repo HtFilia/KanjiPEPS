@@ -19,13 +19,14 @@ namespace PricingKanji.Model
         Market market;
         public double[] volatilities;
         public double[] correlation_vector;
-        int size = 5;
+        int size;
         KanjiOption kanji;
         WrapperClass wc;
         Portfolio portfolio;
         DataFeed previousFeed;
         int previous_feeds_count;
         double[] initial_values;
+        public bool FX;
 
         public Hedging(int estimation, int freq, DateTime userDate)
         {
@@ -41,6 +42,7 @@ namespace PricingKanji.Model
             portfolio = new Portfolio();
             kanji = new KanjiOption(market,KanjiOption.initialValueDates());
             wc = new WrapperClass();
+            FX = size == 5;
         }
 
         public Dictionary<DateTime, HedgeState> HedgeKandji()
@@ -58,10 +60,6 @@ namespace PricingKanji.Model
             calibrateParameters(counter);
             foreach (DataFeed feed in effective_feeds)
             {
-                if (feed.Date == maturity_date)
-                {
-                    Console.WriteLine("hello");
-                }
                 returnStruct = hedgingStep(counter);
                 hedging.Add(feed.Date, returnStruct);
                 Console.WriteLine(returnStruct.optionValue + " " + returnStruct.portfolioValue + " " + (returnStruct.portfolioValue- returnStruct.optionValue));
@@ -99,17 +97,25 @@ namespace PricingKanji.Model
             }
             double[] past = new double[size * PastFeeds.Count];
             int date_index;
-            double t_in_years = Utilities.ComputeTime(startdate, date, market);
+            double t = Utilities.ComputeTime(startdate, date, market);
             foreach (DataFeed feed in PastFeeds)
             {
                 // there is only one occurence of the feed in the list of the effective feeds
                 date_index = PastFeeds.IndexOf(feed);
-                past[date_index * kanji.size] = (double)feed.PriceList["ESTX 50"];
-                past[date_index * kanji.size + 1] = (double)feed.PriceList["S&P 500"];
-                past[date_index * kanji.size + 2] = (double)feed.PriceList["USDEUR"];
-                past[date_index * kanji.size + 3] = (double)feed.PriceList["HANG SENG INDEX"];
-                past[date_index * kanji.size + 4] = (double)feed.PriceList["HKDEUR"];
-               
+                if (!FX)
+                {
+                    past[date_index * size] = (double)feed.PriceList["ESTX 50"];
+                    past[date_index * size + 1] = (double)feed.PriceList["S&P 500"];
+                    past[date_index * size + 2] = (double)feed.PriceList["HANG SENG INDEX"];
+                }
+                else if(FX)
+                {
+                    past[date_index * size] = (double)feed.PriceList["ESTX 50"];
+                    past[date_index * size + 1] = (double)feed.PriceList["USDEUR"];
+                    past[date_index * size + 2] = (double)feed.PriceList["S&P 500"];
+                    past[date_index * size + 3] = (double)feed.PriceList["HKDEUR"];
+                    past[date_index * size + 4] = (double)feed.PriceList["HANG SENG INDEX"];
+                }
             }
             return past;
 
@@ -120,8 +126,13 @@ namespace PricingKanji.Model
             double matu_in_years = Utilities.ComputeTime(startdate, maturity_date, market);
             double t_in_years = Utilities.ComputeTime(startdate, date, market);
             double[] past = getPast(date);
-            int nb_dates = past.Length / kanji.size;
+            int nb_dates = past.Length / size;
             calibrateParameters(market.feeds.IndexOf(market.getFeed(date)));
+            if (FX)
+            {
+                wc.getPricePerft_fx(kanji.NetAssetValue, matu_in_years, t_in_years, past, kanji.InitialValues.Values.ToArray(), nb_dates, volatilities, correlation_vector, Market.r, Market.r_usd, Market.r_hkd);
+                return wc.getPrice_fx();
+            }
             wc.getPricePerft(kanji.NetAssetValue, matu_in_years, t_in_years, past, kanji.InitialValues.Values.ToArray(), nb_dates, volatilities, correlation_vector, Market.r);
             return wc.getPrice();
         }
@@ -146,18 +157,13 @@ namespace PricingKanji.Model
             int nb_dates = past.Length / size;
             double t_in_years = Utilities.ComputeTime(startdate, feed.Date, market);
             HedgeState returnStruct = new HedgeState();
-            if (counter ==  market.feeds.Count - 1)
-            {
-                wc.getPricePerft_fx(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r, Market.r_usd, Market.r_hkd);
-                portfolio.GetValue(feed, previousFeed, startdate, market);
-            }
             if (counter == previous_feeds_count)
             {
                 wc.getPriceDeltaPerft_fx(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r, Market.r_usd, Market.r_hkd);
                 portfolio.UpdateComposition(wc.getDeltas_fx(), feed, previousFeed, wc.getPrice_fx(), startdate, market);
                 previousFeed = feed;
             }
-            else if ((counter - previous_feeds_count) % rebalancingFrequency == 0)
+            else if ((counter - previous_feeds_count) % rebalancingFrequency == 0 && counter < market.feeds.Count - 1)
             {
                 calibrateParameters(counter);
                 wc.getPriceDeltaPerft_fx(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r, Market.r_usd, Market.r_hkd);

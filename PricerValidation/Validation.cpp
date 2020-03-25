@@ -48,7 +48,7 @@ int main() {
 	//validate_kanji(rng);
 	//validate_quanto(rng);
 	//validate_basket(rng);
-	//validate_kanjiFX(rng);
+	validate_kanjiFX(rng);
 	//validate_hedging();
 	//test_wrapper();
 

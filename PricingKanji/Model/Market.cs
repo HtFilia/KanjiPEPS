@@ -120,6 +120,13 @@ namespace PricingKanji.Model
                     effective_feeds.Add(feed);
                 }
             }
+            double t = 0;
+            foreach (DataFeed feed in effective_feeds)
+            {
+                feed.PriceList["USDEUR"] *= (decimal)Math.Exp(Market.r_usd * t);
+                feed.PriceList["HKDEUR"] *= (decimal)Math.Exp(Market.r_hkd * t);
+                t += 1.0 / businessDdaysPerYear;
+            }
             return effective_feeds;
         }
 
@@ -136,6 +143,19 @@ namespace PricingKanji.Model
             return previous_feeds;
         }
 
-
+        public List<DataFeed> domesticFeeds(List<DataFeed> feeds)
+        {
+            List<DataFeed> domestic_feeds = new List<DataFeed>(feeds);
+            double t = 0;
+            foreach (DataFeed feed in domestic_feeds)
+            {
+                feed.PriceList["USDEUR"] /= (decimal)Math.Exp(Market.r_usd * t);
+                feed.PriceList["HKDEUR"] /= (decimal)Math.Exp(Market.r_hkd * t);
+                feed.PriceList["S&P 500"] /= feed.PriceList["USDEUR"];
+                feed.PriceList["HANG SENG INDEX"] /= feed.PriceList["HKDEUR"];
+                t += 1.0 / businessDdaysPerYear;
+            }
+            return domestic_feeds;
+        }
     }
 }

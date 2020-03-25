@@ -19,7 +19,7 @@ namespace PricingKanji
             List<DataFeed> data = reader.ReadData();
             int freq = 1;
             int estimation_window = 80;
-            DateTime userDate = new DateTime(2015, 3, 20);
+            DateTime userDate = new DateTime(2013, 3, 26);
             Hedging hedging = new Hedging(estimation_window, freq, userDate);
             Dictionary<DateTime, HedgeState> output = hedging.HedgeKandji();
 
