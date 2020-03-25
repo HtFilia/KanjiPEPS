@@ -143,6 +143,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DataPoint.cs" />
+    <Compile Include="Models\DateFormModel.cs" />
     <Compile Include="Models\PastCoveragePoint.cs" />
     <Compile Include="Models\PriceFormModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -151,6 +152,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\DateConverter.cs" />
+    <Compile Include="Utilities\Path.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\argon\argon.css" />
