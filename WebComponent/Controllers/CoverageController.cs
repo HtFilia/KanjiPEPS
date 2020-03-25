@@ -99,68 +99,6 @@ namespace WebComponent.Controllers
 
 
 
-        private void PrixKanji()
-        {
-            List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(path.Chemin + @"\WebComponent\Content\csv\Kanji.csv"))
-            {
-                NumberFormatInfo provider = new NumberFormatInfo();
-                provider.NumberDecimalSeparator = ".";
-
-                int compteur = 0;
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-
-                    if (compteur > 0)
-                    {
-                        var values = line.Split(';');
-                        dataPoints.Add(new DataPoint(values[0], Convert.ToDouble(values[1], provider)));
-                    }
-                    compteur++;
-                }
-            }
-
-
-            ViewBag.PrixKanji = JsonConvert.SerializeObject(dataPoints);
-        }
-
-
-        private void CouvertureKanji()
-        {
-            List<DataPoint> dataPoints = new List<DataPoint>();
-            List<DataPoint> percentages = new List<DataPoint>();
-            string filePath = System.IO.Path.GetFullPath("Kanji.csv");
-            string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-            string dir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            string file = dir + @"\TestDir\TestFile.txt";
-            using (var reader = new StreamReader(path.Chemin + @"\WebComponent\Content\csv\Kanji.csv"))
-            {
-                NumberFormatInfo provider = new NumberFormatInfo();
-                provider.NumberDecimalSeparator = ".";
-
-                int compteur = 0;
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-
-                    if (compteur > 0)
-                    {
-                        var values = line.Split(';');
-                        dataPoints.Add(new DataPoint(values[0], Convert.ToDouble(values[2], provider)));
-                    }
-                    compteur++;
-                }
-            }
-
-            /* TODO: Actual percentages in portfolio */
-            percentages.Add(new DataPoint("Hang Seng", 60));
-            percentages.Add(new DataPoint("Euronext", 30));
-            percentages.Add(new DataPoint("S&P 500", 10));
-
-            ViewBag.CouvertureKanji = JsonConvert.SerializeObject(dataPoints);
-            ViewBag.PercentageCoverage = JsonConvert.SerializeObject(percentages);
-        }
 
     }
 }

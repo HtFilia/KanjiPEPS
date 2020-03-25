@@ -30,6 +30,31 @@
                     <div class="col">
                         <h2 class="text-white mb-0">Couverture du produit Kanji</h2>
                     </div>
+                    <div class="col-8">
+                        <ul class="nav nav-pills justify-content-end">
+                            <!-- TODO: Data update -->
+                            <li class="nav-item mr-2 mr-md-0">
+                                <a class="nav-link py-2 px-3 active show" href="#" id="chart-pf">
+                                    <span class="d-none d-md-block">Portfolio</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mr-2 mr-md-0">
+                                <a class="nav-link py-2 px-3" href="#" id="chart-hg">
+                                    <span class="d-none d-md-block">HangSeng</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mr-2 mr-md-0">
+                                <a class="nav-link py-2 px-3" href="#" id="chart-stoxx">
+                                    <span class="d-none d-md-block">Stoxx50</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mr-2 mr-md-0">
+                                <a class="nav-link py-2 px-3" href="#" id="chart-sp">
+                                    <span class="d-none d-md-block">S&P500</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
@@ -91,8 +116,6 @@
                             }
                     </script>
                     <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-                    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-                    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
                 </div>
             </div>
         </div>
@@ -105,11 +128,91 @@
         <div id="pie-coverage" style="height: 370px; width: 100%;"></div>
     </div>
 </div>
+<script src="~/Content/js/site.js"></script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script>
 
     let buttonCurrent = document.getElementById('ctrl-buttons').childNodes[1]
     let buttonPast = document.getElementById('ctrl-buttons').childNodes[3]
+
+
+    let hg = document.getElementById('chart-hg')
+    let stoxx = document.getElementById('chart-stoxx')
+    let sp = document.getElementById('chart-sp')
+    let pf = document.getElementById('chart-pf')
+
+    pf.onclick = function () {
+        changeactive(this)
+        var chartLine = new CanvasJS.Chart("chartContainer", {
+                                animationEnabled: true,
+                                    axisY: {
+                                        includeZero: false
+                                    },
+                                    toolTip: {
+                                    shared: true
+                                    },
+                                    data: [{
+                                        type: "line",
+                                        name: "Kanji",
+                                        showInLegend: true,
+                                        dataPoints: @Html.Raw(ViewBag.PrixKanji)
+                                    }, {
+                                        type: "line",
+                                        name: "Portefeuille de couverture",
+                                        showInLegend: true,
+                                        dataPoints: @Html.Raw(ViewBag.CouvertureKanji)
+                                    }]
+                                });
+
+                                chartLine.render();
+    }
+
+    stoxx.onclick = function () {
+        changeactive(this)
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            animationEnabled: true,
+            zoomEnabled: true,
+            data: [{
+                type: "line",
+                dataPoints: @Html.Raw(ViewBag.DeltasEur)
+                }]
+        });
+
+        chart.render();
+    }
+
+    hg.onclick = function () {
+        changeactive(this)
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            animationEnabled: true,
+            zoomEnabled: true,
+            data: [{
+                type: "line",
+                dataPoints: @Html.Raw(ViewBag.DeltasHG)
+                }]
+        });
+
+        chart.render();
+    }
+
+    sp.onclick = function () {
+        changeactive(this)
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            animationEnabled: true,
+            zoomEnabled: true,
+            data: [{
+                type: "line",
+                dataPoints: @Html.Raw(ViewBag.DeltasSP)
+                }]
+        });
+
+        chart.render();
+    }
+
+    
 
     buttonCurrent.onclick = function () {
         changeActive(this)
@@ -178,5 +281,13 @@ chart.render();
         })
 		$(a).addClass("active show")
     }
+
+    function changeactive(a) {
+        $(a).parent().parent().children("li").children("a").each(function () {
+            $(this).removeClass("active show")
+        })
+        $(a).addClass("active show")
+    }
+
 
 </script>
