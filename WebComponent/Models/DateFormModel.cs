@@ -6,13 +6,12 @@ using System.Web;
 
 namespace WebComponent.Models
 {
-    public class PriceFormModel
+    public class DateFormModel
     {
-        public int Freq { get; set; }
-        public int EstimationWindow { get; set; }
-
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime CompositionDate { get; set; }
+        public DateTime DesiredDate { get; set; }
+
+        
     }
 }

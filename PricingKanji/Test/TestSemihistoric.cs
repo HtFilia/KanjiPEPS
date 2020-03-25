@@ -33,7 +33,7 @@ namespace PricingKanji
             foreach (DateTime date in output.Keys)
             {
                 error = (output[date].portfolioValue - output[date].optionValue);
-                List<double> parts = output[date].getAssetParts().Values.ToList();
+                List<double> parts = output[date].getAssetValues().Values.ToList();
                 newLine = string.Format("{0};{1};{2};{3};{4};{5};{6}", date.ToString("d"), output[date].optionValue.ToString().Replace(",", "."), output[date].portfolioValue.ToString().Replace(",", "."), error.ToString().Replace(",", "."), parts[0].ToString().Replace(",", "."), parts[1].ToString().Replace(",", "."), parts[2].ToString().Replace(",", "."));
                 csv.AppendLine(newLine);
             }

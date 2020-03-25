@@ -12,12 +12,12 @@ namespace PricingKanji.Model
 {
     public class DataReader
     {
-        public List<DataFeed> ReadData()
+        public List<DataFeed> ReadData(String path = Utilities.path)
         {
             List<DataFeed> feeds = new List<DataFeed>();
-            IndexValue EuroValues = ParseFile("ESTX 50");
-            IndexValue SNPValues = ParseFile("S&P 500");
-            IndexValue HSIValues = ParseFile("HANG SENG INDEX");
+            IndexValue EuroValues = ParseFile(path, "ESTX 50");
+            IndexValue SNPValues = ParseFile(path, "S&P 500");
+            IndexValue HSIValues = ParseFile(path, "HANG SENG INDEX");
             foreach (DateTime date in EuroValues.cotations.Keys)
             {
                 if (SNPValues.cotations.ContainsKey(date) && HSIValues.cotations.ContainsKey(date))
@@ -33,14 +33,14 @@ namespace PricingKanji.Model
             return feeds;
         }
 
-        public List<DataFeed> ReadDataFX(decimal r_usd, decimal r_hkd)
+        public List<DataFeed> ReadDataFX(String path, decimal r_usd, decimal r_hkd)
         {
             List<DataFeed> feeds = new List<DataFeed>();
-            IndexValue EuroValues = ParseFile("ESTX 50");
-            IndexValue SNPValues = ParseFile("S&P 500");
-            IndexValue HSIValues = ParseFile("HANG SENG INDEX");
-            IndexValue EURUSDValues = ParseFile("EURUSD");
-            IndexValue EURHKDValues = ParseFile("EURHKD");
+            IndexValue EuroValues = ParseFile(path, "ESTX 50");
+            IndexValue SNPValues = ParseFile(path, "S&P 500");
+            IndexValue HSIValues = ParseFile(path, "HANG SENG INDEX");
+            IndexValue EURUSDValues = ParseFile(path, "EURUSD");
+            IndexValue EURHKDValues = ParseFile(path, "EURHKD");
             double timeSpan = 1.0 / 252.0;
             double t_counter = 0;
             foreach (DateTime date in EuroValues.cotations.Keys)
@@ -63,25 +63,25 @@ namespace PricingKanji.Model
             return feeds;
         }
 
-        public IndexValue ParseFile(String Name)
+        public IndexValue ParseFile(String path, String Name)
         {
             String Path = "";
             switch (Name)
             {
                 case "ESTX 50":
-                    Path = "../../../../MarketData/eurostoxx.csv";
+                    Path = path + @"\MarketData\eurostoxx.csv";
                     break;
                 case "S&P 500":
-                    Path = "../../../../MarketData/snp500.csv";
+                    Path = path + @"\MarketData\snp500.csv";
                     break;
                 case "HANG SENG INDEX":
-                    Path = "../../../../MarketData/hsi.csv";
+                    Path = path + @"\MarketData\hsi.csv";
                     break;
                 case "EURUSD":
-                    Path = "../../../../MarketData/EURUSD.csv";
+                    Path = path + @"\MarketData\EURUSD.csv";
                     break;
                 case "EURHKD":
-                    Path = "../../../../MarketData/EURHKD.csv";
+                    Path = path + @"\MarketData\EURHKD.csv";
                     break;
             }
 

@@ -8,6 +8,9 @@ namespace PricingKanji.Model
 {
     public static class Utilities
     {
+
+        public const string path = @"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS";
+
         // Adds busniessDayCount days to the startDate
         public static DateTime AddBusinessDays(DateTime startDate, int businessDayCount)
         {
