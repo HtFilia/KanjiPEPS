@@ -6,16 +6,23 @@
 
 <div class="main-content">
     <div class="container-fluid">
-        @{
-            using (Html.BeginForm("Index", "Coverage", FormMethod.Post))
-            {
-                <label>Choisissez une fréquence de rebalancement :</label>
-                @Html.TextBox("Freq", null, new { @class = "form-control" })
-                <label>Choisissez une fenêtre d'estimation :</label>
-                @Html.TextBox("EstimationWindow", null, new { @class = "form-control" })
-                <input type="submit" value="Me Couvrir" />
-                <span style="color:red">@ViewBag.MessageErr</span>
-            }
+        @using (Ajax.BeginForm("Index", "Coverage", new AjaxOptions { }))
+        {
+            @Html.Label("Entrez la date où vous voulez voir la composition de votre Portefeuille de couverture :")
+            <br />
+            @Html.EditorFor(model => model.CompositionDate, new { @type = "date" })
+            <br />
+            <br />
+            <label>Choisissez une fréquence de rebalancement :</label>
+            @Html.TextBox("Freq", null, new { @class = "form-control" })
+            <br />
+            <label>Choisissez une fenêtre d'estimation :</label>
+            @Html.TextBox("EstimationWindow", null, new { @class = "form-control" })
+            <br />
+            <input type="submit" value="Me Couvrir" />
+            <br />
+            <span style="color:red">@ViewBag.MessageErr</span>
+            <br />
         }
 
         <div class="row">
@@ -117,23 +124,17 @@
                 </div>
             </div>
             <div class="col-xl-4 mb-3 mb-xl-0">
-                <div id="ctrl-buttons">
-                    <button type="button" class="btn btn-outline-primary active show">Actuel</button>
-                    <button type="button" class="btn btn-outline-primary">Passé</button>
-                </div>
                 <div id="pie-coverage" style="height: 370px; width: 100%;"></div>
             </div>
         </div>
     </div>
+    
 </div>
 
 
 <script src="~/Content/js/site.js"></script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script>
-
-    let buttonCurrent = document.getElementById('ctrl-buttons').childNodes[1]
-    let buttonPast = document.getElementById('ctrl-buttons').childNodes[3]
 
 
     let hg = document.getElementById('chart-hg')
@@ -212,75 +213,6 @@
         chart.render();
     }
 
-    
-
-    buttonCurrent.onclick = function () {
-        changeActive(this)
-		var chart = new CanvasJS.Chart("pie-coverage", {
-                                theme: "light2", // "light1", "light2", "dark1", "dark2"
-                                exportEnabled: true,
-                                animationEnabled: true,
-                                title: {
-                                    text: "Portefeuille de couverture"
-                                },
-                                data: [{
-                                    type: "pie",
-                                    startAngle: 25,
-                                    toolTipContent: "<b>{label}</b>: {y}%",
-                                    showInLegend: "true",
-                                    legendText: "{label}",
-                                    indexLabelFontSize: 16,
-                                    indexLabel: "{label} - {y}%",
-                                    dataPoints: @Html.Raw(ViewBag.PercentageCoverage)
-                                }]
-                            });
-
-        chart.render();
-    }
-
-    buttonPast.onclick = function () {
-        changeActive(this)
-		var chart = new CanvasJS.Chart("pie-coverage", {
-                                    title: {
-                                        text: "Evolution des Deltas"
-                                    },
-                                    theme: "light2", // "light1", "light2", "dark1", "dark2"
-                                    animationEnabled: true,
-                                    toolTip: {
-                                        shared: true
-                                    },
-                                    data: [
-                                        {
-                                            type: "stackedArea100",
-                                            name: "HangSeng",
-                                            xValueFormatString: "MMM, YYYY",
-                                            showInLegend: "true",
-                                            dataPoints: @Html.Raw(ViewBag.DeltasHG)
-                                        },
-                                        {
-                                            type: "stackedArea100",
-                                            name: "Euronext",
-                                            showInLegend: "true",
-                                            dataPoints: @Html.Raw(ViewBag.DeltasEur)
-                                        },
-                                        {
-                                            type: "stackedArea100",
-                                            name: "S&P500",
-                                            showInLegend: "true",
-                                            dataPoints: @Html.Raw(ViewBag.DeltasSP)
-                                        }
-                                    ]
-
-});
-chart.render();
-    }
-
-    function changeActive(a) {
-        $(a).parent().children("button").each(function () {
-			$(this).removeClass("active show")
-        })
-		$(a).addClass("active show")
-    }
 
     function changeactive(a) {
         $(a).parent().parent().children("li").children("a").each(function () {
