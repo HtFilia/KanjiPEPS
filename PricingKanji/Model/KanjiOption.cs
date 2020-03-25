@@ -36,8 +36,8 @@ namespace PricingKanji.Model
             maturity = new DateTime(2021, 3, 26);
             startDate = new DateTime(2013, 3, 26);
             InitialValues = new Dictionary<string, double>();
-            List<double> initialvalues = new List<double> { 0, 0, 0 };
-            indexesName = new List<string> { "ESTX 50", "S&P 500", "HANG SENG INDEX" };
+            List<double> initialvalues = new List<double> { 0, 0, 0, 0, 0 };
+            indexesName = market.feeds.First().PriceList.Keys.ToList();
             int count;
             foreach (DateTime date in initialValueDates)
             {

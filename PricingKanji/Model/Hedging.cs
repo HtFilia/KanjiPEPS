@@ -19,7 +19,7 @@ namespace PricingKanji.Model
         Market market;
         public double[] volatilities;
         public double[] correlation_vector;
-        int size = 3;
+        int size = 5;
         KanjiOption kanji;
         WrapperClass wc;
         Portfolio portfolio;
@@ -45,7 +45,7 @@ namespace PricingKanji.Model
 
         public Dictionary<DateTime, HedgeState> HedgeKandji()
         {
-            computeNetAssetValue();
+            //computeNetAssetValue();
             Dictionary<DateTime, HedgeState> hedging = new Dictionary<DateTime, HedgeState>();
             double[] spots = { };
             var previous_feeds = market.PreviousFeeds(market.feeds, startdate);
@@ -93,7 +93,7 @@ namespace PricingKanji.Model
             {
                 PastFeeds.Add(currFeed);
             }
-            double[] past = new double[3 * PastFeeds.Count];
+            double[] past = new double[size * PastFeeds.Count];
             int date_index;
             foreach (DataFeed feed in PastFeeds)
             {
@@ -101,7 +101,10 @@ namespace PricingKanji.Model
                 date_index = PastFeeds.IndexOf(feed);
                 past[date_index * kanji.size] = (double)feed.PriceList["ESTX 50"];
                 past[date_index * kanji.size + 1] = (double)feed.PriceList["S&P 500"];
-                past[date_index * kanji.size + 2] = (double)feed.PriceList["HANG SENG INDEX"];
+                past[date_index * kanji.size + 2] = (double)feed.PriceList["USDEUR"];
+                past[date_index * kanji.size + 3] = (double)feed.PriceList["HANG SENG INDEX"];
+                past[date_index * kanji.size + 4] = (double)feed.PriceList["HKDEUR"];
+               
             }
             return past;
 
@@ -140,25 +143,25 @@ namespace PricingKanji.Model
             HedgeState returnStruct = new HedgeState();
             if (counter == previous_feeds_count)
             {
-                wc.getPriceDeltaPerft(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r);
-                portfolio.UpdateComposition(wc.getDeltas(), feed, previousFeed, wc.getPrice(), startdate, market);
+                wc.getPriceDeltaPerft_fx(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r, Market.r_usd, Market.r_hkd);
+                portfolio.UpdateComposition(wc.getDeltas_fx(), feed, previousFeed, wc.getPrice(), startdate, market);
                 previousFeed = feed;
             }
             else if ((counter - previous_feeds_count) % rebalancingFrequency == 0)
             {
                 calibrateParameters(counter);
-                wc.getPriceDeltaPerft(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r);
-                portfolio.UpdateComposition(wc.getDeltas(), feed, previousFeed, wc.getPrice(), startdate, market);
+                wc.getPriceDeltaPerft_fx(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r, Market.r_usd, Market.r_hkd);
+                portfolio.UpdateComposition(wc.getDeltas_fx(), feed, previousFeed, wc.getPrice(), startdate, market);
                 previousFeed = feed;
             }
             else
             {
-                wc.getPricePerft(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r);
+                wc.getPricePerft_fx(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r, Market.r_usd, Market.r_hkd);
                 portfolio.GetValue(feed, previousFeed, startdate, market);
             }
             returnStruct.feed = feed;
             returnStruct.portfolioValue = portfolio.Value;
-            returnStruct.optionValue = wc.getPrice();
+            returnStruct.optionValue = wc.getPrice_fx();
             returnStruct.composition = new Dictionary<string, double>(portfolio.composition);
             return returnStruct;
         }

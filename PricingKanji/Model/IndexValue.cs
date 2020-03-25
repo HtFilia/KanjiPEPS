@@ -7,7 +7,7 @@ using PricingLibrary.Utilities.MarketDataFeed;
 
 namespace PricingKanji.Model
 {
-    class IndexValue
+    public class IndexValue
     {
         public String Name { get; set; }
         public DateTime Date { get; set; }
@@ -25,7 +25,7 @@ namespace PricingKanji.Model
         {
             if(csvArray[4] != "null")
             {
-                cotations.Add(Convert.ToDateTime(csvArray[0]), (decimal)Double.Parse(csvArray[4].Replace('.', ',')));
+                cotations.Add(Convert.ToDateTime(csvArray[0]), (decimal)Double.Parse(csvArray[4].Replace(".",",")));
             }
         }
 

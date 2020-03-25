@@ -40,7 +40,7 @@ def plot_histogram():
 def plot_density(M, freqValues):
     colors = ['g', 'blue', 'r', 'black']
     for freq, color in zip(freqValues, colors):
-        filename = 'histogram_errors_M' + str(M) + '_freq_' + str(freq) +'.csv'
+        filename = 'kanji_FX_histogram_errors_M' + str(M) + '_freq_' + str(freq) +'.csv'
         with open(filename) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=';')
             l = []
@@ -49,7 +49,7 @@ def plot_density(M, freqValues):
             sns.kdeplot(l, bw=.2, label=freq, shade=True)
     plt.legend();
     plt.title("Distribution de l'erreur de couverture")
-    plt.gcf().savefig("call_error_histogram")
+    plt.gcf().savefig("fx_kanji_histogram")
 
 
 def plot_error_H():
@@ -79,8 +79,8 @@ def plot_error_H():
     plt.savefig("hedging_error_f(H)")
 
 def main():
-    M = 365
-    freqValues = [1, 5, 10, 30]
+    M = 2016
+    freqValues = [1, 10, 30]
     freqValues = [str(x) for x in freqValues]
     plot_density(M, freqValues)
 main()
