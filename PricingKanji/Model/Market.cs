@@ -13,13 +13,15 @@ namespace PricingKanji.Model
     public class Market
     {
         public static double r = 0.001;
+        public static double r_usd = 0.001;
+        public static double r_hkd = 0.001;
         public static double businessDdaysPerYear = 252.0;
         public List<DataFeed> feeds;
         public Market(DateTime userDate)
         {
             feeds = new List<DataFeed>();
             DataReader reader = new DataReader();
-            List<DataFeed> data = reader.ReadData();
+            List<DataFeed> data = reader.ReadDataFX(r_usd, r_hkd);
             foreach (DataFeed feed in data)
             {
                 if (feed.Date.CompareTo(userDate) <= 0)
@@ -77,11 +79,11 @@ namespace PricingKanji.Model
                 k++;
             }
             double[] spots = Market.marketSpots(feeds.Last());
-            wc.SimulMarket(t_in_years, matu_in_years, nbSimulatedDates + 1, spots, estimated_trend, estimated_volatilities, contigous_correlation, r);
-            double[] path = wc.getPath();
+            wc.SimulMarket(t_in_years, matu_in_years, nbSimulatedDates + 1, spots, estimated_trend, estimated_volatilities, contigous_correlation, r, r_usd, r_hkd);
+            double[] path = wc.getPath_fx();
             DataFeed firstFeed = feeds.First();
             int size = firstFeed.PriceList.Count;
-            List<string> names = new List<string>(firstFeed.PriceList.Keys);
+            List<string> names = firstFeed.PriceList.Keys.ToList();
             for (int i = 1; i <= nbSimulatedDates; i++)
             {
                 simulatedDate = Utilities.AddBusinessDays(simulatedDate, 1);

@@ -30,7 +30,7 @@ namespace WebComponent.Controllers
                 List<DataFeed> data = reader.ReadData();
                 int estimation_window = 80;
                 double r = 0.01;
-                Hedging hedging = new Hedging(estimation_window, freq, data);
+                Hedging hedging = new Hedging(estimation_window, freq, System.DateTime.Now);
                 Dictionary<DateTime, HedgeState> output = hedging.HedgeKandji();
 
             }

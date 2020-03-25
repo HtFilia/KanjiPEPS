@@ -91,7 +91,6 @@ void Computations::performance_delta_t(double netAssetValue, double ic_deltas[],
 
 void Computations::performance_delta_t_fx(double netAssetValue, double ic_deltas[], double deltas[], int nb_samples, double T,
 	double t, double past_[], double initial_values[], int nb_dates, double sigma_[], double correlation[], double r, double r_US, double r_HK) {
-	int size_fx = 5;
 	PnlVect* ic_delta = pnl_vect_create_from_ptr(size_fx, ic_deltas);
 	PnlVect* delta = pnl_vect_create_from_ptr(size_fx, deltas);
 	PnlMat* past = pnl_mat_create_from_ptr(nb_dates, size_fx, past_);
@@ -155,13 +154,13 @@ void Computations::simul_market_fx(double path_[], double t, double maturity, in
 }
 
 MonteCarlo* Computations::initialize_mc(int nb_samples, double T, double past_[], double netAssetValue, double inital_values[], int nb_dates, double sigma_[], double correlation[], double r) {
-	PnlMat* correlation_matrix = pnl_mat_create_from_ptr(size, size, correlation);
-	PnlMat *past = pnl_mat_create_from_ptr(nb_dates, size, past_);
-	PnlVect* S0 = pnl_vect_create(3);
+	PnlMat* correlation_matrix = pnl_mat_create_from_ptr(size_fx, size_fx, correlation);
+	PnlMat *past = pnl_mat_create_from_ptr(nb_dates, size_fx, past_);
+	PnlVect* S0 = pnl_vect_create(size_fx);
 	pnl_mat_get_row(S0, past, 0);
-	PnlVect* sigma = pnl_vect_create_from_ptr(size, sigma_);
+	PnlVect* sigma = pnl_vect_create_from_ptr(size_fx, sigma_);
 	PnlVect* trend_vec = pnl_vect_create_from_double(1, r);
-	BlackScholesModel *model = new BlackScholesModel(size, r, sigma, S0, trend_vec, correlation_matrix);
+	BlackScholesModel *model = new BlackScholesModel(size_fx, r, sigma, S0, trend_vec, correlation_matrix);
 	PnlVect *inital_values_ = pnl_vect_create_from_ptr(3, inital_values);
 	KanjiOption *perf_option = new KanjiOption(T, n_time_steps, size, inital_values_, netAssetValue);
 	PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
