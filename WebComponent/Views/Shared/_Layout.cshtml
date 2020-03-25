@@ -20,8 +20,8 @@
                 <ul id="navbar-nav" class="navbar-nav">
                     <li class="nav-item active">
                         <a class="nav-link" href="@Url.Action("Index", "Home")">
-                            <i class="fas fa-coins"></i>
-                            <span>Options</span>
+                            <i class="fas fa-home"></i>
+                            <span>Accueil</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -32,27 +32,17 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("Index", "Coverage")">
-                            <i class="fas fa-home"></i>
+                            <i class="fas fa-coins"></i>
                             <span>Couverture</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index", "Backtesting")">
-                            <i class="fas fa-vial"></i>
-                            <span>Backtesting</span>
                         </a>
                     </li>
                 </ul>
                 <hr class="my-3" />
+                <span>@ViewBag.UserDate</span>
             </div>
         </div>
     </nav>
-    <div class="main-content">
-        <!-- Page Content -->
-        <div class="container-fluid">
-            @RenderBody()
-        </div>
-    </div>
+    @RenderBody()
     <!--
         <footer class="border-top footer text-muted">
             <div class="container">

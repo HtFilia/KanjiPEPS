@@ -1,130 +1,73 @@
-﻿@{
+﻿@model WebComponent.Models.DateFormModel
+
+@{
     ViewBag.Title = "Index";
 }
-@model WebComponent.Models.PriceFormModel
 
-
-
-
-<div class="row">
-    <div class="col-xl-8 mb-5 mb-xl-0">
-        <div class="card bg-gradient-default shadow">
-            <div class="card-header bg-transparent">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <h2 class="text-white mb-0">Evolution du Prix Kanji</h2>
-                    </div>
-                    <div class="col-8">
-                        <ul class="nav nav-pills justify-content-end">
-                            <!-- TODO: Data update -->
-                            <li class="nav-item mr-2 mr-md-0">
-                                <a class="nav-link py-2 px-3 active show" href="#" id="chart-quot">
-                                    <span class="d-none d-md-block">Quotidien</span>
-                                </a>
-                            </li>
-                            <li class="nav-item mr-2 mr-md-0">
-                                <a class="nav-link py-2 px-3" href="#" id="chart-hebd">
-                                    <span class="d-none d-md-block">Hebdomadaire</span>
-                                </a>
-                            </li>
-                            <li class="nav-item mr-2 mr-md-0">
-                                <a class="nav-link py-2 px-3" href="#" id="chart-mens">
-                                    <span class="d-none d-md-block">Mensuel</span>
-                                </a>
-                            </li>
-                        </ul>
+<div class="main-content">
+    <div class="header bg-primary pb-6">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8">
+                        <h6 class="h2 text-white d-inline-block mb-0">Kanji Dashboard</h6>
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <div class="chart">
-                    <div class="chartjs-size-monitor">
-                        <div class="chartjs-size-monitor-expand">
-                            <div class=""></div>
-                        </div>
-                        <div class="chartjs-size-monitor-shrink">
-                            <div class=""></div>
+                <div class="row">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Évolution des sous-jacents</h5>
+
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                            <i class="fas fa-chart-line"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                    <span class="text-nowrap">Changer ici description</span>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                    <script>
-                            window.onload = function () {
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Couverture</h5>
 
-                            var chart = new CanvasJS.Chart("chartContainer", {
-	                            theme: "light2", // "light1", "light2", "dark1", "dark2"
-	                            animationEnabled: true,
-	                            zoomEnabled: true,
-	                            data: [{
-                                    type: "line",
-
-		                            dataPoints: @Html.Raw(ViewBag.KanjiQuot)
-	                            }]
-                            });
-
-                            chart.render();
-                            }
-                    </script>
-                    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-                    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-blue text-white rounded-circle shadow">
+                                            <i class="fas fa-coins"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                    <span class="text-nowrap">Changer ici description</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Page Content -->
+    <div class="container-fluid">
+        @using (Ajax.BeginForm("Index", "Home", new AjaxOptions { UpdateTargetId = "userDate" }))
+        {
+            <div id="userDate"></div>
+            @Html.Label("Entrez la date où vous voulez vous situer :")
+            <br />
+            @Html.EditorFor(model => model.DesiredDate, new { @type = "date" })
+            <button class="btn btn-sm btn-neutral">Calculate</button>
+            <span style="color:red">@ViewBag.MessageEr</span>
+        }
+    </div>
 </div>
-<script src="~/Content/js/site.js"></script>
-<script>
-    let quot = document.getElementById('chart-quot')
-    let hebd = document.getElementById('chart-hebd')
-    let mens = document.getElementById('chart-mens')
-
-    quot.onclick = function () {
-        changeActive(this)
-        var chart = new CanvasJS.Chart("chartContainer", {
-            theme: "dark2", // "light1", "light2", "dark1", "dark2"
-            animationEnabled: true,
-            zoomEnabled: true,
-            data: [{
-                type: "line",
-                dataPoints: @Html.Raw(ViewBag.KanjiQuot)
-                }]
-        });
-
-        chart.render();
-    }
-
-    hebd.onclick = function () {
-        changeActive(this)
-        var chart = new CanvasJS.Chart("chartContainer", {
-            theme: "light2", // "light1", "light2", "dark1", "dark2"
-            animationEnabled: true,
-            zoomEnabled: true,
-            data: [{
-                type: "line",
-                dataPoints: @Html.Raw(ViewBag.KanjiHebdo)
-                }]
-        });
-
-        chart.render();
-    }
-
-    mens.onclick = function () {
-        changeActive(this)
-        var chart = new CanvasJS.Chart("chartContainer", {
-            theme: "light2", // "light1", "light2", "dark1", "dark2"
-            animationEnabled: true,
-            zoomEnabled: true,
-            data: [{
-                type: "line",
-                dataPoints: @Html.Raw(ViewBag.KanjiMens)
-                }]
-        });
-
-        chart.render();
-    }
-
-    function changeActive(a) {
-        $(a).parent().parent().children("li").children("a").each(function () {
-            $(this).removeClass("active show")
-        })
-        $(a).addClass("active show")
-    }
-</script>

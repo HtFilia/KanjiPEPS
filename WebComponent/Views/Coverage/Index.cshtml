@@ -4,211 +4,222 @@
     ViewBag.Title = "Index";
 }
 
-<div>
-    <form action="/Coverage" method="post">
-        <br />
-        <label>Choisissez une fréquence de rebalancement :</label>
-        <br />
-        <input type="number" name="Freq" />
-        <br />
-        <label>Choisissez une fenêtre d'estimation :</label>
-        <br />
-        <input type="number" name="EstimationWindow" />
-        <br />
-    </form>
-    <input type="submit" value="Me Couvrir" />
-</div>
-<br />
+<div class="main-content">
+    <div class="container-fluid">
+        @using (Ajax.BeginForm("Index", "Coverage", new AjaxOptions { }))
+        {
+            @Html.Label("Entrez la date où vous voulez voir la composition de votre Portefeuille de couverture :")
+            <br />
+            @Html.EditorFor(model => model.CompositionDate, new { @type = "date" })
+            <br />
+            <br />
+            <label>Choisissez une fréquence de rebalancement :</label>
+            @Html.TextBox("Freq", null, new { @class = "form-control" })
+            <br />
+            <label>Choisissez une fenêtre d'estimation :</label>
+            @Html.TextBox("EstimationWindow", null, new { @class = "form-control" })
+            <br />
+            <input type="submit" value="Me Couvrir" />
+            <br />
+            <span style="color:red">@ViewBag.MessageErr</span>
+            <br />
+        }
 
-<div class="row">
-    <div class="col-xl-8 mb-5 mb-xl-0">
-        <div class="card bg-gradient-default shadow">
-            <div class="card-header bg-transparent">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <h2 class="text-white mb-0">Couverture du produit Kanji</h2>
+        <div class="row">
+            <div class="col-xl-8 mb-5 mb-xl-0">
+                <div class="card bg-gradient-default shadow">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h2 class="text-white mb-0">Couverture du produit Kanji</h2>
+                            </div>
+                            <div class="col-8">
+                                <ul class="nav nav-pills justify-content-end">
+                                    <!-- TODO: Data update -->
+                                    <li class="nav-item mr-2 mr-md-0">
+                                        <a class="nav-link py-2 px-3 active show" href="#" id="chart-pf">
+                                            <span class="d-none d-md-block">Portfolio</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item mr-2 mr-md-0">
+                                        <a class="nav-link py-2 px-3" href="#" id="chart-hg">
+                                            <span class="d-none d-md-block">HangSeng</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item mr-2 mr-md-0">
+                                        <a class="nav-link py-2 px-3" href="#" id="chart-stoxx">
+                                            <span class="d-none d-md-block">Stoxx50</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item mr-2 mr-md-0">
+                                        <a class="nav-link py-2 px-3" href="#" id="chart-sp">
+                                            <span class="d-none d-md-block">S&P500</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div class="chartjs-size-monitor">
+                                <div class="chartjs-size-monitor-expand">
+                                    <div class=""></div>
+                                </div>
+                                <div class="chartjs-size-monitor-shrink">
+                                    <div class=""></div>
+                                </div>
+                            </div>
+                            <script>
+                            window.onload = function () {
+
+                            var chartPie = new CanvasJS.Chart("pie-coverage", {
+                                theme: "light2", // "light1", "light2", "dark1", "dark2"
+                                exportEnabled: true,
+                                animationEnabled: true,
+                                title: {
+                                    text: "Portefeuille de couverture"
+                                },
+                                data: [{
+                                    type: "pie",
+                                    startAngle: 25,
+                                    toolTipContent: "<b>{label}</b>: {y}%",
+                                    showInLegend: "true",
+                                    legendText: "{label}",
+                                    indexLabelFontSize: 16,
+                                    indexLabel: "{label} - {y}%",
+                                    dataPoints: @Html.Raw(ViewBag.PercentageCoverage)
+                                }]
+                            });
+
+                                var chartLine = new CanvasJS.Chart("chartContainer", {
+                                animationEnabled: true,
+                                    axisY: {
+                                        includeZero: false
+                                    },
+                                    toolTip: {
+                                    shared: true
+                                    },
+                                    data: [{
+                                        type: "line",
+                                        name: "Kanji",
+                                        showInLegend: true,
+                                        dataPoints: @Html.Raw(ViewBag.PrixKanji)
+                                    }, {
+                                        type: "line",
+                                        name: "Portefeuille de couverture",
+                                        showInLegend: true,
+                                        dataPoints: @Html.Raw(ViewBag.CouvertureKanji)
+                                    }]
+                                });
+
+                                chartLine.render();
+                                chartPie.render();
+
+                            }
+                            </script>
+                            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="chart">
-                    <div class="chartjs-size-monitor">
-                        <div class="chartjs-size-monitor-expand">
-                            <div class=""></div>
-                        </div>
-                        <div class="chartjs-size-monitor-shrink">
-                            <div class=""></div>
-                        </div>
-                    </div>
-                    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-                </div>
+            <div class="col-xl-4 mb-3 mb-xl-0">
+                <div id="pie-coverage" style="height: 370px; width: 100%;"></div>
             </div>
         </div>
     </div>
-    <div class="col-xl-4 mb-3 mb-xl-0">
-        <div id="ctrl-buttons">
-            <button type="button" class="btn btn-outline-primary active show">Actuel</button>
-            <button type="button" class="btn btn-outline-primary">Passé</button>
-        </div>
-        <div id="pie-coverage" style="height: 370px; width: 100%;"></div>
-    </div>
+    
 </div>
+
+
+<script src="~/Content/js/site.js"></script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script>
-    window.onload = function () {
-        var chartPie = new CanvasJS.Chart("pie-coverage", {
-                    theme: "light2", // "light1", "light2", "dark1", "dark2"
-                    exportEnabled: true,
-                    animationEnabled: true,
-                    title: {
-                        text: "Portefeuille de couverture"
-                    },
-                    data: [{
-                        type: "pie",
-                        startAngle: 25,
-                        toolTipContent: "<b>{label}</b>: {y}%",
-                        showInLegend: "true",
-                        legendText: "{label}",
-                        indexLabelFontSize: 16,
-                        indexLabel: "{label} - {y}%",
-                        dataPoints: @Html.Raw(ViewBag.PercentageCoverage)
-                    }]
-                });
 
+
+    let hg = document.getElementById('chart-hg')
+    let stoxx = document.getElementById('chart-stoxx')
+    let sp = document.getElementById('chart-sp')
+    let pf = document.getElementById('chart-pf')
+
+    pf.onclick = function () {
+        changeactive(this)
         var chartLine = new CanvasJS.Chart("chartContainer", {
-        animationEnabled: true,
-            axisY: {
-                includeZero: false
-            },
-            toolTip: {
-            shared: true
-            },
-            data: [{
-                type: "line",
-                name: "Kanji",
-                showInLegend: true,
-                dataPoints: @Html.Raw(ViewBag.PrixKanji)
-            }, {
-                type: "line",
-                name: "Portefeuille de couverture",
-                showInLegend: true,
-                dataPoints: @Html.Raw(ViewBag.CouvertureKanji)
-            }]
-        });
+                                animationEnabled: true,
+                                    axisY: {
+                                        includeZero: false
+                                    },
+                                    toolTip: {
+                                    shared: true
+                                    },
+                                    data: [{
+                                        type: "line",
+                                        name: "Kanji",
+                                        showInLegend: true,
+                                        dataPoints: @Html.Raw(ViewBag.PrixKanji)
+                                    }, {
+                                        type: "line",
+                                        name: "Portefeuille de couverture",
+                                        showInLegend: true,
+                                        dataPoints: @Html.Raw(ViewBag.CouvertureKanji)
+                                    }]
+                                });
 
-        chartPie.render();
-        chartLine.render();
+                                chartLine.render();
     }
 
-    let buttonCurrent = document.getElementById('ctrl-buttons').childNodes[1]
-    let buttonPast = document.getElementById('ctrl-buttons').childNodes[3]
-
-    buttonCurrent.onclick = function () {
-        changeActive(this)
-		var chart = new CanvasJS.Chart("pie-coverage", {
-		theme: "light2", // "light1", "light2", "dark1", "dark2"
-		exportEnabled: true,
-		animationEnabled: true,
-		title: {
-			text: "Portefeuille de couverture"
-		},
-		data: [{
-			type: "pie",
-			startAngle: 25,
-			toolTipContent: "<b>{label}</b>: {y}%",
-			showInLegend: "true",
-			legendText: "{label}",
-			indexLabelFontSize: 16,
-			indexLabel: "{label} - {y}%",
-			dataPoints: [
-				{ y: 60, label: "HangSeng" },
-				{ y: 30, label: "CAC40" },
-				{ y: 10, label: "S&P500" }
-			]
-		}]
+    stoxx.onclick = function () {
+        changeactive(this)
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            animationEnabled: true,
+            zoomEnabled: true,
+            data: [{
+                type: "line",
+                dataPoints: @Html.Raw(ViewBag.DeltasEur)
+                }]
         });
 
         chart.render();
     }
 
-    buttonPast.onclick = function () {
-        changeActive(this)
-		var chart = new CanvasJS.Chart("pie-coverage", {
-	title:{
-		text: "Percentage of People Involved in Traffic Accidents by Modes of Transport"
-	},
-	theme: "light2", // "light1", "light2", "dark1", "dark2"
-	animationEnabled: true,
-	axisX: {
-		interval: 1,
-		intervalType: "month"
-	},
-	toolTip: {
-		shared: true
-	},
-	data: [
-	{
-		type: "stackedArea100",
-		name: "HangSeng",
-		xValueFormatString: "MMM, YYYY",
-		showInLegend: "true",
-		dataPoints: [
-			{ x: new Date(2016, 00, 1), y: 60 },
-			{ x: new Date(2016, 01, 1), y: 65 },
-			{ x: new Date(2016, 02, 1), y: 60 },
-			{ x: new Date(2016, 03, 1), y: 65 },
-			{ x: new Date(2016, 04, 1), y: 60 },
-			{ x: new Date(2016, 05, 1), y: 65 },
-			{ x: new Date(2016, 06, 1), y: 60 },
-			{ x: new Date(2016, 07, 1), y: 65 },
-			{ x: new Date(2016, 08, 1), y: 60 },
-			{ x: new Date(2016, 09, 1), y: 65 }
-		]
-	},
-	{
-		type: "stackedArea100",
-		name: "Euronext",
-		showInLegend: "true",
-		dataPoints: [
-			{ x: new Date(2016, 00, 1), y: 30 },
-			{ x: new Date(2016, 01, 1), y: 25 },
-			{ x: new Date(2016, 02, 1), y: 20 },
-			{ x: new Date(2016, 03, 1), y: 25 },
-			{ x: new Date(2016, 04, 1), y: 30 },
-			{ x: new Date(2016, 05, 1), y: 25 },
-			{ x: new Date(2016, 06, 1), y: 20 },
-			{ x: new Date(2016, 07, 1), y: 25 },
-			{ x: new Date(2016, 08, 1), y: 30 },
-			{ x: new Date(2016, 09, 1), y: 25 }
-		]
-	},
-	{
-		type: "stackedArea100",
-		name: "S&P500",
-		showInLegend: "true",
-		dataPoints: [
-			{ x: new Date(2016, 00, 1), y: 10 },
-			{ x: new Date(2016, 01, 1), y: 10 },
-			{ x: new Date(2016, 02, 1), y: 20 },
-			{ x: new Date(2016, 03, 1), y: 10 },
-			{ x: new Date(2016, 04, 1), y: 10 },
-			{ x: new Date(2016, 05, 1), y: 10 },
-			{ x: new Date(2016, 06, 1), y: 20 },
-			{ x: new Date(2016, 07, 1), y: 10 },
-			{ x: new Date(2016, 08, 1), y: 10 },
-			{ x: new Date(2016, 09, 1), y: 10 }
-		]
-	}
-	]
-});
-chart.render();
+    hg.onclick = function () {
+        changeactive(this)
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            animationEnabled: true,
+            zoomEnabled: true,
+            data: [{
+                type: "line",
+                dataPoints: @Html.Raw(ViewBag.DeltasHG)
+                }]
+        });
+
+        chart.render();
     }
 
-    function changeActive(a) {
-        $(a).parent().children("button").each(function () {
-			$(this).removeClass("active show")
-        })
-		$(a).addClass("active show")
+    sp.onclick = function () {
+        changeactive(this)
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            animationEnabled: true,
+            zoomEnabled: true,
+            data: [{
+                type: "line",
+                dataPoints: @Html.Raw(ViewBag.DeltasSP)
+                }]
+        });
+
+        chart.render();
     }
+
+
+    function changeactive(a) {
+        $(a).parent().parent().children("li").children("a").each(function () {
+            $(this).removeClass("active show")
+        })
+        $(a).addClass("active show")
+    }
+
 
 </script>

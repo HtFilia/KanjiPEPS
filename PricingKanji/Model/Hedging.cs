@@ -12,11 +12,11 @@ namespace PricingKanji.Model
 {
     public class Hedging
     {
-        private DateTime startdate ;
-        private DateTime maturity_date;
-        int estimationWindow;
-        int rebalancingFrequency;
-        Market market;
+        public DateTime startdate;
+        public DateTime maturity_date;
+        public int estimationWindow;
+        public int rebalancingFrequency;
+        public Market market;
         public double[] volatilities;
         public double[] correlation_vector;
         int size;
@@ -46,7 +46,7 @@ namespace PricingKanji.Model
 
         public Dictionary<DateTime, HedgeState> HedgeKandji()
         {
-            //computeNetAssetValue();
+            computeNetAssetValue();
             Dictionary<DateTime, HedgeState> hedging = new Dictionary<DateTime, HedgeState>();
             double[] spots = { };
             var previous_feeds = market.PreviousFeeds(market.feeds, startdate);
