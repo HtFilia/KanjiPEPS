@@ -13,7 +13,7 @@ void validate_kanji(PnlRng* rng) {
 	PnlVect *trend = pnl_vect_create_from_scalar(size, 0.0002);
 	PnlVect *weights = pnl_vect_create_from_scalar(size, 1.0 / 3.0);
 	BlackScholesModel* model = new BlackScholesModel(size, r, 0.2, sigma, spot, trend);
-	KanjiOption *kanji = new KanjiOption(T, n_time_steps, size);
+	KanjiOption *kanji = new KanjiOption(T, n_time_steps, size, spot, 100);
 	int n_samples = 1000;
 	MonteCarlo* mc = new MonteCarlo(model, kanji, rng, T / n_time_steps, n_samples, 0.0001);
 	int M = T*252;
@@ -23,13 +23,13 @@ void validate_kanji(PnlRng* rng) {
 	//validate_price_kanji(simulated_path, model, mc, rng);
 	//validate_delta_kanji(simulated_path, model, mc, rng);
 	//validate_mean_error_kanji(mc, model, rng, M, H, n_scenarios);
-	int n_freqs = 6;
-	const double *freqs_ptr = new double[n_freqs] {1, 5, 10, 30, 50, 90};
+	int n_freqs = 5;
+	const double *freqs_ptr = new double[n_freqs] {1, 5, 10, 30, 50};
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
-	//histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
+	histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
 	//pnl_mat_free(&simulated_path);
 	//validateFX_Kanji();
-	validate_kanjiFX(rng);
+	//validate_kanjiFX(rng);
 }
 
 void histogram_errors_kanji(MonteCarlo* mc, BlackScholesModel* model, PnlRng* rng, int M, PnlVect* freqs, int scenarios) {
@@ -49,7 +49,7 @@ void histogram_errors_kanji(MonteCarlo* mc, BlackScholesModel* model, PnlRng* rn
 	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 	for (int k = 0; k < freqs->size; k++) {
 		freq = GET(freqs, k);
-		filename = "../Validation/kanji_FX_histogram_errors_M" + std::to_string(M) + "_freq_" + std::to_string((int)freq) + ".csv";
+		filename = "../Validation/fx_kanji_histogram_errors_M" + std::to_string(M) + "_freq_" + std::to_string((int)freq) + ".csv";
 		myfile.open(filename);
 		for (int i = 0; i < scenarios; i++) {
 			model->simul_market(simulated_path, T, M, rng);
@@ -230,8 +230,8 @@ void validate_kanjiFX(PnlRng* rng) {
 	//validate_price_kanji(simulated_path, model, mc, rng);
 	validate_delta_kanji(simulated_path, model, mc, rng);
 	//validate_mean_error_kanji(mc, model, rng, M, H, n_scenarios);
-	int n_freqs = 1;
-	const double* freqs_ptr = new double[n_freqs] {30};
+	int n_freqs = 5;
+	const double* freqs_ptr = new double[n_freqs] {1, 5, 10, 30, 50};
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
 	//histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
 	//pnl_mat_free(&simulated_path);
