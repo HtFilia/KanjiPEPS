@@ -21,7 +21,9 @@ namespace PricingKanji.Model
 
             this.composition = new Dictionary<string, double>();
             composition.Add("ESTX 50", 0);
+            composition.Add("USDEUR", 0);
             composition.Add("S&P 500", 0);
+            composition.Add("HKDEUR", 0);
             composition.Add("HANG SENG INDEX", 0);
         }
 

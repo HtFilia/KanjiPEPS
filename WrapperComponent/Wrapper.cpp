@@ -18,7 +18,7 @@ namespace Wrapper {
 		this->price = px;
 	}
 
-	void WrapperClass::getDeltaPerft(double netAssetValue, double T, double t, array<double, 1> ^past, array<double, 1> ^initial_values, double nb_dates, array<double, 1> ^sigmas, array<double, 1 > ^correlation, double r) {
+	void WrapperClass::getDeltaPerft(double netAssetValue, double T, double t, array<double, 1> ^past, array<double, 1> ^initial_values, int nb_dates, array<double, 1> ^sigmas, array<double, 1 > ^correlation, double r) {
 		array<double, 1>^ ic_delta = gcnew array<double, 1>(3);
 		array<double, 1> ^ delta = gcnew array<double, 1>(3);
 		pin_ptr<double> delta_ptr = &delta[0];
@@ -32,7 +32,7 @@ namespace Wrapper {
 		this->ic_deltas = ic_delta;
 	}
 
-	void WrapperClass::getPricePerft(double netAssetValue, double T, double t, array<double, 1> ^past, array<double, 1> ^initial_values, double nb_dates, array<double, 1> ^sigmas, array<double, 1 > ^correlation, double r) {
+	void WrapperClass::getPricePerft(double netAssetValue, double T, double t, array<double, 1> ^past, array<double, 1> ^initial_values, int nb_dates, array<double, 1> ^sigmas, array<double, 1 > ^correlation, double r) {
 		double ic, px;
 		pin_ptr<double> ptr_past = &past[0];
 		pin_ptr<double> ptr_sigma = &sigmas[0];
@@ -43,7 +43,7 @@ namespace Wrapper {
 		this->price = px;
 	}
 
-	void WrapperClass::getPriceDeltaPerft(double netAssetValue, double T, double t, array<double, 1> ^past, array<double, 1> ^initial_values, double nb_dates, array<double, 1> ^sigmas, array<double, 1> ^correlation, double r) {
+	void WrapperClass::getPriceDeltaPerft(double netAssetValue, double T, double t, array<double, 1> ^past, array<double, 1> ^initial_values, int nb_dates, array<double, 1> ^sigmas, array<double, 1> ^correlation, double r) {
 		double ic, px;
 		array<double, 1>^ ic_delta = gcnew array<double, 1>(3);
 		array<double, 1> ^ delta = gcnew array<double, 1>(3);
@@ -72,7 +72,7 @@ namespace Wrapper {
 		this->path = path;
 	}
 
-	void WrapperClass::getPricePerft_fx(double netAssetValue, double T, double t, array<double, 1>^ past, array<double, 1>^ initial_values, double nb_dates, array<double, 1>^ sigmas, array<double, 1 >^ correlation, double r, double r_US, double r_HK) {
+	void WrapperClass::getPricePerft_fx(double netAssetValue, double T, double t, array<double, 1>^ past, array<double, 1>^ initial_values, int nb_dates, array<double, 1>^ sigmas, array<double, 1 >^ correlation, double r, double r_US, double r_HK) {
 		double ic, px;
 		pin_ptr<double> ptr_past = &past[0];
 		pin_ptr<double> ptr_sigma = &sigmas[0];
@@ -84,7 +84,7 @@ namespace Wrapper {
 	}
 
 
-	void WrapperClass::getDeltaPerft_fx(double netAssetValue, double T, double t, array<double, 1> ^past, array<double, 1> ^initial_values, double nb_dates, array<double, 1> ^sigmas, array<double, 1 > ^correlation, double r, double r_US, double r_HK) {
+	void WrapperClass::getDeltaPerft_fx(double netAssetValue, double T, double t, array<double, 1> ^past, array<double, 1> ^initial_values, int nb_dates, array<double, 1> ^sigmas, array<double, 1 > ^correlation, double r, double r_US, double r_HK) {
 		array<double, 1>^ ic_delta = gcnew array<double, 1>(5);
 		array<double, 1> ^ delta = gcnew array<double, 1>(5);
 		pin_ptr<double> delta_ptr = &delta[0];
@@ -97,7 +97,7 @@ namespace Wrapper {
 		this->deltas_fx = delta;
 		this->ic_deltas_fx = ic_delta;
 	}
-	void WrapperClass::getPriceDeltaPerft_fx(double netAssetValue, double T, double t, array<double, 1>^ past, array<double, 1>^ initial_values, double nb_dates, array<double, 1>^ sigmas, array<double, 1>^ correlation, double r, double r_US, double r_HK) {
+	void WrapperClass::getPriceDeltaPerft_fx(double netAssetValue, double T, double t, array<double, 1>^ past, array<double, 1>^ initial_values, int nb_dates, array<double, 1>^ sigmas, array<double, 1>^ correlation, double r, double r_US, double r_HK) {
 		double ic, px;
 		array<double, 1>^ ic_delta = gcnew array<double, 1>(5);
 		array<double, 1>^ delta = gcnew array<double, 1>(5);
