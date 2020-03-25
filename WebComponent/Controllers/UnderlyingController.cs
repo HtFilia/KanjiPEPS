@@ -20,10 +20,8 @@ namespace WebComponent.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.UserDate = HomeController.userDate;
-
+            ViewBag.UserDate = HomeController.userDate.ToString("D", CultureInfo.CreateSpecificCulture("fr-FR"));
             data();
-            ViewBag.Posted = false;
             return View();
         }
 
@@ -31,7 +29,7 @@ namespace WebComponent.Controllers
         [HttpPost]
         public ActionResult Index(PriceFormModel priceFormModel)
         {
-            ViewBag.Posted = true;
+            ViewBag.UserDate = HomeController.userDate.ToString("D", CultureInfo.CreateSpecificCulture("fr-FR"));
             int max = HomeController.hedging.market.PreviousFeeds(HomeController.hedging.market.feeds, HomeController.hedging.startdate).Count + 30;
             if (priceFormModel.EstimationWindow > max || priceFormModel.EstimationWindow <= 2)
             {

@@ -4,70 +4,66 @@
     ViewBag.Title = "Index";
 }
 
-@{
-    using (Html.BeginForm("Index", "Coverage", FormMethod.Post))
-    {
-        <label>Choisissez une fréquence de rebalancement :</label>
-        @Html.TextBox("Freq", null, new { @class = "form-control" })
-        <label>Choisissez une fenêtre d'estimation :</label>
-        @Html.TextBox("EstimationWindow", null, new { @class = "form-control" })
-        <input type="submit" value="Me Couvrir" />
-        <span style="color:red">@ViewBag.MessageErr</span>
-    }
-}
-@if (ViewBag.Posted)
-{
-    <script>
-        console.log(@ViewBag.Freq)
-        console.log(@ViewBag.EstWindow)
-    </script>
-}
-<div class="row">
-    <div class="col-xl-8 mb-5 mb-xl-0">
-        <div class="card bg-gradient-default shadow">
-            <div class="card-header bg-transparent">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <h2 class="text-white mb-0">Couverture du produit Kanji</h2>
-                    </div>
-                    <div class="col-8">
-                        <ul class="nav nav-pills justify-content-end">
-                            <!-- TODO: Data update -->
-                            <li class="nav-item mr-2 mr-md-0">
-                                <a class="nav-link py-2 px-3 active show" href="#" id="chart-pf">
-                                    <span class="d-none d-md-block">Portfolio</span>
-                                </a>
-                            </li>
-                            <li class="nav-item mr-2 mr-md-0">
-                                <a class="nav-link py-2 px-3" href="#" id="chart-hg">
-                                    <span class="d-none d-md-block">HangSeng</span>
-                                </a>
-                            </li>
-                            <li class="nav-item mr-2 mr-md-0">
-                                <a class="nav-link py-2 px-3" href="#" id="chart-stoxx">
-                                    <span class="d-none d-md-block">Stoxx50</span>
-                                </a>
-                            </li>
-                            <li class="nav-item mr-2 mr-md-0">
-                                <a class="nav-link py-2 px-3" href="#" id="chart-sp">
-                                    <span class="d-none d-md-block">S&P500</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="chart">
-                    <div class="chartjs-size-monitor">
-                        <div class="chartjs-size-monitor-expand">
-                            <div class=""></div>
-                        </div>
-                        <div class="chartjs-size-monitor-shrink">
-                            <div class=""></div>
+<div class="main-content">
+    <div class="container-fluid">
+        @{
+            using (Html.BeginForm("Index", "Coverage", FormMethod.Post))
+            {
+                <label>Choisissez une fréquence de rebalancement :</label>
+                @Html.TextBox("Freq", null, new { @class = "form-control" })
+                <label>Choisissez une fenêtre d'estimation :</label>
+                @Html.TextBox("EstimationWindow", null, new { @class = "form-control" })
+                <input type="submit" value="Me Couvrir" />
+                <span style="color:red">@ViewBag.MessageErr</span>
+            }
+        }
+
+        <div class="row">
+            <div class="col-xl-8 mb-5 mb-xl-0">
+                <div class="card bg-gradient-default shadow">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h2 class="text-white mb-0">Couverture du produit Kanji</h2>
+                            </div>
+                            <div class="col-8">
+                                <ul class="nav nav-pills justify-content-end">
+                                    <!-- TODO: Data update -->
+                                    <li class="nav-item mr-2 mr-md-0">
+                                        <a class="nav-link py-2 px-3 active show" href="#" id="chart-pf">
+                                            <span class="d-none d-md-block">Portfolio</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item mr-2 mr-md-0">
+                                        <a class="nav-link py-2 px-3" href="#" id="chart-hg">
+                                            <span class="d-none d-md-block">HangSeng</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item mr-2 mr-md-0">
+                                        <a class="nav-link py-2 px-3" href="#" id="chart-stoxx">
+                                            <span class="d-none d-md-block">Stoxx50</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item mr-2 mr-md-0">
+                                        <a class="nav-link py-2 px-3" href="#" id="chart-sp">
+                                            <span class="d-none d-md-block">S&P500</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <script>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div class="chartjs-size-monitor">
+                                <div class="chartjs-size-monitor-expand">
+                                    <div class=""></div>
+                                </div>
+                                <div class="chartjs-size-monitor-shrink">
+                                    <div class=""></div>
+                                </div>
+                            </div>
+                            <script>
                             window.onload = function () {
 
                             var chartPie = new CanvasJS.Chart("pie-coverage", {
@@ -114,20 +110,24 @@
                                 chartPie.render();
 
                             }
-                    </script>
-                    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                            </script>
+                            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="col-xl-4 mb-3 mb-xl-0">
+                <div id="ctrl-buttons">
+                    <button type="button" class="btn btn-outline-primary active show">Actuel</button>
+                    <button type="button" class="btn btn-outline-primary">Passé</button>
+                </div>
+                <div id="pie-coverage" style="height: 370px; width: 100%;"></div>
             </div>
         </div>
     </div>
-    <div class="col-xl-4 mb-3 mb-xl-0">
-        <div id="ctrl-buttons">
-            <button type="button" class="btn btn-outline-primary active show">Actuel</button>
-            <button type="button" class="btn btn-outline-primary">Passé</button>
-        </div>
-        <div id="pie-coverage" style="height: 370px; width: 100%;"></div>
-    </div>
 </div>
+
+
 <script src="~/Content/js/site.js"></script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script>

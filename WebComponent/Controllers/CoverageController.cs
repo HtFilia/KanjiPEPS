@@ -24,10 +24,7 @@ namespace WebComponent.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.UserDate = HomeController.userDate;
-            //PrixKanji();
-            //CouvertureKanji();
-            ViewBag.Posted = false;
+            ViewBag.UserDate = HomeController.userDate.ToString("D", CultureInfo.CreateSpecificCulture("fr-FR"));
             return View();
         }
 
@@ -35,8 +32,7 @@ namespace WebComponent.Controllers
         [HttpPost]
         public ActionResult Index(PriceFormModel priceFormModel)
         {
-            ViewBag.UserDate = HomeController.userDate;
-            ViewBag.Posted = true;
+            ViewBag.UserDate = HomeController.userDate.ToString("D", CultureInfo.CreateSpecificCulture("fr-FR"));
             int max = HomeController.hedging.market.PreviousFeeds(HomeController.hedging.market.feeds, HomeController.hedging.startdate).Count + 30;
             if (priceFormModel.Freq <= 0)
             {
@@ -53,9 +49,10 @@ namespace WebComponent.Controllers
                 Couverture(output);
                 Dictionary<string, double> assetValues = output[HomeController.hedging.market.feeds.Last().Date].getAssetValues();
                 Portfolio(assetValues);
-                
+                /*
                 ViewBag.Freq = priceFormModel.Freq;
                 ViewBag.EstWindow = priceFormModel.EstimationWindow;
+                */        
             }
             
             return View();

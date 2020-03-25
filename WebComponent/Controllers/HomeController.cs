@@ -25,16 +25,13 @@ namespace WebComponent.Controllers
         public ActionResult Index()
         {
 
-            ViewBag.UserDate = HomeController.userDate;
-            ViewBag.Posted = false;
+            ViewBag.UserDate = HomeController.userDate.ToString("D", CultureInfo.CreateSpecificCulture("fr-FR"));
             return View();
         }
 
         [HttpPost]
         public ActionResult Index(DateFormModel requestForm)
         {
-
-            ViewBag.Posted = true;
             if (requestForm.DesiredDate > new DateTime(2020, 1, 16) || requestForm.DesiredDate < new DateTime(2012, 1, 1))
             {
                 ViewBag.MessageEr = "La date devra être entre l'année 2012 et le 16 Janvier de l'année 2020.";
@@ -42,7 +39,7 @@ namespace WebComponent.Controllers
             else
             {
                 userDate = requestForm.DesiredDate;
-                ViewBag.UserDate = requestForm.DesiredDate;
+                ViewBag.UserDate = requestForm.DesiredDate.ToString("D", CultureInfo.CreateSpecificCulture("fr-FR"));
             }
             return View();
         }
