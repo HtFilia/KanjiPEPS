@@ -8,13 +8,14 @@ using Wrapper;
 
 namespace PricingKanji.Model
 {
-    class KanjiOption
+    public class KanjiOption
     {
         public Dictionary<string, double> InitialValues { get; set; }
-        public List<DateTime> observationDates { get; set; }
+        public static List<DateTime> observationDates { get; set; }
         DateTime maturity;
         DateTime startDate;
         List<string> indexesName;
+        int nbTimeSteps = 16;
         public double NetAssetValue { get; set; } // valeur liquidiative
 
         public static List<DateTime> initialValueDates()
@@ -29,7 +30,7 @@ namespace PricingKanji.Model
         public KanjiOption(Market market, List<DateTime> initialValueDates, double netAssetValue_ = 100)
         {
             NetAssetValue = netAssetValue_;
-            maturity = new DateTime(2021, 3, 26);
+            maturity = new DateTime(2021, 3, 23);
             startDate = new DateTime(2013, 3, 26);
             InitialValues = new Dictionary<string, double>();
             List<double> initialvalues = new List<double> { 0, 0, 0, 0, 0 };
@@ -78,6 +79,28 @@ namespace PricingKanji.Model
             }
             return returnFeeds;
         }
-        
+
+        public List<DateTime> computeObservationDate(List<DataFeed> feeds)
+        {
+            List<DateTime> dates = new List<DateTime>();
+            for (int i = 1; i <= nbTimeSteps; i++)
+            {
+                dates.Add(feeds[i *(feeds.Count-1)/nbTimeSteps].Date);
+            }
+            //for (int i = 1; i <= nbTimeSteps; i++)
+            //{
+            //    t = 0;
+            //    foreach (DataFeed feed in feeds)
+            //    {
+            //        if (t >= matu_in_years*i / nbTimeSteps)
+            //        {
+            //            dates.Add(feed.Date);
+            //            break;
+            //        }
+            //        t += 1.0 / 252;
+            //    }
+            //}
+            return dates;
+        }
     }
 }

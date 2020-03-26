@@ -12,3 +12,4 @@
 #include <string>
 void validate_basket(PnlRng* rng);
 void histogram_errors_basket(MonteCarlo* mc, BlackScholesModel* model, PnlRng* rng, int M, PnlVect* freqs, int scenarios);
+void validate_delta_basket(PnlMat* simulated_path, BlackScholesModel* model, MonteCarlo* mc, PnlRng *rng);

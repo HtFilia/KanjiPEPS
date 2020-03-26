@@ -12,7 +12,7 @@ namespace PricingKanji.Model
 {
     public class Market
     {
-        public static double r = 0.001;
+        public static double r_eur = 0.001;
         public static double r_usd = 0.001;
         public static double r_hkd = 0.001;
         public static double businessDdaysPerYear = 252.0;
@@ -75,6 +75,10 @@ namespace PricingKanji.Model
             double[] estimated_volatilities = Calibration.getVolatilities(estimationFeeds);
             double[,] estimated_correlation = Calibration.getCorrelations(estimationFeeds);
             double[] estimated_trend = Calibration.getTrend(estimationFeeds);
+            for (int i = 0; i < estimated_trend.Length; i++)
+            {
+                estimated_trend[i] = r_eur;
+            }
             List<DataFeed> simulatedFeeds = new List<DataFeed>();
             DateTime lastDay = feeds.Last().Date;
             DateTime firstDay = feeds.First().Date;
@@ -92,7 +96,7 @@ namespace PricingKanji.Model
                 k++;
             }
             double[] spots = Market.marketSpots(feeds.Last());
-            wc.SimulMarket(t_in_years, matu_in_years, nbSimulatedDates + 1, spots, estimated_trend, estimated_volatilities, contigous_correlation, r, r_usd, r_hkd, FX);
+            wc.SimulMarket(t_in_years, matu_in_years, nbSimulatedDates + 1, spots, estimated_trend, estimated_volatilities, contigous_correlation, r_eur, r_usd, r_hkd, FX);
             double[] path = wc.getPath(FX);
             DataFeed firstFeed = feeds.First();
             int size = firstFeed.PriceList.Count;

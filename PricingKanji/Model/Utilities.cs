@@ -142,5 +142,9 @@ namespace PricingKanji.Model
             return count / 252.0;
         }
 
+        internal static int ComputeTimeInDays(DateTime start, DateTime end, Market market)
+        {
+            return market.feeds.IndexOf(market.getFeed(end)) - market.feeds.IndexOf(market.getFeed(start));
+        }
     }
 }

@@ -22,7 +22,8 @@ void validate_basket(PnlRng* rng) {
 	int n_freqs = 3;
 	const double* freqs_ptr = new double[n_freqs] {1, 10, 30};
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
-	histogram_errors_basket(mc, model, rng, M, freqs, n_scenarios);
+	validate_delta_basket(simulated_path, model, mc, rng);
+	//histogram_errors_basket(mc, model, rng, M, freqs, n_scenarios);
 	//pnl_mat_free(&simulated_path);
 }
 
@@ -61,4 +62,39 @@ void histogram_errors_basket(MonteCarlo* mc, BlackScholesModel* model, PnlRng* r
 	pnl_mat_free(&past);
 	pnl_vect_free(&option_values);
 	pnl_vect_free(&portfolio_values);
+}
+
+void validate_delta_basket(PnlMat* simulated_path, BlackScholesModel* model, MonteCarlo* mc, PnlRng *rng) {
+	std::ofstream myfile;
+	myfile.open("../Validation/delta_basket.csv");
+	BasketOption* basket = (BasketOption*)mc->opt_;
+	int size = basket->size_;
+	int n_time_steps = basket->nbTimeSteps_;
+	double T = basket->T_;
+	int M = simulated_path->m - 1;
+	model->simul_market(simulated_path, T, M, rng);
+	double prix_mc = 0, t = 0, error = 0;
+	PnlMat* past = pnl_mat_create(1, 1);
+	PnlVect* delta = pnl_vect_create(size), *ic = pnl_vect_create(size);
+	myfile << "t; ESTX; USDEUR; SP500; HKDEUR; HSI\n";
+	for (double i = 0.0; i < double(M); i++)
+	{
+		t = T * i / (double)M;
+		model->getPast(past, simulated_path, t, n_time_steps, T);
+		mc->delta(past, t, delta, ic);
+		std::cout << t << "\t";
+		myfile << t << ";";
+		for (int k = 0; k < size; k++)
+		{
+			std::cout << pnl_vect_get(delta, k) << "\t";
+			myfile << pnl_vect_get(delta, k) << "; ";
+		}
+		std::cout << std::endl;
+		myfile << std::endl;
+	}
+	myfile.close();
+	pnl_vect_free(&delta);
+	pnl_vect_free(&ic);
+	pnl_mat_free(&simulated_path);
+	pnl_mat_free(&past);
 }

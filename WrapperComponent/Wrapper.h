@@ -19,7 +19,7 @@ namespace Wrapper {
 		array<double, 1>^ ic_deltas_fx;
 		array<double, 1>^ path_fx;
 
-		int sampleNb = 10000;
+		int sampleNb = 1000;
 		// gestion des tableaux manags a revoir
 
 	public:

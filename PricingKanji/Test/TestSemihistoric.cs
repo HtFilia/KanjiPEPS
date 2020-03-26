@@ -25,6 +25,19 @@ namespace PricingKanji
             //DateTime userDate = data.Last().Date;
             DateTime userDate = new DateTime(2013, 3, 20);
             Hedging hedging = new Hedging(estimationwindow, freq, userDate, false);
+            var effective_feeds = hedging.market.KanjiFeeds(hedging.market.feeds, hedging.startdate, hedging.maturity_date, false);
+            int count = 0;
+            int i = 1;
+            KanjiOption.observationDates = hedging.kanji.computeObservationDate(effective_feeds);
+            foreach (DataFeed feed in effective_feeds)
+            {
+                if (KanjiOption.observationDates.Contains(feed.Date))
+                {
+                    Console.WriteLine("date " + i + " index " + count) ;
+                    i++;
+                }
+                count++;
+            }
             Dictionary<DateTime, HedgeState> output = hedging.HedgeKandji();
             var csv = new StringBuilder();
             var newLine = string.Format("{0};{1};{2};{3};{4};{5};{6}", "Date", "Kanji Price", "Hedging Portfolio", "Error ", "EUROSTOXX", "S&P500", "Hang Seng");

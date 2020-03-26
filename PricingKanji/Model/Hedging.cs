@@ -20,7 +20,7 @@ namespace PricingKanji.Model
         public double[] volatilities;
         public double[] correlation_vector;
         int size;
-        KanjiOption kanji;
+        public KanjiOption kanji;
         WrapperClass wc;
         Portfolio portfolio;
         DataFeed previousFeed;
@@ -51,6 +51,9 @@ namespace PricingKanji.Model
             double[] spots = { };
             var previous_feeds = market.PreviousFeeds(market.feeds, startdate);
             var effective_feeds = market.KanjiFeeds(market.feeds, startdate, maturity_date, FX);
+            //effective_feeds = effective_feeds.GetRange(0, effective_feeds.Count - effective_feeds.Count%16 + 1);
+            //maturity_date = effective_feeds.Last().Date;
+            //KanjiOption.observationDates = kanji.computeObservationDate(effective_feeds);
             DateTime last_date = effective_feeds.Last().Date;
             initial_values = kanji.InitialValues.Values.ToArray();
             HedgeState returnStruct;
@@ -85,18 +88,21 @@ namespace PricingKanji.Model
             List<DataFeed> PastFeeds = new List<DataFeed> { market.getFeed(startdate) };
             foreach (DataFeed feed in market.feeds)
             {
-                if (kanji.observationDates.Contains(feed.Date) && feed.Date.CompareTo(date) <= 0)
+                if (KanjiOption.observationDates.Contains(feed.Date) && feed.Date.CompareTo(date) <= 0)
                 {
                     PastFeeds.Add(feed);
                 }
             }
-            if (!PastFeeds.Contains(currFeed) && date.CompareTo(kanji.observationDates.Last()) <= 0)
+            if (!PastFeeds.Contains(currFeed) && date.CompareTo(KanjiOption.observationDates.Last()) <= 0)
             {
                 PastFeeds.Add(currFeed);
             }
+            if (KanjiOption.observationDates.Contains(date))
+            {
+                ;
+            }
             double[] past = new double[size * PastFeeds.Count];
             int date_index;
-            double t = Utilities.ComputeTime(startdate, date, market);
             foreach (DataFeed feed in PastFeeds)
             {
                 // there is only one occurence of the feed in the list of the effective feeds
@@ -127,7 +133,7 @@ namespace PricingKanji.Model
             double[] past = getPast(date);
             int nb_dates = past.Length / size;
             calibrateParameters(market.feeds.IndexOf(market.getFeed(date)));
-            wc.ComputePrice(kanji.NetAssetValue, matu_in_years, t_in_years, past, kanji.InitialValues.Values.ToArray(), nb_dates, volatilities, correlation_vector, Market.r, Market.r_usd, Market.r_hkd, FX);
+            wc.ComputePrice(kanji.NetAssetValue, matu_in_years, t_in_years, past, kanji.InitialValues.Values.ToArray(), nb_dates, volatilities, correlation_vector, Market.r_eur, Market.r_usd, Market.r_hkd, FX);
             return wc.getPrice(FX);
         }
 
@@ -144,7 +150,7 @@ namespace PricingKanji.Model
                 t_in_years = Utilities.ComputeTime(firstFeed.Date, feed.Date, market);
                 past =  Utilities.ToDouble(feed.PriceList.Values.ToArray());
                 calibrateParameters(market.feeds.IndexOf(feed));
-                wc.ComputePrice(kanji.NetAssetValue, matu_in_years, t_in_years, past, kanji.InitialValues.Values.ToArray(), 1, volatilities, correlation_vector, Market.r, Market.r_usd, Market.r_hkd, FX);
+                wc.ComputePrice(kanji.NetAssetValue, matu_in_years, t_in_years, past, kanji.InitialValues.Values.ToArray(), 1, volatilities, correlation_vector, Market.r_eur, Market.r_usd, Market.r_hkd, FX);
                 prices.Add(price(feed.Date));
             }
             kanji.NetAssetValue = prices.Max();
@@ -155,26 +161,26 @@ namespace PricingKanji.Model
         {
             DataFeed feed = market.feeds[counter];
             double matu_in_years = Utilities.ComputeTime(startdate, maturity_date, market);
+            double t_in_years = Utilities.ComputeTime(startdate, feed.Date, market);
             double[] past = getPast(feed.Date);
             int nb_dates = past.Length / size;
-            double t_in_years = Utilities.ComputeTime(startdate, feed.Date, market);
             HedgeState returnStruct = new HedgeState();
             if (counter == previous_feeds_count)
             {
-                wc.ComputePriceDelta(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r, Market.r_usd, Market.r_hkd, FX);
+                wc.ComputePriceDelta(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r_eur, Market.r_usd, Market.r_hkd, FX);
                 portfolio.UpdateComposition(wc.getDeltas(FX), feed, previousFeed, wc.getPrice(FX), startdate, market);
                 previousFeed = feed;
             }
             else if ((counter - previous_feeds_count) % rebalancingFrequency == 0 && counter < market.feeds.Count - 1)
             {
                 calibrateParameters(counter);
-                wc.ComputePriceDelta(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r, Market.r_usd, Market.r_hkd, FX);
+                wc.ComputePriceDelta(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r_eur, Market.r_usd, Market.r_hkd, FX);
                 portfolio.UpdateComposition(wc.getDeltas(FX), feed, previousFeed, wc.getPrice(FX), startdate, market);
                 previousFeed = feed;
             }
             else
             {
-                wc.ComputePrice(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r, Market.r_usd, Market.r_hkd, FX);
+                wc.ComputePrice(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r_eur, Market.r_usd, Market.r_hkd, FX);
                 portfolio.GetValue(feed, previousFeed, startdate, market);
             }
             returnStruct.feed = feed;
