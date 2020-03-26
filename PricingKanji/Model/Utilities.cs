@@ -10,7 +10,7 @@ namespace PricingKanji.Model
     public static class Utilities
     {
 
-        public const string path = @"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS";
+        public const string path = @"C:\Users\Idriss Afra\source\repos\KanjiPEPS2";
 
         public static bool containsDate(List<DataFeed> list, DateTime date)
         {
