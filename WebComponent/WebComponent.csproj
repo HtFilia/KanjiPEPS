@@ -142,7 +142,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DataPoint.cs" />
-    <Compile Include="Models\DateFormModel.cs" />
+    <Compile Include="Models\ConfigFormModel.cs" />
     <Compile Include="Models\PastCoveragePoint.cs" />
     <Compile Include="Models\PriceFormModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
