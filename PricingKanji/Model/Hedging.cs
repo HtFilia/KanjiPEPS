@@ -46,7 +46,7 @@ namespace PricingKanji.Model
 
         public Dictionary<DateTime, HedgeState> HedgeKandji()
         {
-            computeNetAssetValue();
+            //computeNetAssetValue();
             Dictionary<DateTime, HedgeState> hedging = new Dictionary<DateTime, HedgeState>();
             double[] spots = { };
             var previous_feeds = market.PreviousFeeds(market.feeds, startdate);
@@ -165,13 +165,18 @@ namespace PricingKanji.Model
             double[] past = getPast(feed.Date);
             int nb_dates = past.Length / size;
             HedgeState returnStruct = new HedgeState();
-            if (counter == previous_feeds_count)
+            if (counter == market.feeds.Count - 1)
+            {
+                portfolio.GetValue(feed, previousFeed, startdate, market);
+            }
+
+            else if (counter == previous_feeds_count)
             {
                 wc.ComputePriceDelta(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r_eur, Market.r_usd, Market.r_hkd, FX);
                 portfolio.UpdateComposition(wc.getDeltas(FX), feed, previousFeed, wc.getPrice(FX), startdate, market);
                 previousFeed = feed;
             }
-            else if ((counter - previous_feeds_count) % rebalancingFrequency == 0 && counter < market.feeds.Count - 1)
+            else if ((counter - previous_feeds_count) % rebalancingFrequency == 0)
             {
                 calibrateParameters(counter);
                 wc.ComputePriceDelta(kanji.NetAssetValue, matu_in_years, t_in_years, past, initial_values, nb_dates, volatilities, correlation_vector, Market.r_eur, Market.r_usd, Market.r_hkd, FX);

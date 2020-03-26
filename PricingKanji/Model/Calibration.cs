@@ -55,6 +55,7 @@ namespace PricingKanji.Model
             }
             Utilities.multiplyScalar(matrix, 1.0 / (nbValues - 2));
             return matrix;
+
         }
 
         public static double[] getVolatilities(List<DataFeed> dataFeeds)

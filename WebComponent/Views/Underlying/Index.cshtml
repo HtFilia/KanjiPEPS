@@ -10,9 +10,13 @@
             using (Html.BeginForm("Index", "Underlying", FormMethod.Post))
             {
                 <label>Choisissez une fenêtre d'estimation :</label>
+                <br />
                 @Html.TextBox("EstimationWindow", null, new { @class = "form-control" })
+                <br />
                 <input type="submit" value="Resimuler" />
+                <br />
                 <span style="color:red">@ViewBag.MessageErreur</span>
+                <br />
             }
         }
 
@@ -43,6 +47,62 @@
                                         </a>
                                     </li>
                                 </ul>
+                                <br />
+                                @if (ViewBag.Modele == true)
+                                {
+                                    <ul class="nav nav-pills justify-content-end">
+                                        <li class="nav-item mr-2 mr-md-0">
+                                            <a class="nav-link py-2 px-3" href="#" id="chart-usd">
+                                                <span class="d-none d-md-block">USD/EUR</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item mr-2 mr-md-0">
+                                            <a class="nav-link py-2 px-3" href="#" id="chart-hkd">
+                                                <span class="d-none d-md-block">HKD/EUR</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <script>
+                                    let usd = document.getElementById('chart-usd')
+                                    let hkd = document.getElementById('chart-hkd')
+
+                                     hkd.onclick = function () {
+                                        changeActive(this)
+                                        var chart = new CanvasJS.Chart("chartContainer", {
+                                            theme: "light2", // "light1", "light2", "dark1", "dark2"
+                                            animationEnabled: true,
+                                            zoomEnabled: true,
+                                            data: [{
+                                                type: "line",
+                                                dataPoints: @Html.Raw(ViewBag.HKD)
+                                                }]
+                                        });
+
+                                        chart.render();
+                                    }
+
+                                     usd.onclick = function () {
+                                        changeActive(this)
+                                        var chart = new CanvasJS.Chart("chartContainer", {
+                                            theme: "light2", // "light1", "light2", "dark1", "dark2"
+                                            animationEnabled: true,
+                                            zoomEnabled: true,
+                                            data: [{
+                                                type: "line",
+                                                dataPoints: @Html.Raw(ViewBag.USD)
+                                                }]
+                                        });
+
+                                        chart.render();
+                                        }
+                                        function changeActive(a) {
+                                            $(a).parent().parent().children("li").children("a").each(function () {
+                                                $(this).removeClass("active show")
+                                            })
+                                            $(a).addClass("active show")
+                                        }
+                                    </script>
+                                }
                             </div>
                         </div>
                     </div>
@@ -71,10 +131,10 @@
 
                             chart.render();
                             }
-                            </script>
-                            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-                            <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-                        </div>
+                                    </script>
+                                    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                                    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+                                </div>
                     </div>
                 </div>
             </div>
@@ -87,7 +147,7 @@
     let hg = document.getElementById('chart-hg')
     let stoxx = document.getElementById('chart-stoxx')
     let sp = document.getElementById('chart-sp')
-
+   
     stoxx.onclick = function () {
         changeActive(this)
         var chart = new CanvasJS.Chart("chartContainer", {

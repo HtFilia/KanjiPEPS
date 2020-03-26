@@ -12,6 +12,5 @@ namespace WebComponent.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DesiredDate { get; set; }
 
-        
     }
 }
