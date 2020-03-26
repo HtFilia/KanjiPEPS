@@ -1,4 +1,4 @@
-﻿@model WebComponent.Models.DateFormModel
+﻿@model WebComponent.Models.ConfigFormModel
 
 @{
     ViewBag.Title = "Index";
@@ -15,44 +15,52 @@
                 </div>
                 <div class="row">
                     <div class="col-xl-3 col-md-6">
-                        <div class="card card-stats">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <h5 class="card-title text-uppercase text-muted mb-0">Évolution des sous-jacents</h5>
+                        <a data-toggle="collapse" href="#collapseUnderlying" role="button" aria-expanded="false" aria-controls="collapseUnderlying">
+                            <div class="card card-stats">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Évolution des sous-jacents</h5>
 
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
-                                            <i class="fas fa-chart-line"></i>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                                <i class="fas fa-chart-line"></i>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="collapse" id="collapseUnderlying">
+                                        <p class="mt-3 mb-0 text-sm">
+                                            <span class="text-muted">Cette page contient les trajectoires d'évolution de nos sous-jacents. Ces trajectoires se basent sur des données historiques puis une simulation à partir d'une fenêtre d'estimation et une date dont laquelle vous allez vous situer. Chaque sous-jacent évolue dans son marché domestique.</span>
+                                        </p>
+                                    </div>
                                 </div>
-                                <p class="mt-3 mb-0 text-sm">
-                                    <span class="text-nowrap">Changer ici description</span>
-                                </p>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <div class="col-xl-3 col-md-6">
-                        <div class="card card-stats">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <h5 class="card-title text-uppercase text-muted mb-0">Couverture</h5>
+                        <a data-toggle="collapse" href="#collapseCoverage" role="button" aria-expanded="false" aria-controls="collapseCoverage">
+                            <div class="card card-stats">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Couverture</h5>
 
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="icon icon-shape bg-gradient-blue text-white rounded-circle shadow">
-                                            <i class="fas fa-coins"></i>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-gradient-blue text-white rounded-circle shadow">
+                                                <i class="fas fa-coins"></i>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="collapse" id="collapseCoverage">
+                                        <p class="mt-3 mb-0 text-sm">
+                                            <span class="text-muted"> Cette page contient un graphe presentant la couverture du produit Kanji ainsi que les Deltas du portefeuille de couverture. Vous pouvez aussi voir la composition du portefeuille à une date donnée. La fréquence, la fenêtre d'estimation et la date devront être choisies par vos soins.</span>
+                                        </p>
+                                    </div>
                                 </div>
-                                <p class="mt-3 mb-0 text-sm">
-                                    <span class="text-nowrap">Changer ici description</span>
-                                </p>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -65,9 +73,11 @@
         {
             <div id="modele"></div>
             <br />
-            @Html.Label("Tapez FX si vous voulez vous situer sur dans modèle à taux de change variables :")
+            <p class="progress-label">Mode "Normal" : Taux de change constant.</p>
+            <p class="progress-label">Mode "FX" : Taux de change variable.</p>
             <br />
-            @Html.TextBox("Modele", null, new { @class = "form-control" })
+            <span style="padding-right:1rem;">Normal</span>@Html.RadioButtonFor(model => model.TauxChange, "Normal")
+            <span style="padding-left:1rem; padding-right:1rem;"></span>@Html.RadioButtonFor(model => model.TauxChange, "FX")<span style="padding-left:1rem;">FX</span>
             <br />
             <div id="userDate"></div>
             <br />

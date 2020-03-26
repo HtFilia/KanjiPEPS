@@ -32,43 +32,31 @@ namespace WebComponent.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(PriceFormModel priceFormModel)
+        public ActionResult Index(ConfigFormModel configFormModel)
         {
             DataReader data = new DataReader();
             List<DataFeed> list;
-            if (priceFormModel.Modele != "FX" && priceFormModel.Modele != null)
+
+            if (configFormModel.TauxChange == "FX")
             {
-                ViewBag.MessageEr = "Tapez FX ou laisser le vide.";
-            }
-            else if (priceFormModel.Modele == "FX")
-            {
-                hedging = new Hedging(60, 1, userDate, true);
                 modele = true;
-                list = data.ReadDataFX();
-                if(PricingKanji.Model.Utilities.containsDate(list, priceFormModel.DesiredDate))
-                {
-                    userDate = priceFormModel.DesiredDate;
-                } else
-                {
-                    ViewBag.MessageEr = "Pas d'information disponible pour cette date. Choisissez une autre.";
-                }
             } 
             else
             {
-                hedging = new Hedging(60, 1, userDate, false);
                 modele = false;
-                list = data.ReadData();
-                if (PricingKanji.Model.Utilities.containsDate(list, priceFormModel.DesiredDate))
-                {
-                    userDate = priceFormModel.DesiredDate;
-                }
-                else
-                {
-                    ViewBag.MessageEr = "Pas d'information disponible pour cette date. Choisissez une autre."; 
-                }
+            }
+            hedging = new Hedging(60, 1, userDate, modele);
+            list = data.ReadData();
+            if (PricingKanji.Model.Utilities.containsDate(list, configFormModel.DesiredDate))
+            {
+                userDate = configFormModel.DesiredDate;
+            }
+            else
+            {
+                ViewBag.MessageEr = "Pas d'information disponible pour cette date. Choisissez une autre.";
             }
                             
-            ViewBag.UserDate = priceFormModel.DesiredDate.ToString("D", CultureInfo.CreateSpecificCulture("fr-FR"));
+            ViewBag.UserDate = userDate.ToString("D", CultureInfo.CreateSpecificCulture("fr-FR"));
             
             return View();
         }
