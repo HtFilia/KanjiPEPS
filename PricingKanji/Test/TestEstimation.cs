@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wrapper;
+using System.IO;
 using PricingKanji.Model;
 using PricingLibrary.Utilities.MarketDataFeed;
 using PricingLibrary.Utilities;
@@ -14,7 +15,7 @@ namespace PricingKanji
         static void Main(string[] args)
         {
             WrapperClass wc = new WrapperClass();
-            double[] spots = { 100, 100, 100 };
+            double[] spots = { 2000, 3000, 5000 };
             double[] trends = { 0.01, 0.02, 0.03 };
             double[] sigmas = { 0.2, 0.25, 0.3 };
             double[] correlation = {1, 0.1, 0.2, 0.1, 1,-0.3, 0.2, -0.3, 1};
@@ -46,17 +47,51 @@ namespace PricingKanji
             //double[] estimated_volatilities = Calibration.Volatilities(feeds);
             //double[,] estimated_correlation = Calibration.CorrMatrix(feeds);
             //double[] trend = Calibration.Trends(feeds);
-            //Console.WriteLine();
-            double[] a = { 1, 2, 3 };
-            double[] b = { 0.5, 1, 1 };
-            double[,] c = Utilities.DotProduct(a, b);
-            c = Utilities.addMatrix(c, c);
-            double[,] logreturns = Calibration.getLogReturns(feeds);
-            double[,] cov = Calibration.CovMatrix(feeds);
-            double[,] covMatrix = Calibration.getCovMatrix(feeds);
-            double[,] corrMatrix = Calibration.getCorrelations(feeds);
-            double[] sigma = Calibration.getVolatilities(feeds);
-            double[] trend = Calibration.getTrend(feeds);
+            var csv = new StringBuilder();
+            var newLine = string.Format("N = {0} \n", feeds.Count);
+            csv.Append(newLine);
+            newLine = string.Format("sigmas = [{0}, {1}, {2}] \n", sigmas[0], sigmas[1], sigmas[2]);
+            csv.Append(newLine);
+            newLine = string.Format("correlations = [{0}, {1}, {2}] \n", correlation[1], correlation[2], correlation[5]);
+            csv.Append(newLine);
+            newLine = string.Format("trends = [{0}, {1}, {2}] \n", trends[0], trends[1], trends[2]);
+            csv.Append(newLine);
+            double[,] logreturns;
+            double[,] corrMatrix;
+            double[] sigma ;
+            double[] trend;
+            List<DataFeed> estimation_feeds = new List<DataFeed>();
+            int Window = 60;
+            int estimationWindow = 0;
+            for (int i = 1; i < 7; i++)
+            {
+                csv.Append("\n");
+                estimationWindow = i*Window;
+                estimation_feeds = feeds.GetRange(feeds.Count - estimationWindow, estimationWindow);
+                newLine = string.Format("Estimation market : Last {0} feeds \n", estimationWindow);
+                if(i == 6)
+                {
+                    estimation_feeds = feeds;
+                    newLine = string.Format("Estimation market : Whole market \n");
+                }
+                csv.Append(newLine);
+
+                logreturns = Calibration.getLogReturns(estimation_feeds);
+                corrMatrix = Calibration.getCorrelations(estimation_feeds);
+                sigma = Calibration.getVolatilities(estimation_feeds);
+                trend = Calibration.getTrend(estimation_feeds);
+                newLine = string.Format("estimated sigmas = [{0}, {1}, {2}] \n", sigma[0], sigma[1], sigma[2]);
+                csv.Append(newLine);
+                newLine = string.Format("estimated correlations = [{0}, {1}, {2}] \n", corrMatrix[0, 1], corrMatrix[0, 2], corrMatrix[1, 2]);
+                csv.Append(newLine);
+                newLine = string.Format("estimated trends = [{0}, {1}, {2}] \n", trend[0], trend[1], trend[2]);
+                csv.Append(newLine);
+            }
+
+            File.WriteAllText(@"../../../../Validation/validation_calibration.csv", csv.ToString());
+
+            Console.WriteLine();
+
         }
 
     }
