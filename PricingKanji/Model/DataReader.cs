@@ -33,31 +33,27 @@ namespace PricingKanji.Model
             return feeds;
         }
 
-        public List<DataFeed> ReadDataFX(String path, decimal r_usd, decimal r_hkd)
+        public List<DataFeed> ReadDataFX(String path = Utilities.path)
         {
             List<DataFeed> feeds = new List<DataFeed>();
             IndexValue EuroValues = ParseFile(path, "ESTX 50");
             IndexValue SNPValues = ParseFile(path, "S&P 500");
             IndexValue HSIValues = ParseFile(path, "HANG SENG INDEX");
-            IndexValue EURUSDValues = ParseFile(path, "EURUSD");
-            IndexValue EURHKDValues = ParseFile(path, "EURHKD");
-            double timeSpan = 1.0 / 252.0;
-            double t_counter = 0;
+            IndexValue USDEURValues = ParseFile(path, "USDEUR");
+            IndexValue HKDEURValues = ParseFile(path, "HKDEUR");
             foreach (DateTime date in EuroValues.cotations.Keys)
             {
-
-                if (SNPValues.cotations.ContainsKey(date) && HSIValues.cotations.ContainsKey(date) && EURUSDValues.cotations.ContainsKey(date) && EURHKDValues.cotations.ContainsKey(date))
+                if (SNPValues.cotations.ContainsKey(date) && HSIValues.cotations.ContainsKey(date) && USDEURValues.cotations.ContainsKey(date) && HKDEURValues.cotations.ContainsKey(date))
                 {
                     Dictionary<string, decimal> PriceList = new Dictionary<string, decimal>();
                     DataFeed feed = new DataFeed(date, PriceList);
                     PriceList.Add("ESTX 50", EuroValues.cotations[date]);
-                    PriceList.Add("S&P 500", SNPValues.cotations[date] / EURUSDValues.cotations[date]);
-                    PriceList.Add("USD", (decimal)Math.Exp((double)r_usd * t_counter) / EURUSDValues.cotations[date]);
-                    PriceList.Add("HANG SENG INDEX", HSIValues.cotations[date] / EURHKDValues.cotations[date]);
-                    PriceList.Add("HDK", (decimal)Math.Exp((double)r_hkd * t_counter) / EURHKDValues.cotations[date]);
+                    PriceList.Add("USDEUR", USDEURValues.cotations[date] );
+                    PriceList.Add("S&P 500", SNPValues.cotations[date] * USDEURValues.cotations[date]);
+                    PriceList.Add("HKDEUR", HKDEURValues.cotations[date]);
+                    PriceList.Add("HANG SENG INDEX", HSIValues.cotations[date] * HKDEURValues.cotations[date]);
                     feeds.Add(feed);
                 }
-                t_counter += timeSpan;
             }
 
             return feeds;
@@ -69,19 +65,19 @@ namespace PricingKanji.Model
             switch (Name)
             {
                 case "ESTX 50":
-                    Path = path + @"\MarketData\eurostoxx.csv";
+                    Path = path + @"\MarketData\^STOXX50E.csv";
                     break;
                 case "S&P 500":
-                    Path = path + @"\MarketData\snp500.csv";
+                    Path = path + @"\MarketData\^GSPC.csv";
                     break;
                 case "HANG SENG INDEX":
-                    Path = path + @"\MarketData\hsi.csv";
+                    Path = path + @"\MarketData\^HSI.csv";
                     break;
-                case "EURUSD":
-                    Path = path + @"\MarketData\EURUSD.csv";
+                case "USDEUR":
+                    Path = path + @"\MarketData\USDEUR.csv";
                     break;
-                case "EURHKD":
-                    Path = path + @"\MarketData\EURHKD.csv";
+                case "HKDEUR":
+                    Path = path + @"\MarketData\HKDEUR.csv";
                     break;
             }
 

@@ -16,12 +16,20 @@ namespace PricingKanji.Model
         public double Value { get; set; }
         public double PrevValue { get; set; }
 
-        public Portfolio()
+        public Portfolio(bool FX)
         {
 
             this.composition = new Dictionary<string, double>();
             composition.Add("ESTX 50", 0);
+            if (FX)
+            {
+                composition.Add("USDEUR", 0);
+            }
             composition.Add("S&P 500", 0);
+            if (FX)
+            {
+                composition.Add("HKDEUR", 0);
+            }
             composition.Add("HANG SENG INDEX", 0);
         }
 
@@ -67,7 +75,7 @@ namespace PricingKanji.Model
 
             double investment_time = Utilities.ComputeTime(prevFeed.Date, feed.Date, market);
             double factor = Math.Exp(Market.r * investment_time);
-            double riskfree_part = factor * (PrevValue - prev_stockvalue); 
+            double riskfree_part = factor * (PrevValue - prev_stockvalue);
             Value = stockvalue + riskfree_part;
         }
     }

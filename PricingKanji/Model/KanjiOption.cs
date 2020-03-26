@@ -14,8 +14,6 @@ namespace PricingKanji.Model
         public List<DateTime> observationDates { get; set; }
         DateTime maturity;
         DateTime startDate;
-        int nbTimeSteps;
-        public int size;
         List<string> indexesName;
         public double NetAssetValue { get; set; } // valeur liquidiative
 
@@ -31,13 +29,11 @@ namespace PricingKanji.Model
         public KanjiOption(Market market, List<DateTime> initialValueDates, double netAssetValue_ = 100)
         {
             NetAssetValue = netAssetValue_;
-            size = market.feeds.First().PriceList.Count;
-            nbTimeSteps = 16;
             maturity = new DateTime(2021, 3, 26);
             startDate = new DateTime(2013, 3, 26);
             InitialValues = new Dictionary<string, double>();
-            List<double> initialvalues = new List<double> { 0, 0, 0 };
-            indexesName = new List<string> { "ESTX 50", "S&P 500", "HANG SENG INDEX" };
+            List<double> initialvalues = new List<double> { 0, 0, 0, 0, 0 };
+            indexesName = market.feeds.First().PriceList.Keys.ToList();
             int count;
             foreach (DateTime date in initialValueDates)
             {

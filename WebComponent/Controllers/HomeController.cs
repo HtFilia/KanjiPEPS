@@ -17,7 +17,7 @@ namespace WebComponent.Controllers
     {
         public static DateTime userDate = new DateTime(2020, 1, 16);
 
-        public static Hedging hedging = new Hedging(80, 1, userDate);
+        public static Hedging hedging = new Hedging(80, 1, userDate, false);
 
         public Utilities.Path path = new Utilities.Path();
 
