@@ -11,11 +11,15 @@ namespace PricingKanji.Model
     public class KanjiOption
     {
         public Dictionary<string, double> InitialValues { get; set; }
-        public static List<DateTime> observationDates { get; set; }
+        public static List<DateTime> observationDates = observationDates = new List<DateTime>
+            { new DateTime(2013, 9, 23), new DateTime(2014, 3, 24), new DateTime(2014, 9, 22), new DateTime(2015, 3, 23),
+            new DateTime(2015, 9, 22), new DateTime(2016, 3, 22), new DateTime(2016, 9, 22), new DateTime(2017, 3, 22),
+            new DateTime(2017, 9, 22), new DateTime(2018, 3, 22), new DateTime(2018, 9, 24), new DateTime(2019, 3, 22),
+            new DateTime(2019, 9, 23), new DateTime(2020, 3, 23), new DateTime(2020, 9, 22), new DateTime(2021, 3, 23)};
         DateTime maturity;
         DateTime startDate;
         List<string> indexesName;
-        int nbTimeSteps = 16;
+        public int nbTimeSteps = 16;
         public double NetAssetValue { get; set; } // valeur liquidiative
 
         public static List<DateTime> initialValueDates()
@@ -53,11 +57,6 @@ namespace PricingKanji.Model
                 InitialValues[name] = initialvalues[count];
                 count++;
             }
-            observationDates = new List<DateTime>
-            { new DateTime(2013, 9, 23), new DateTime(2014, 3, 24), new DateTime(2014, 9, 22), new DateTime(2015, 3, 23),
-            new DateTime(2015, 9, 22), new DateTime(2016, 3, 22), new DateTime(2016, 9, 22), new DateTime(2017, 3, 22),
-            new DateTime(2017, 9, 22), new DateTime(2018, 3, 22), new DateTime(2018, 9, 24), new DateTime(2019, 3, 22),
-            new DateTime(2019, 9, 23), new DateTime(2020, 3, 23), new DateTime(2020, 9, 22), new DateTime(2021, 3, 23)};
         }
 
 

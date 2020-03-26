@@ -165,7 +165,11 @@ namespace PricingKanji.Model
 
         public List<DataFeed> domesticFeeds(List<DataFeed> feeds)
         {
-            List<DataFeed> domestic_feeds = new List<DataFeed>(feeds);
+            List<DataFeed> domestic_feeds = new List<DataFeed>();
+            foreach(DataFeed feed in feeds)
+            {
+                domestic_feeds.Add(new DataFeed(feed.Date, new Dictionary<string, decimal>(feed.PriceList)));
+            }
             double t = 0;
             foreach (DataFeed feed in domestic_feeds)
             {

@@ -26,6 +26,7 @@ namespace PricingKanji.Model
         DataFeed previousFeed;
         int previous_feeds_count;
         double[] initial_values;
+        double matu_in_years;
         public bool FX;
         public Hedging(int estimation, int freq, DateTime userDate, bool FX_)
         {
@@ -42,6 +43,8 @@ namespace PricingKanji.Model
             portfolio = new Portfolio(FX);
             kanji = new KanjiOption(market,KanjiOption.initialValueDates());
             wc = new WrapperClass();
+            //matu_in_years = 8;
+            matu_in_years = Utilities.ComputeTime(startdate, maturity_date, market);
         }
 
         public Dictionary<DateTime, HedgeState> HedgeKandji()
@@ -51,9 +54,6 @@ namespace PricingKanji.Model
             double[] spots = { };
             var previous_feeds = market.PreviousFeeds(market.feeds, startdate);
             var effective_feeds = market.KanjiFeeds(market.feeds, startdate, maturity_date, FX);
-            //effective_feeds = effective_feeds.GetRange(0, effective_feeds.Count - effective_feeds.Count%16 + 1);
-            //maturity_date = effective_feeds.Last().Date;
-            //KanjiOption.observationDates = kanji.computeObservationDate(effective_feeds);
             DateTime last_date = effective_feeds.Last().Date;
             initial_values = kanji.InitialValues.Values.ToArray();
             HedgeState returnStruct;
@@ -160,11 +160,17 @@ namespace PricingKanji.Model
 
         {
             DataFeed feed = market.feeds[counter];
-            double matu_in_years = Utilities.ComputeTime(startdate, maturity_date, market);
             double t_in_years = Utilities.ComputeTime(startdate, feed.Date, market);
+            //double t_in_years = Utilities.getTime(feed.Date, market.feeds, matu_in_years, kanji.nbTimeSteps);
             double[] past = getPast(feed.Date);
             int nb_dates = past.Length / size;
             HedgeState returnStruct = new HedgeState();
+            if (KanjiOption.observationDates.Contains(feed.Date))
+            {
+                double timespan = matu_in_years/ kanji.nbTimeSteps;
+                int i = (int)(t_in_years / timespan);
+                double t_i = i * timespan;
+            }
             if (counter == market.feeds.Count - 1)
             {
                 portfolio.GetValue(feed, previousFeed, startdate, market);

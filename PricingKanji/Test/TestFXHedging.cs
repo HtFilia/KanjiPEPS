@@ -21,7 +21,8 @@ namespace PricingKanji
             estimationwindow = 60;
             int freq = 1;
             DataReader reader = new DataReader();
-            DateTime userDate = new DateTime(2017, 03, 21);
+            //02 / 03 / 2020
+            DateTime userDate = new DateTime(2018, 02, 12);
             Hedging hedging = new Hedging(estimationwindow, freq, userDate, true);
             Dictionary<DateTime, HedgeState> output = hedging.HedgeKandji();
             var csv = new StringBuilder();

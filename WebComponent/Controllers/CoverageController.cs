@@ -104,11 +104,11 @@ namespace WebComponent.Controllers
             {
                 pricePoints.Add(new DataPoint(element.Key.ToString("d"), element.Value.optionValue));
                 covePoints.Add(new DataPoint(element.Key.ToString("d"), element.Value.portfolioValue));
-                deltasHG.Add(new DataPoint(element.Key.ToString("d"), element.Value.composition["HANG SENG INDEX"]));
-                deltasSP.Add(new DataPoint(element.Key.ToString("d"), element.Value.composition["S&P 500"]));
-                deltasEur.Add(new DataPoint(element.Key.ToString("d"), element.Value.composition["ESTX 50"]));
-                deltasUSD.Add(new DataPoint(element.Key.ToString("d"), element.Value.composition["USDEUR"]));
-                deltasHKD.Add(new DataPoint(element.Key.ToString("d"), element.Value.composition["HKDEUR"]));
+                deltasHG.Add(new DataPoint(element.Key.ToString("d"), element.Value.getAssetValues()["HANG SENG INDEX"]));
+                deltasSP.Add(new DataPoint(element.Key.ToString("d"), element.Value.getAssetValues()["S&P 500"]));
+                deltasEur.Add(new DataPoint(element.Key.ToString("d"), element.Value.getAssetValues()["ESTX 50"]));
+                deltasUSD.Add(new DataPoint(element.Key.ToString("d"), element.Value.getAssetValues()["USDEUR"]));
+                deltasHKD.Add(new DataPoint(element.Key.ToString("d"), element.Value.getAssetValues()["HKDEUR"]));
             }
 
             ViewBag.PrixKanji = JsonConvert.SerializeObject(pricePoints);

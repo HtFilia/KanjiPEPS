@@ -89,6 +89,7 @@ namespace WebComponent.Controllers
             List<DataPoint> EURPoints = new List<DataPoint>();
             List<DataPoint> USDPoints = new List<DataPoint>();
             List<DataPoint> HKDPoints = new List<DataPoint>();
+            data = HomeController.hedging.market.domesticFeeds(data);
             foreach (var feed in data)
             {
                 HGPoints.Add(new DataPoint(feed.Date.ToString("d"), (double)feed.PriceList["HANG SENG INDEX"]));
