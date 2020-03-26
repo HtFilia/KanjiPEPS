@@ -134,9 +134,17 @@ namespace PricingKanji.Model
         public void computeNetAssetValue()
         {
             List<DataFeed> pricingFeeds = kanji.netassetValueFeeds(market.feeds);
+            DataFeed firstFeed = pricingFeeds.First();
+            double matu_in_years = Utilities.ComputeTime(firstFeed.Date, maturity_date, market);
             List<double> prices = new List<double>();
+            double t_in_years;
+            double[] past;
             foreach (DataFeed feed in pricingFeeds)
             {
+                t_in_years = Utilities.ComputeTime(firstFeed.Date, feed.Date, market);
+                past =  Utilities.ToDouble(feed.PriceList.Values.ToArray());
+                calibrateParameters(market.feeds.IndexOf(feed));
+                wc.ComputePrice(kanji.NetAssetValue, matu_in_years, t_in_years, past, kanji.InitialValues.Values.ToArray(), 1, volatilities, correlation_vector, Market.r, Market.r_usd, Market.r_hkd, FX);
                 prices.Add(price(feed.Date));
             }
             kanji.NetAssetValue = prices.Max();

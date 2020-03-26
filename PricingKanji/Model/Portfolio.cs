@@ -73,10 +73,10 @@ namespace PricingKanji.Model
                 prev_stockvalue += composition[stock] * (double)prevFeed.PriceList[stock];
             }
 
-                double investment_time = Utilities.ComputeTime(prevFeed.Date, feed.Date, market);
-                double factor = Math.Exp(Market.r * investment_time);
-                double riskfree_part = factor * (Value - prev_stockvalue);
-                return stockvalue + riskfree_part;
-            }
+            double investment_time = Utilities.ComputeTime(prevFeed.Date, feed.Date, market);
+            double factor = Math.Exp(Market.r * investment_time);
+            double riskfree_part = factor * (PrevValue - prev_stockvalue);
+            Value = stockvalue + riskfree_part;
+        }
     }
 }

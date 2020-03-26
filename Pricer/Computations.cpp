@@ -2,17 +2,6 @@
 #define COMPUTATIONS
 
 #include "Computations.hpp"
-#include <iostream>
-#include <time.h>
-#include "pnl/pnl_random.h"
-#include "MonteCarlo.hpp"
-#include "BlackScholesModel.hpp"
-#include "VanillaCall.hpp"
-#include "pnl/pnl_vector.h"
-#include "KanjiOption.hpp"
-#include "KanjiOption.hpp"
-#include "FXBlackScholes.hpp"
-#include "KanjiOptionFX.hpp"
 using namespace std;
 
 void Computations::callMC(double &ic, double &prix, int nb_samples, double T,
@@ -61,6 +50,7 @@ void Computations::performance_price_t(double netAssetValue, double &ic, double 
 {
 	PnlMat *past = pnl_mat_create_from_ptr(nb_dates, size, past_);
 	MonteCarlo *mc = initialize_mc(nb_samples, T, past_, netAssetValue, inital_values, nb_dates, sigma_, correlation, r);
+	//MonteCarlo *mc = initialize_mc_basket(nb_samples, T, past_, netAssetValue, inital_values, nb_dates, sigma_, correlation, r);
 	mc->price(past, t, prix, ic);
 }
 
@@ -82,6 +72,7 @@ void Computations::performance_delta_t(double netAssetValue, double ic_deltas[],
 	PnlVect* delta = pnl_vect_create_from_ptr(size, deltas);
 	PnlMat *past = pnl_mat_create_from_ptr(nb_dates, size, past_);
 	MonteCarlo *mc = initialize_mc(nb_samples, T, past_, netAssetValue, inital_values, nb_dates, sigma_, correlation, r);
+	//MonteCarlo *mc = initialize_mc_basket(nb_samples, T, past_, netAssetValue, inital_values, nb_dates, sigma_, correlation, r);
 	mc->delta(past, t, delta, ic_delta);
 	for (int i = 0; i < delta->size; i++) {
 		deltas[i] = pnl_vect_get(delta, i);
@@ -184,4 +175,27 @@ MonteCarlo* Computations::init_mc_fx(int nb_samples, double T, double past_[], d
 
 	return mc;
 }
+
+
+MonteCarlo* Computations::initialize_mc_basket(int nb_samples, double T, double past_[], double netAssetValue, double inital_values[], int nb_dates, double sigma_[], double correlation[], double r) {
+	PnlMat* correlation_matrix = pnl_mat_create_from_ptr(size, size, correlation);
+	PnlMat *past = pnl_mat_create_from_ptr(nb_dates, size, past_);
+	PnlVect* S0 = pnl_vect_create(size);
+	pnl_mat_get_row(S0, past, 0);
+	PnlVect* sigma = pnl_vect_create_from_ptr(size, sigma_);
+	PnlVect* trend_vec = pnl_vect_create_from_double(1, r);
+	BlackScholesModel *model = new BlackScholesModel(size, r, sigma, S0, trend_vec, correlation_matrix);
+	double strike = 0;
+	for (int i = 0; i < size; i++)
+	{
+		strike += pnl_vect_get(S0, i) / 3;
+	}
+	PnlVect *inital_values_ = pnl_vect_create_from_ptr(3, inital_values);
+	BasketOption* basket = new BasketOption(T, 1, size, inital_values_, strike);
+	PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
+	pnl_rng_sseed(rng, time(NULL));
+	MonteCarlo *mc = new MonteCarlo(model, basket, rng, T / n_time_steps, nb_samples, 0.07);
+	return mc;
+}
+
 #endif

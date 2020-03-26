@@ -27,7 +27,7 @@ namespace PricingKanji.Model
             List<DataFeed> data;
             if (FX)
             {
-                data = reader.ReadDataFX(r_usd, r_hkd);
+                data = reader.ReadDataFX();
             }
             else
             {
