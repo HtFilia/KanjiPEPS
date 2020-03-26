@@ -59,14 +59,25 @@
         </div>
     </div>
     <!-- Page Content -->
+    <br/>
     <div class="container-fluid">
         @using (Ajax.BeginForm("Index", "Home", new AjaxOptions { UpdateTargetId = "userDate" }))
         {
+            <div id="modele"></div>
+            <br />
+            @Html.Label("Tapez FX si vous voulez vous situer sur dans modèle à taux de change variables :")
+            <br />
+            @Html.TextBox("Modele", null, new { @class = "form-control" })
+            <br />
             <div id="userDate"></div>
+            <br />
             @Html.Label("Entrez la date où vous voulez vous situer :")
             <br />
             @Html.EditorFor(model => model.DesiredDate, new { @type = "date" })
-            <button class="btn btn-sm btn-neutral">Calculate</button>
+            <br />
+            <br />
+            <button class="btn btn-sm btn-neutral">Valider</button>
+            <br />
             <span style="color:red">@ViewBag.MessageEr</span>
         }
     </div>

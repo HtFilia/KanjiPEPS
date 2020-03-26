@@ -20,8 +20,16 @@ namespace WebComponent.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            ViewBag.Modele = HomeController.modele;
             ViewBag.UserDate = HomeController.userDate.ToString("D", CultureInfo.CreateSpecificCulture("fr-FR"));
-            data();
+            if (HomeController.modele == false)
+            {
+                data();
+            } else
+            {
+                dataFX();
+            }
+            
             return View();
         }
 
@@ -29,6 +37,7 @@ namespace WebComponent.Controllers
         [HttpPost]
         public ActionResult Index(PriceFormModel priceFormModel)
         {
+            ViewBag.Modele = HomeController.modele;
             ViewBag.UserDate = HomeController.userDate.ToString("D", CultureInfo.CreateSpecificCulture("fr-FR"));
             int max = HomeController.hedging.market.PreviousFeeds(HomeController.hedging.market.feeds, HomeController.hedging.startdate).Count + 30;
             if (priceFormModel.EstimationWindow > max || priceFormModel.EstimationWindow <= 2)
@@ -39,14 +48,22 @@ namespace WebComponent.Controllers
             {
                 HomeController.hedging.estimationWindow = priceFormModel.EstimationWindow;
                 HomeController.hedging.market.completeMarket(HomeController.hedging.maturity_date, priceFormModel.EstimationWindow);
-                
-                data();
+
+                if (HomeController.modele == false)
+                {
+                    data();
+                }
+                else
+                {
+                    dataFX();
+                }
             }
             return View();
         }
 
         private void data()
         {
+
             List<DataFeed> data = HomeController.hedging.market.feeds;
             List<DataPoint> HGPoints = new List<DataPoint>();
             List<DataPoint> SPPoints = new List<DataPoint>();
@@ -57,12 +74,38 @@ namespace WebComponent.Controllers
                 SPPoints.Add(new DataPoint(feed.Date.ToString("d"), (double)feed.PriceList["S&P 500"]));
                 EURPoints.Add(new DataPoint(feed.Date.ToString("d"), (double)feed.PriceList["ESTX 50"]));
             }
+            ViewBag.HangSeng = JsonConvert.SerializeObject(HGPoints);
+            ViewBag.Stoxx50 = JsonConvert.SerializeObject(EURPoints);
+            ViewBag.SP500 = JsonConvert.SerializeObject(SPPoints);
+        }
+
+
+        private void dataFX()
+        {
+
+            List<DataFeed> data = HomeController.hedging.market.feeds;
+            List<DataPoint> HGPoints = new List<DataPoint>();
+            List<DataPoint> SPPoints = new List<DataPoint>();
+            List<DataPoint> EURPoints = new List<DataPoint>();
+            List<DataPoint> USDPoints = new List<DataPoint>();
+            List<DataPoint> HKDPoints = new List<DataPoint>();
+            foreach (var feed in data)
+            {
+                HGPoints.Add(new DataPoint(feed.Date.ToString("d"), (double)feed.PriceList["HANG SENG INDEX"]));
+                SPPoints.Add(new DataPoint(feed.Date.ToString("d"), (double)feed.PriceList["S&P 500"]));
+                EURPoints.Add(new DataPoint(feed.Date.ToString("d"), (double)feed.PriceList["ESTX 50"]));
+                USDPoints.Add(new DataPoint(feed.Date.ToString("d"), (double)feed.PriceList["USDEUR"]));
+                HKDPoints.Add(new DataPoint(feed.Date.ToString("d"), (double)feed.PriceList["HKDEUR"]));
+            }
 
 
             ViewBag.HangSeng = JsonConvert.SerializeObject(HGPoints);
             ViewBag.Stoxx50 = JsonConvert.SerializeObject(EURPoints);
             ViewBag.SP500 = JsonConvert.SerializeObject(SPPoints);
+            ViewBag.USD = JsonConvert.SerializeObject(USDPoints);
+            ViewBag.HKD = JsonConvert.SerializeObject(HKDPoints);
         }
+
 
 
     }

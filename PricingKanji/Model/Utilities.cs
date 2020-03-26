@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PricingLibrary.Utilities.MarketDataFeed;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,16 @@ namespace PricingKanji.Model
     {
 
         public const string path = @"C:\Users\Idriss Afra\Source\Repos\KanjiPEPS2";
+
+        public static bool containsDate(List<DataFeed> list, DateTime date)
+        {
+            foreach (var feed in list)
+            {
+                if (feed.Date == date)
+                    return true;
+            }
+            return false;
+        }
 
         // Adds busniessDayCount days to the startDate
         public static DateTime AddBusinessDays(DateTime startDate, int businessDayCount)
