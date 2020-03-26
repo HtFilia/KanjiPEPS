@@ -21,7 +21,7 @@ namespace PricingKanji
             double[] correlation = {1, 0.1, 0.2, 0.1, 1,-0.3, 0.2, -0.3, 1};
             double r = 0.01;
             double maturity = 8;
-            double t = 4;
+            double t = 0;
             int nbHedging_dates = (int)maturity*252;
             wc.SimulMarket(t, maturity, nbHedging_dates, spots, trends, sigmas, correlation, r);
             double[] market = wc.getPath();
@@ -50,11 +50,11 @@ namespace PricingKanji
             var csv = new StringBuilder();
             var newLine = string.Format("N = {0} \n", feeds.Count);
             csv.Append(newLine);
-            newLine = string.Format("sigmas = [{0}, {1}, {2}] \n", sigmas[0], sigmas[1], sigmas[2]);
+            newLine = string.Format("sigmas = [{0}; {1}; {2}] \n", sigmas[0], sigmas[1], sigmas[2]);
             csv.Append(newLine);
-            newLine = string.Format("correlations = [{0}, {1}, {2}] \n", correlation[1], correlation[2], correlation[5]);
+            newLine = string.Format("correlations = [{0}; {1}; {2}] \n", correlation[1], correlation[2], correlation[5]);
             csv.Append(newLine);
-            newLine = string.Format("trends = [{0}, {1}, {2}] \n", trends[0], trends[1], trends[2]);
+            newLine = string.Format("trends = [{0}; {1}; {2}] \n", trends[0], trends[1], trends[2]);
             csv.Append(newLine);
             double[,] logreturns;
             double[,] corrMatrix;
@@ -80,11 +80,17 @@ namespace PricingKanji
                 corrMatrix = Calibration.getCorrelations(estimation_feeds);
                 sigma = Calibration.getVolatilities(estimation_feeds);
                 trend = Calibration.getTrend(estimation_feeds);
-                newLine = string.Format("estimated sigmas = [{0}, {1}, {2}] \n", sigma[0], sigma[1], sigma[2]);
+                newLine = string.Format("estimated sigmas = [{0}; {1}; {2}] \n", sigma[0], sigma[1], sigma[2]);
                 csv.Append(newLine);
-                newLine = string.Format("estimated correlations = [{0}, {1}, {2}] \n", corrMatrix[0, 1], corrMatrix[0, 2], corrMatrix[1, 2]);
+                newLine = string.Format("estimated correlations = [{0}; {1}; {2}] \n", corrMatrix[0, 1], corrMatrix[0, 2], corrMatrix[1, 2]);
                 csv.Append(newLine);
-                newLine = string.Format("estimated trends = [{0}, {1}, {2}] \n", trend[0], trend[1], trend[2]);
+                newLine = string.Format("estimated trends = [{0}; {1}; {2}] \n", trend[0], trend[1], trend[2]);
+                csv.Append(newLine);
+                corrMatrix = Calibration.CorrMatrix(estimation_feeds);
+                sigma = Calibration.Volatilities(estimation_feeds);
+                newLine = string.Format("WRE estimated sigmas = [{0}; {1}; {2}] \n", sigma[0], sigma[1], sigma[2]);
+                csv.Append(newLine);
+                newLine = string.Format("WRE estimated correlations = [{0}; {1}; {2}] \n", corrMatrix[0, 1], corrMatrix[0, 2], corrMatrix[1, 2]);
                 csv.Append(newLine);
             }
 
