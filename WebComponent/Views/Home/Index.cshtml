@@ -1,4 +1,4 @@
-﻿@model WebComponent.Models.DateFormModel
+﻿@model WebComponent.Models.ConfigFormModel
 
 @{
     ViewBag.Title = "Index";
@@ -65,9 +65,11 @@
         {
             <div id="modele"></div>
             <br />
-            @Html.Label("Tapez FX si vous voulez vous situer sur dans modèle à taux de change variables :")
+            <p class="progress-label">Mode "Normal" : Taux de change constant.</p>
+            <p class="progress-label">Mode "FX" : Taux de change variable.</p>
             <br />
-            @Html.TextBox("Modele", null, new { @class = "form-control" })
+            <span style="padding-right:1rem;">Normal</span>@Html.RadioButtonFor(model => model.TauxChange, "Normal")
+            <span style="padding-left:1rem; padding-right:1rem;"></span>@Html.RadioButtonFor(model => model.TauxChange, "FX")<span style="padding-left:1rem;">FX</span>
             <br />
             <div id="userDate"></div>
             <br />
