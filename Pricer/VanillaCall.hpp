@@ -16,6 +16,7 @@ class VanillaCall : public Option {
 
 public:
 	double strike_;
+	bool mc_pricing;
 	/**
 * Constructeur de l'option performance
 *
@@ -29,15 +30,14 @@ public:
 		nbTimeSteps_ = nbTimeSteps;
 		size_ = size;
 		strike_ = strike;
+		type_ = call;
+		mc_pricing = true;
 	}
 	/**
 * Payoff de l'option performance à partir du marché
 *
 * @param[in] path matrices des trajectoires des sous-jacents
 */
-	double payoff(double S_T);
-
-	double payoff(const PnlMat *path, double past_payoff, int past_len);
 	double payoff(const PnlMat *path);
 	double price(double t, double spot, double r, double sigma, double maturity, double strike);
 	double delta(double t, double spot, double r, double sigma, double maturity, double strike);

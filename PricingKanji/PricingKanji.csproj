@@ -8,12 +8,13 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>PricingKanji</RootNamespace>
     <AssemblyName>PricingKanji</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -54,6 +55,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>PricingKanji.TestSemihistoric</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CsvHelper, Version=12.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
       <HintPath>..\packages\CsvHelper.12.1.2\lib\net45\CsvHelper.dll</HintPath>
@@ -79,12 +83,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Model\DataReader.cs" />
     <Compile Include="Model\Calibration.cs" />
     <Compile Include="Model\Foo.cs" />
+    <Compile Include="Model\HedgeState.cs" />
+    <Compile Include="Model\Hedging.cs" />
     <Compile Include="Model\IndexValue.cs" />
-    <Compile Include="Model\Pricing.cs" />
+    <Compile Include="Model\KanjiOption.cs" />
+    <Compile Include="Model\Market.cs" />
+    <Compile Include="Model\Portfolio.cs" />
+    <Compile Include="Model\Utilities.cs" />
     <Compile Include="Model\WREMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -92,7 +100,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Test.cs" />
+    <Compile Include="Test\Test.cs" />
+    <Compile Include="Test\TestEstimation.cs" />
+    <Compile Include="Test\TestHedging.cs" />
+    <Compile Include="Test\TestSemihistoric.cs" />
+    <Compile Include="Test\TestWRE.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -105,9 +117,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Wrapper\Wrapper.vcxproj">
-      <Project>{8bce29e0-8083-486f-be80-302ad76af2b2}</Project>
-      <Name>Wrapper</Name>
+    <ProjectReference Include="..\WrapperComponent\WrapperComponent.vcxproj">
+      <Project>{1d60021a-bc78-458d-b18c-b1d3845fb77e}</Project>
+      <Name>WrapperComponent</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

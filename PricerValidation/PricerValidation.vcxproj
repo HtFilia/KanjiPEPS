@@ -22,19 +22,19 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{EBD4F94D-03DB-484C-AA51-A73B103C4653}</ProjectGuid>
     <RootNamespace>PricerValidation</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -47,7 +47,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -80,7 +80,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\Pricer\x64\Debug;..\pnl-win64-1.10.4\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>BlackScholesModel.obj;Computations.obj;Hedge.obj;MonteCarlo.obj;Option.obj;VanillaCall.obj;KanjiOption.obj;libpnl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BlackScholesModel.obj;Computations.obj;Hedge.obj;MonteCarlo.obj;Option.obj;VanillaCall.obj;KanjiOption.obj;Quanto.obj;FXBlackScholes.obj;BasketOption.obj;libpnl.lib;KanjiOptionFX.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -120,12 +120,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Pricer\Validation.cpp" />
+    <ClCompile Include="BasketValidation.cpp" />
+    <ClCompile Include="CallValidation.cpp" />
+    <ClCompile Include="KanjiValidation.cpp" />
+    <ClCompile Include="QuantoValidation.cpp" />
+    <ClCompile Include="ValidateHedging.cpp" />
+    <ClCompile Include="Validation.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pricer\Pricer.vcxproj">
-      <Project>{9a74cb3d-f466-441b-a564-655317d7bf45}</Project>
-    </ProjectReference>
+    <ClInclude Include="BasketValidation.hpp" />
+    <ClInclude Include="CallValidation.hpp" />
+    <ClInclude Include="KanjiValidation.hpp" />
+    <ClInclude Include="QuantoValidation.hpp" />
+    <ClInclude Include="ValidateHedging.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

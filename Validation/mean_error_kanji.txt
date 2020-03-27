@@ -1,13 +1,13 @@
  Calcul de l'erreur moyenne sur la couverture d'un produit kanji de maturité 1 ans sur des indices de spot initials 109
- Avec 51 dates de constatations et 10 dates de rebalancement
- Erreur sur le scénario 0 : -nan(ind)
- Erreur sur le scénario 1 : -nan(ind)
- Erreur sur le scénario 2 : -nan(ind)
- Erreur sur le scénario 3 : -nan(ind)
- Erreur sur le scénario 4 : -nan(ind)
- Erreur sur le scénario 5 : -nan(ind)
- Erreur sur le scénario 6 : -nan(ind)
- Erreur sur le scénario 7 : -nan(ind)
- Erreur sur le scénario 8 : -nan(ind)
- Erreur sur le scénario 9 : -nan(ind)
-Erreur moyenne sur 10 scénarios : -nan(ind)
+ Avec 33 dates de constatations et 8 dates de rebalancement
+ Erreur sur le scénario 0 : -0.0157268
+ Erreur sur le scénario 1 : -0.0145624
+ Erreur sur le scénario 2 : -0.0151099
+ Erreur sur le scénario 3 : -0.0144207
+ Erreur sur le scénario 4 : -0.0135862
+ Erreur sur le scénario 5 : -0.0143405
+ Erreur sur le scénario 6 : -0.0149168
+ Erreur sur le scénario 7 : -0.0171735
+ Erreur sur le scénario 8 : -0.0155521
+ Erreur sur le scénario 9 : -0.0144491
+Erreur moyenne sur 10 scénarios : -0.0149838
