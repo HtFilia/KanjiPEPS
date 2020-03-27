@@ -43,7 +43,7 @@ namespace WebComponent.Controllers
             else if (priceFormModel.EstimationWindow > max || priceFormModel.EstimationWindow <= 2)
             {
                 ViewBag.MessageErr = "La fenêtre d'estimation doit être inferieur à : " + max + ", et superieur à : 3.";
-            } else if (!PricingKanji.Model.Utilities.containsDate(HomeController.hedging.market.KanjiFeeds(HomeController.hedging.market.feeds, HomeController.hedging.startdate, HomeController.hedging.maturity_date, HomeController.hedging.FX), priceFormModel.CompositionDate))
+            } else if (!PricingKanji.Model.Utilities.ContainsDate(HomeController.hedging.market.KanjiFeeds(HomeController.hedging.market.feeds, HomeController.hedging.startdate, HomeController.hedging.maturity_date, HomeController.hedging.FX), priceFormModel.CompositionDate))
             {
                 ViewBag.MessageErr = "Pas d'information disponible pour cette date. Choisissez une autre.";
             } else {
