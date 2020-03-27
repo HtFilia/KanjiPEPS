@@ -49,7 +49,7 @@ namespace PricingKanji.Model
 
         public Dictionary<DateTime, HedgeState> HedgeKandji()
         {
-            //computeNetAssetValue();
+            computeNetAssetValue();
             Dictionary<DateTime, HedgeState> hedging = new Dictionary<DateTime, HedgeState>();
             double[] spots = { };
             var previous_feeds = market.PreviousFeeds(market.feeds, startdate);
@@ -160,8 +160,8 @@ namespace PricingKanji.Model
 
         {
             DataFeed feed = market.feeds[counter];
-            double t_in_years = Utilities.ComputeTime(startdate, feed.Date, market);
-            //double t_in_years = Utilities.getTime(feed.Date, market.feeds, matu_in_years, kanji.nbTimeSteps);
+            //double t_in_years = Utilities.ComputeTime(startdate, feed.Date, market);
+            double t_in_years = Utilities.getTime(feed.Date, market.feeds, matu_in_years, kanji.nbTimeSteps);
             double[] past = getPast(feed.Date);
             int nb_dates = past.Length / size;
             HedgeState returnStruct = new HedgeState();
