@@ -104,8 +104,9 @@ namespace WebComponent.Controllers
                     {
                         CouvertureFX(output);
                     }
-            }    
-            return View();
+                }
+            ViewBag.TrErr = (output.Values.Last().optionValue - output.Values.Last().portfolioValue) / output.Values.Last().portfolioValue * 100;
+                return View();
         }
 
 
