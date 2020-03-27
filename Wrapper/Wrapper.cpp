@@ -16,19 +16,53 @@ namespace Wrapper {
 		this->price = px;
 	}
 
-	void WrapperClass::getPriceDeltaPerf(int sampleNb, double T, double S0[], double K, double sigma[], double correlation, double r) {
+	void WrapperClass::getPriceDeltaPerf(int sampleNb, double T, array<double, 1> ^spots, array<double, 1> ^sigmas, double correlation, double r) {
 		double ic, px;
-		double ic_delta[3];
-		double delta[3];
-		performance_price_hedge(ic, px, ic_delta, delta, sampleNb, T, S0, K, sigma, correlation, r);
+		array<double, 1>^ ic_delta = gcnew array<double, 1>(3);
+		array<double, 1> ^ delta = gcnew array<double, 1>(3);;
+		pin_ptr<double> delta_ptr = &delta[0];
+		pin_ptr<double> ic_delta_ptr = &ic_delta[0];
+
+
+		pin_ptr<double> ptr_S0 = &spots[0];
+		pin_ptr<double> ptr_sigma = &sigmas[0];
+
+		performance_price_hedge(ic, px, ic_delta_ptr, delta_ptr, sampleNb, T, ptr_S0, ptr_sigma, correlation, r);
 		this->confidenceInterval = ic;
 		this->price = px;
-		for (int i = 0; i < 3; i++)
-		{
-			deltas[i] = delta[i];
-		}
+		this->deltas = delta;
+		this->ic_deltas = ic_delta;
 
 	}
+	void WrapperClass::getPriceDeltaPerft(int sampleNb, double T, double t, array<double, 1> ^path, double nb_dates, array<double, 1> ^sigmas, double correlation, double r) {
+		double ic, px;
+		array<double, 1>^ ic_delta = gcnew array<double, 1>(3);
+		array<double, 1> ^ delta = gcnew array<double, 1>(3);;
+		pin_ptr<double> delta_ptr = &delta[0];
+		pin_ptr<double> ic_delta_ptr = &ic_delta[0];
+		pin_ptr<double> ptr_path = &path[0];
+		pin_ptr<double> ptr_sigma = &sigmas[0];
+		performance_price_hedge_t(ic, px, ic_delta_ptr, delta_ptr, sampleNb, T, t, ptr_path, nb_dates, ptr_sigma, correlation, r);
+		this->confidenceInterval = ic;
+		this->price = px;
+		this->deltas = delta;
+		this->ic_deltas = ic_delta;
+	}
+
+	void WrapperClass::SimulMarket(double t, double maturity, int nbHedging_dates, array<double, 1> ^spots, array<double, 1> ^trends, array<double, 1> ^sigmas, double correlation, double r) {
+		int path_size = (int)(t * nbHedging_dates) / maturity;
+		array<double, 1>^ path = gcnew array<double, 1>(3 * path_size);
+		pin_ptr<double> ptr_path = &path[0];
+		pin_ptr<double> ptr_S0 = &spots[0];
+		pin_ptr<double> ptr_sigma = &sigmas[0];
+		pin_ptr<double> ptr_trend = &trends[0];
+
+		simul_market(ptr_path, t, maturity, nbHedging_dates, ptr_S0, ptr_trend, ptr_sigma, correlation, r);
+		this->path = path;
+
+
+	}
+
 
 
 }
