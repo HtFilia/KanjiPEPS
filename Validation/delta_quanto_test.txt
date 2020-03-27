@@ -1,5 +1,0 @@
-Validation deltas
-
-48 / 50sont dans l'intervalle de confiance
-
-47 / 50sont dans l'intervalle de confiance Zéro Coupon
