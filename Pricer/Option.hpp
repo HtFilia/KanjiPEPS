@@ -25,6 +25,8 @@ public:  /// maturité
      * @return phi(trajectoire)
      */
     virtual double payoff(const PnlMat *path) = 0;
+	virtual double payoff(const PnlMat *path, PnlVect* initial_values) = 0;
+
 
 };
 

@@ -6,8 +6,12 @@
 double VanillaCall::payoff(const PnlMat *path) {
 	double S_T = pnl_mat_get(path, path->m - 1, 0);
 	return S_T > strike_ ? S_T - strike_ : 0;
-
 }
+double VanillaCall::payoff(const PnlMat *path, PnlVect* initial_values) {
+	double S_T = pnl_mat_get(path, path->m - 1, 0);
+	return S_T > strike_ ? S_T - strike_ : 0;
+}
+
 
 
 double VanillaCall::price(double t, double spot, double r, double sigma, double maturity, double strike) {
