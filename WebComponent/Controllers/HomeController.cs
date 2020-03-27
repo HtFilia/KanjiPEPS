@@ -47,7 +47,7 @@ namespace WebComponent.Controllers
             }
             hedging = new Hedging(60, 1, userDate, modele);
             list = data.ReadData();
-            if (PricingKanji.Model.Utilities.containsDate(list, configFormModel.DesiredDate))
+            if (PricingKanji.Model.Utilities.ContainsDate(list, configFormModel.DesiredDate))
             {
                 userDate = configFormModel.DesiredDate;
             }

@@ -12,12 +12,14 @@ namespace PricingKanji.Model
 {
     public class DataReader
     {
-        public List<DataFeed> ReadData(String path = Utilities.path)
+        public string ProjectPath = Utilities.GetProjectPath();
+
+        public List<DataFeed> ReadData()
         {
             List<DataFeed> feeds = new List<DataFeed>();
-            IndexValue EuroValues = ParseFile(path, "ESTX 50");
-            IndexValue SNPValues = ParseFile(path, "S&P 500");
-            IndexValue HSIValues = ParseFile(path, "HANG SENG INDEX");
+            IndexValue EuroValues = ParseFile("ESTX 50");
+            IndexValue SNPValues = ParseFile("S&P 500");
+            IndexValue HSIValues = ParseFile("HANG SENG INDEX");
             foreach (DateTime date in EuroValues.cotations.Keys)
             {
                 if (SNPValues.cotations.ContainsKey(date) && HSIValues.cotations.ContainsKey(date))
@@ -33,14 +35,14 @@ namespace PricingKanji.Model
             return feeds;
         }
 
-        public List<DataFeed> ReadDataFX(String path = Utilities.path)
+        public List<DataFeed> ReadDataFX()
         {
             List<DataFeed> feeds = new List<DataFeed>();
-            IndexValue EuroValues = ParseFile(path, "ESTX 50");
-            IndexValue SNPValues = ParseFile(path, "S&P 500");
-            IndexValue HSIValues = ParseFile(path, "HANG SENG INDEX");
-            IndexValue USDEURValues = ParseFile(path, "USDEUR");
-            IndexValue HKDEURValues = ParseFile(path, "HKDEUR");
+            IndexValue EuroValues = ParseFile("ESTX 50");
+            IndexValue SNPValues = ParseFile("S&P 500");
+            IndexValue HSIValues = ParseFile("HANG SENG INDEX");
+            IndexValue USDEURValues = ParseFile("USDEUR");
+            IndexValue HKDEURValues = ParseFile("HKDEUR");
             foreach (DateTime date in EuroValues.cotations.Keys)
             {
                 if (SNPValues.cotations.ContainsKey(date) && HSIValues.cotations.ContainsKey(date) && USDEURValues.cotations.ContainsKey(date) && HKDEURValues.cotations.ContainsKey(date))
@@ -59,25 +61,25 @@ namespace PricingKanji.Model
             return feeds;
         }
 
-        public IndexValue ParseFile(String path, String Name)
+        public IndexValue ParseFile(String Name)
         {
             String Path = "";
             switch (Name)
             {
                 case "ESTX 50":
-                    Path = path + @"\MarketData\^STOXX50E.csv";
+                    Path = ProjectPath + @"\MarketData\^STOXX50E.csv";
                     break;
                 case "S&P 500":
-                    Path = path + @"\MarketData\^GSPC.csv";
+                    Path = ProjectPath + @"\MarketData\^GSPC.csv";
                     break;
                 case "HANG SENG INDEX":
-                    Path = path + @"\MarketData\^HSI.csv";
+                    Path = ProjectPath + @"\MarketData\^HSI.csv";
                     break;
                 case "USDEUR":
-                    Path = path + @"\MarketData\USDEUR.csv";
+                    Path = ProjectPath + @"\MarketData\USDEUR.csv";
                     break;
                 case "HKDEUR":
-                    Path = path + @"\MarketData\HKDEUR.csv";
+                    Path = ProjectPath + @"\MarketData\HKDEUR.csv";
                     break;
             }
 
