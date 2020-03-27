@@ -47,7 +47,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -122,17 +122,26 @@
   <ItemGroup>
     <ClCompile Include="BasketValidation.cpp" />
     <ClCompile Include="CallValidation.cpp" />
+    <ClCompile Include="DataMarketReader.cpp" />
     <ClCompile Include="KanjiValidation.cpp" />
     <ClCompile Include="QuantoValidation.cpp" />
+    <ClCompile Include="SemiHistoricKanji.cpp" />
     <ClCompile Include="ValidateHedging.cpp" />
     <ClCompile Include="Validation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasketValidation.hpp" />
     <ClInclude Include="CallValidation.hpp" />
+    <ClInclude Include="DataMarketReader.h" />
     <ClInclude Include="KanjiValidation.hpp" />
     <ClInclude Include="QuantoValidation.hpp" />
+    <ClInclude Include="SemiHistoricKanji.hpp" />
     <ClInclude Include="ValidateHedging.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pricer\Pricer.vcxproj">
+      <Project>{cafeb82f-9272-4c2d-9434-8fed782cb3e4}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

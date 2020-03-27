@@ -239,6 +239,11 @@ void histogram_errors_call(MonteCarlo* mc, BlackScholesModel* model, PnlRng* rng
 		for (int i = 0; i < scenarios; i++) {
 			model->simul_market(simulated_path, T, M, rng);
 			hedge.PnLfreq(simulated_path, n_time_steps + 1, freq, portfolio_values, option_values, error); // amine
+			PnlMat* comparaison = pnl_mat_create(M + 1, 2);
+			pnl_mat_set_col(comparaison, portfolio_values, 0);
+			pnl_mat_set_col(comparaison, option_values, 1);
+			pnl_mat_print(comparaison);
+			std::cout << error << std::endl;
 			myfile << error << ";" << std::endl;
 			std::cout << error << std::endl;
 
