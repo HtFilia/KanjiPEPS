@@ -30,7 +30,6 @@ namespace WebComponent.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.Compteur = 0;
             ViewBag.UserDate = HomeController.userDate.ToString("D", CultureInfo.CreateSpecificCulture("fr-FR"));
             ViewBag.Modele = HomeController.modele;
             return View();
@@ -42,8 +41,8 @@ namespace WebComponent.Controllers
         {
             ViewBag.Modele = HomeController.modele;
             ViewBag.UserDate = HomeController.userDate.ToString("D", CultureInfo.CreateSpecificCulture("fr-FR"));
-            int max = HomeController.hedging.market.PreviousFeeds(HomeController.hedging.market.feeds, HomeController.hedging.startdate).Count + 30;
-            
+            List<DataFeed> VLR_feeds =  HomeController.hedging.kanji.netassetValueFeeds(HomeController.hedging.market.feeds);
+            int max = HomeController.hedging.market.PreviousFeeds(HomeController.hedging.market.feeds, HomeController.hedging.startdate).IndexOf(VLR_feeds.First());
                 if (!PricingKanji.Model.Utilities.ContainsDate(HomeController.hedging.market.KanjiFeeds(HomeController.hedging.market.feeds, HomeController.hedging.startdate, HomeController.hedging.maturity_date, HomeController.hedging.FX), priceFormModel.CompositionDate))
                 {
                     ViewBag.MessageErr = "Pas d'information disponible pour cette date. Choisissez une autre.";
@@ -96,6 +95,7 @@ namespace WebComponent.Controllers
                             Portfolio(assetValues);
                         }
                     }
+
                     if (HomeController.modele == false)
                     {
                         Couverture(output);
@@ -145,11 +145,11 @@ namespace WebComponent.Controllers
             {
                 pricePoints.Add(new DataPoint(element.Key.ToString("d"), element.Value.optionValue));
                 covePoints.Add(new DataPoint(element.Key.ToString("d"), element.Value.portfolioValue));
-                deltasHG.Add(new DataPoint(element.Key.ToString("d"), element.Value.getAssetValues()["HANG SENG INDEX"]));
-                deltasSP.Add(new DataPoint(element.Key.ToString("d"), element.Value.getAssetValues()["S&P 500"]));
-                deltasEur.Add(new DataPoint(element.Key.ToString("d"), element.Value.getAssetValues()["ESTX 50"]));
-                deltasUSD.Add(new DataPoint(element.Key.ToString("d"), element.Value.getAssetValues()["USDEUR"]));
-                deltasHKD.Add(new DataPoint(element.Key.ToString("d"), element.Value.getAssetValues()["HKDEUR"]));
+                deltasHG.Add(new DataPoint(element.Key.ToString("d"), element.Value.composition["HANG SENG INDEX"]));
+                deltasSP.Add(new DataPoint(element.Key.ToString("d"), element.Value.composition["S&P 500"]));
+                deltasEur.Add(new DataPoint(element.Key.ToString("d"), element.Value.composition["ESTX 50"]));
+                deltasUSD.Add(new DataPoint(element.Key.ToString("d"), element.Value.composition["USDEUR"]));
+                deltasHKD.Add(new DataPoint(element.Key.ToString("d"), element.Value.composition["HKDEUR"]));
             }
 
             ViewBag.PrixKanji = JsonConvert.SerializeObject(pricePoints);

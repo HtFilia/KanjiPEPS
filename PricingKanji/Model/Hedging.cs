@@ -165,12 +165,6 @@ namespace PricingKanji.Model
             double[] past = getPast(feed.Date);
             int nb_dates = past.Length / size;
             HedgeState returnStruct = new HedgeState();
-            if (KanjiOption.observationDates.Contains(feed.Date))
-            {
-                double timespan = matu_in_years/ kanji.nbTimeSteps;
-                int i = (int)(t_in_years / timespan);
-                double t_i = i * timespan;
-            }
             if (counter == market.feeds.Count - 1)
             {
                 portfolio.GetValue(feed, previousFeed, startdate, market);

@@ -12,9 +12,9 @@ namespace PricingKanji.Model
 {
     public class Market
     {
-        public static double r_eur = 0.001;
-        public static double r_usd = 0.001;
-        public static double r_hkd = 0.001;
+        public static double r_eur = 0.0001357;
+        public static double r_usd = 0.0016550;
+        public static double r_hkd = 0.0026;
         public static double USDEUR = 0.7562;
         public static double HKDEUR = 0.0975;
         public static double businessDdaysPerYear = 252.0;
