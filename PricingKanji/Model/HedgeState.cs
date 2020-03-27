@@ -28,5 +28,19 @@ namespace PricingKanji.Model
             values.Add("Riskless Asset", 100 - sum);
             return values;
         }
+
+        public Dictionary<string, double> getAssetValuesEur()
+        {
+            // returns the value of each asset in the domestic currency
+            double value = 0;
+            Dictionary<string, double> values = new Dictionary<string, double>(composition.Count);
+            foreach (var index in composition.Keys)
+            {
+                value = composition[index] * (double)feed.PriceList[index];
+                values.Add(index, value);
+            }
+            return values;
+        }
+
     }
 }

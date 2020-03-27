@@ -157,5 +157,52 @@ namespace PricingKanji.Model
             return count / 252.0;
         }
 
+        internal static int ComputeNbDays(DateTime start, DateTime end, Market market)
+        {
+            return market.feeds.IndexOf(market.getFeed(end)) - market.feeds.IndexOf(market.getFeed(start));
+        }
+
+        public static List<DateTime> getDates(List<DataFeed> feeds)
+        {
+            List<DateTime> list = new List<DateTime>();
+            foreach(DataFeed feed in feeds)
+            {
+                list.Add(feed.Date);
+            }
+            return list;
+        }
+
+
+        public static double getTime(DateTime date, List<DataFeed> feeds, double T, int nbTimeSteps)
+        {
+
+            if(date == feeds.Last().Date)
+            {
+                return T;
+            }
+            int i = -1;
+            List<DateTime> feeds_dates = Utilities.getDates(feeds);
+
+            List<DateTime> dates = new List<DateTime>(KanjiOption.observationDates);
+            dates.Insert(0, new DateTime(2013, 3, 26));
+            foreach (DateTime obsDate in dates)
+            {
+                if(obsDate.CompareTo(date) > 0)
+                {
+                    break;
+                }
+                i++;
+            }
+            int a = feeds_dates.IndexOf(dates[i + 1]);
+            int b = feeds_dates.IndexOf(dates[i]);
+            int K = a - b;
+            if (feeds_dates.IndexOf(dates[i]) + K >= feeds_dates.Count)
+            {
+                return T;
+            }
+            List<DateTime> semesterDates = feeds_dates.GetRange(feeds_dates.IndexOf(dates[i]), K);
+            int k = semesterDates.IndexOf(date);
+            return i * T / nbTimeSteps + T * k / (16 * K);
+        }
     }
 }

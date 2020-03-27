@@ -12,9 +12,11 @@ namespace PricingKanji.Model
 {
     public class Market
     {
-        public static double r = 0.001;
-        public static double r_usd = 0.001;
-        public static double r_hkd = 0.001;
+        public static double r_eur = 0.0001357;
+        public static double r_usd = 0.0016550;
+        public static double r_hkd = 0.0026;
+        public static double USDEUR = 0.7562;
+        public static double HKDEUR = 0.0975;
         public static double businessDdaysPerYear = 252.0;
         public List<DataFeed> pastFeeds;
         public List<DataFeed> feeds;
@@ -75,6 +77,10 @@ namespace PricingKanji.Model
             double[] estimated_volatilities = Calibration.getVolatilities(estimationFeeds);
             double[,] estimated_correlation = Calibration.getCorrelations(estimationFeeds);
             double[] estimated_trend = Calibration.getTrend(estimationFeeds);
+            for (int i = 0; i < estimated_trend.Length; i++)
+            {
+                estimated_trend[i] = r_eur;
+            }
             List<DataFeed> simulatedFeeds = new List<DataFeed>();
             DateTime lastDay = feeds.Last().Date;
             DateTime firstDay = feeds.First().Date;
@@ -92,7 +98,7 @@ namespace PricingKanji.Model
                 k++;
             }
             double[] spots = Market.marketSpots(feeds.Last());
-            wc.SimulMarket(t_in_years, matu_in_years, nbSimulatedDates + 1, spots, estimated_trend, estimated_volatilities, contigous_correlation, r, r_usd, r_hkd, FX);
+            wc.SimulMarket(t_in_years, matu_in_years, nbSimulatedDates + 1, spots, estimated_trend, estimated_volatilities, contigous_correlation, r_eur, r_usd, r_hkd, FX);
             double[] path = wc.getPath(FX);
             DataFeed firstFeed = feeds.First();
             int size = firstFeed.PriceList.Count;
@@ -159,9 +165,13 @@ namespace PricingKanji.Model
             return previous_feeds;
         }
 
-        public List<DataFeed> domesticFeeds(List<DataFeed> feeds)
+        public List<DataFeed> domesticFeedsFX(List<DataFeed> feeds)
         {
-            List<DataFeed> domestic_feeds = new List<DataFeed>(feeds);
+            List<DataFeed> domestic_feeds = new List<DataFeed>();
+            foreach(DataFeed feed in feeds)
+            {
+                domestic_feeds.Add(new DataFeed(feed.Date, new Dictionary<string, decimal>(feed.PriceList)));
+            }
             double t = 0;
             foreach (DataFeed feed in domestic_feeds)
             {
@@ -173,5 +183,23 @@ namespace PricingKanji.Model
             }
             return domestic_feeds;
         }
+
+        public List<DataFeed> domesticFeeds(List<DataFeed> feeds)
+        {
+            List<DataFeed> domestic_feeds = new List<DataFeed>();
+            foreach (DataFeed feed in feeds)
+            {
+                domestic_feeds.Add(new DataFeed(feed.Date, new Dictionary<string, decimal>(feed.PriceList)));
+            }
+            double t = 0;
+            foreach (DataFeed feed in domestic_feeds)
+            {
+                feed.PriceList["S&P 500"] /= (decimal)Market.USDEUR;
+                feed.PriceList["HANG SENG INDEX"] /= (decimal)Market.HKDEUR;
+                t += 1.0 / businessDdaysPerYear;
+            }
+            return domestic_feeds;
+        }
+
     }
 }

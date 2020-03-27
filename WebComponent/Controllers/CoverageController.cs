@@ -19,6 +19,12 @@ namespace WebComponent.Controllers
     {
 
         public Utilities.Path path = new Utilities.Path();
+        static double FixedFreq = 0;
+        static double FixedEstimWindow = 0;
+        static DateTime FixedDate;
+        static double test = 0;
+        static double vlr = 0;
+        static Dictionary<DateTime, HedgeState> output;
 
         // GET: Coverage
         [HttpGet]
@@ -35,35 +41,70 @@ namespace WebComponent.Controllers
         {
             ViewBag.Modele = HomeController.modele;
             ViewBag.UserDate = HomeController.userDate.ToString("D", CultureInfo.CreateSpecificCulture("fr-FR"));
-            int max = HomeController.hedging.market.PreviousFeeds(HomeController.hedging.market.feeds, HomeController.hedging.startdate).Count + 30;
-            if (priceFormModel.Freq <= 0)
-            {
-                ViewBag.MessageErr = "La fréquence de rebalancement doit être superieur strictement à : 0";
-            }
-            else if (priceFormModel.EstimationWindow > max || priceFormModel.EstimationWindow <= 2)
-            {
-                ViewBag.MessageErr = "La fenêtre d'estimation doit être inferieur à : " + max + ", et superieur à : 3.";
-            } else if (!PricingKanji.Model.Utilities.ContainsDate(HomeController.hedging.market.KanjiFeeds(HomeController.hedging.market.feeds, HomeController.hedging.startdate, HomeController.hedging.maturity_date, HomeController.hedging.FX), priceFormModel.CompositionDate))
-            {
-                ViewBag.MessageErr = "Pas d'information disponible pour cette date. Choisissez une autre.";
-            } else {
-
-                HomeController.hedging.estimationWindow = priceFormModel.EstimationWindow;
-                HomeController.hedging.rebalancingFrequency = priceFormModel.Freq;
-                Dictionary<DateTime, HedgeState> output = HomeController.hedging.HedgeKandji();
-                if (HomeController.modele == false)
+            List<DataFeed> VLR_feeds =  HomeController.hedging.kanji.netassetValueFeeds(HomeController.hedging.market.feeds);
+            int max = HomeController.hedging.market.PreviousFeeds(HomeController.hedging.market.feeds, HomeController.hedging.startdate).IndexOf(VLR_feeds.First());
+                if (!PricingKanji.Model.Utilities.ContainsDate(HomeController.hedging.market.KanjiFeeds(HomeController.hedging.market.feeds, HomeController.hedging.startdate, HomeController.hedging.maturity_date, HomeController.hedging.FX), priceFormModel.CompositionDate))
                 {
-                    Couverture(output); 
+                    ViewBag.MessageErr = "Pas d'information disponible pour cette date. Choisissez une autre.";
+                }
+                else if (priceFormModel.Freq <= 0)
+                {
+                    ViewBag.MessageErr = "La fréquence de rebalancement doit être superieur strictement à : 0";
+                }
+                else if (priceFormModel.EstimationWindow > max || priceFormModel.EstimationWindow <= 2)
+                {
+                    ViewBag.MessageErr = "La fenêtre d'estimation doit être inferieur à : " + max + ", et superieur à : 3.";
                 }
                 else
                 {
-                    CouvertureFX(output);
-                }
-                
-                Dictionary<string, double> assetValues = output[priceFormModel.CompositionDate].getAssetValues();
-                Portfolio(assetValues);      
-            }
-            
+                    
+                    
+                    if (test == 0)
+                    {
+                        FixedFreq = priceFormModel.Freq;
+                        FixedEstimWindow = priceFormModel.EstimationWindow;
+                        FixedDate = priceFormModel.CompositionDate;
+                        HomeController.hedging.estimationWindow = priceFormModel.EstimationWindow;
+                        HomeController.hedging.rebalancingFrequency = priceFormModel.Freq;
+                        output = HomeController.hedging.HedgeKandji();
+                        vlr = HomeController.hedging.kanji.NetAssetValue;
+                        ViewBag.Vlr = vlr;
+                        Dictionary<string, double> assetValues = output[priceFormModel.CompositionDate].getAssetValues();
+                        Portfolio(assetValues);
+                        test++;
+                    }
+                    else
+                    {
+                        if (((FixedFreq != priceFormModel.Freq || FixedEstimWindow != priceFormModel.EstimationWindow) && FixedDate == priceFormModel.CompositionDate) || ((FixedFreq != priceFormModel.Freq || FixedEstimWindow != priceFormModel.EstimationWindow) && FixedDate != priceFormModel.CompositionDate))
+                        {
+                            FixedFreq = priceFormModel.Freq;
+                            FixedEstimWindow = priceFormModel.EstimationWindow;
+                            FixedDate = priceFormModel.CompositionDate;
+                            HomeController.hedging.estimationWindow = priceFormModel.EstimationWindow;
+                            HomeController.hedging.rebalancingFrequency = priceFormModel.Freq;
+                            output = HomeController.hedging.HedgeKandji();
+                            vlr = HomeController.hedging.kanji.NetAssetValue;
+                            ViewBag.Vlr = vlr;
+                            Dictionary<string, double> assetValues = output[priceFormModel.CompositionDate].getAssetValues();
+                            Portfolio(assetValues);
+                        }
+                        else if ((FixedFreq == priceFormModel.Freq && FixedEstimWindow == priceFormModel.EstimationWindow) || FixedDate != priceFormModel.CompositionDate)
+                        {
+                            ViewBag.Vlr = vlr;
+                            Dictionary<string, double> assetValues = output[priceFormModel.CompositionDate].getAssetValues();
+                            Portfolio(assetValues);
+                        }
+                    }
+
+                    if (HomeController.modele == false)
+                    {
+                        Couverture(output);
+                    }
+                    else
+                    {
+                        CouvertureFX(output);
+                    }
+            }    
             return View();
         }
 

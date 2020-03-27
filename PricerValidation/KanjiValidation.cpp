@@ -21,12 +21,12 @@ void validate_kanji(PnlRng* rng) {
 	int n_scenarios = 50;
 	PnlMat* simulated_path = pnl_mat_create(M+1, 1);
 	//validate_price_kanji(simulated_path, model, mc, rng);
-	//validate_delta_kanji(simulated_path, model, mc, rng);
+	validate_delta_kanji(simulated_path, model, mc, rng);
 	//validate_mean_error_kanji(mc, model, rng, M, H, n_scenarios);
 	int n_freqs = 5;
 	const double *freqs_ptr = new double[n_freqs] {1, 5, 10, 30, 50};
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
-	histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
+	//histogram_errors_kanji(mc, model, rng, M, freqs, n_scenarios);
 	//pnl_mat_free(&simulated_path);
 	//validateFX_Kanji();
 	//validate_kanjiFX(rng);
@@ -97,7 +97,7 @@ void validate_price_kanji(PnlMat* simulated_path, BlackScholesModel* model, Mont
 
 void validate_delta_kanji(PnlMat* simulated_path, BlackScholesModel* model, MonteCarlo* mc, PnlRng *rng) {
 	std::ofstream myfile;
-	myfile.open("../Validation/delta_kanji.txt");
+	myfile.open("../Validation/delta_kanji.csv");
 	KanjiOption* kanji = (KanjiOption*)mc->opt_;
 	int size = kanji->size_;
 	int n_time_steps = kanji->nbTimeSteps_;
@@ -107,16 +107,18 @@ void validate_delta_kanji(PnlMat* simulated_path, BlackScholesModel* model, Mont
 	double prix_mc = 0, t = 0, error = 0;
 	PnlMat* past = pnl_mat_create(1, 1);
 	PnlVect* delta = pnl_vect_create(size), *ic = pnl_vect_create(size);
+	myfile << "t; ESTX; SP500; HSI\n";
 	for (double i = 0.0; i < double(M); i++)
 	{
 		t = T * i / (double)M;
 		model->getPast(past, simulated_path, t, n_time_steps, T);
 		mc->delta(past, t, delta, ic);
-		myfile << "delta en t = " << t << " Monte-Carlo : ";
-		for (int i = 0; i < size; i++)
+		std::cout << t << "\t";
+		myfile << t << ";";
+		for (int k = 0; k < size; k++)
 		{
-			std::cout << pnl_vect_get(delta, i) << "\t";
-			myfile << pnl_vect_get(delta, i) << " ";
+			std::cout << pnl_vect_get(delta, k) << "\t";
+			myfile << pnl_vect_get(delta, k) << "; ";
 		}
 		std::cout << std::endl;
 		myfile << std::endl;

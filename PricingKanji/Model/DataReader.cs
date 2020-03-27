@@ -27,8 +27,8 @@ namespace PricingKanji.Model
                     Dictionary<string, decimal> PriceList = new Dictionary<string, decimal>();
                     DataFeed feed = new DataFeed(date, PriceList);
                     PriceList.Add("ESTX 50", EuroValues.cotations[date]);
-                    PriceList.Add("S&P 500", SNPValues.cotations[date]);
-                    PriceList.Add("HANG SENG INDEX", HSIValues.cotations[date]);
+                    PriceList.Add("S&P 500", SNPValues.cotations[date]*(decimal)Market.USDEUR);
+                    PriceList.Add("HANG SENG INDEX", HSIValues.cotations[date]*(decimal)Market.HKDEUR);
                     feeds.Add(feed);
                 }
             }
