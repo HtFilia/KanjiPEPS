@@ -151,7 +151,7 @@ MonteCarlo* Computations::initialize_mc(int nb_samples, double T, double past_[]
 	KanjiOption *perf_option = new KanjiOption(T, n_time_steps, size, inital_values_, netAssetValue);
 	PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
 	pnl_rng_sseed(rng, time(NULL));
-	MonteCarlo *mc = new MonteCarlo(model, perf_option, rng, T / n_time_steps, nb_samples, 0.07);
+	MonteCarlo *mc = new MonteCarlo(model, perf_option, rng, T / n_time_steps, nb_samples, h);
 	return mc;
 }
 
@@ -171,7 +171,7 @@ MonteCarlo* Computations::init_mc_fx(int nb_samples, double T, double past_[], d
 	KanjiOptionFX* kanji_fx = new KanjiOptionFX(T, n_time_steps, size_fx, initial_values_, netAssetValue, r_US, r_HK);
 	PnlRng* rng = pnl_rng_create(PNL_RNG_MERSENNE);
 	pnl_rng_sseed(rng, time(NULL));
-	MonteCarlo* mc = new MonteCarlo(model, kanji_fx, rng, T / n_time_steps, nb_samples, 0.07);
+	MonteCarlo* mc = new MonteCarlo(model, kanji_fx, rng, T / n_time_steps, nb_samples, h);
 
 	return mc;
 }
@@ -194,7 +194,7 @@ MonteCarlo* Computations::initialize_mc_basket(int nb_samples, double T, double 
 	BasketOption* basket = new BasketOption(T, 1, size, inital_values_, strike);
 	PnlRng *rng = pnl_rng_create(PNL_RNG_MERSENNE);
 	pnl_rng_sseed(rng, time(NULL));
-	MonteCarlo *mc = new MonteCarlo(model, basket, rng, T / n_time_steps, nb_samples, 0.07);
+	MonteCarlo *mc = new MonteCarlo(model, basket, rng, T / n_time_steps, nb_samples, h);
 	return mc;
 }
 

@@ -40,5 +40,5 @@ namespace Computations {
 	int n_time_steps = 16;
 	int size = 3;
 	int size_fx = 5;
-
+	double h = 0.001;
 }
