@@ -43,8 +43,8 @@ namespace PricingKanji.Model
             portfolio = new Portfolio(FX);
             kanji = new KanjiOption(market,KanjiOption.initialValueDates());
             wc = new WrapperClass();
-            //matu_in_years = 8;
-            matu_in_years = Utilities.ComputeTime(startdate, maturity_date, market);
+            matu_in_years = 8;
+            //matu_in_years = Utilities.ComputeTime(startdate, maturity_date, market);
         }
 
         public Dictionary<DateTime, HedgeState> HedgeKandji()

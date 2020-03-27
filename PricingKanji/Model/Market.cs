@@ -15,6 +15,8 @@ namespace PricingKanji.Model
         public static double r_eur = 0.001;
         public static double r_usd = 0.001;
         public static double r_hkd = 0.001;
+        public static double USDEUR = 0.7562;
+        public static double HKDEUR = 0.0975;
         public static double businessDdaysPerYear = 252.0;
         public List<DataFeed> pastFeeds;
         public List<DataFeed> feeds;
@@ -163,7 +165,7 @@ namespace PricingKanji.Model
             return previous_feeds;
         }
 
-        public List<DataFeed> domesticFeeds(List<DataFeed> feeds)
+        public List<DataFeed> domesticFeedsFX(List<DataFeed> feeds)
         {
             List<DataFeed> domestic_feeds = new List<DataFeed>();
             foreach(DataFeed feed in feeds)
@@ -181,5 +183,23 @@ namespace PricingKanji.Model
             }
             return domestic_feeds;
         }
+
+        public List<DataFeed> domesticFeeds(List<DataFeed> feeds)
+        {
+            List<DataFeed> domestic_feeds = new List<DataFeed>();
+            foreach (DataFeed feed in feeds)
+            {
+                domestic_feeds.Add(new DataFeed(feed.Date, new Dictionary<string, decimal>(feed.PriceList)));
+            }
+            double t = 0;
+            foreach (DataFeed feed in domestic_feeds)
+            {
+                feed.PriceList["S&P 500"] /= (decimal)Market.USDEUR;
+                feed.PriceList["HANG SENG INDEX"] /= (decimal)Market.HKDEUR;
+                t += 1.0 / businessDdaysPerYear;
+            }
+            return domestic_feeds;
+        }
+
     }
 }

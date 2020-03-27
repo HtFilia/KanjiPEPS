@@ -28,6 +28,7 @@ namespace PricingKanji.Model
             values.Add("Riskless Asset", 100 - sum);
             return values;
         }
+
         public Dictionary<string, double> getAssetValuesEur()
         {
             // returns the value of each asset in the domestic currency
