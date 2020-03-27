@@ -1,6 +1,18 @@
 
 #pragma once
 #include "MonteCarlo.hpp"
+#include <iostream>
+#include <time.h>
+#include "pnl/pnl_random.h"
+#include "MonteCarlo.hpp"
+#include "BlackScholesModel.hpp"
+#include "VanillaCall.hpp"
+#include "pnl/pnl_vector.h"
+#include "KanjiOption.hpp"
+#include "KanjiOption.hpp"
+#include "FXBlackScholes.hpp"
+#include "KanjiOptionFX.hpp"
+#include "BasketOption.hpp"
 #define DLLEXP   __declspec( dllexport )
 namespace Computations {
 	DLLEXP void calleuro(double &ic, double &prix, int nb_samples, double T,
@@ -23,7 +35,10 @@ namespace Computations {
 	MonteCarlo * initialize_mc(int nb_samples, double T, double past_[], double netAssetValue, double inital_values[], int nb_dates, double sigma_[], double correlation[], double r);
 	MonteCarlo* init_mc_fx(int nb_samples, double T, double past_[], double netAssetValue, double initial_values[], int nb_dates, double sigma_[], double correlation[], double r, double r_US, double r_HK);
 
+	MonteCarlo * initialize_mc_basket(int nb_samples, double T, double past_[], double netAssetValue, double inital_values[], int nb_dates, double sigma_[], double correlation[], double r);
+
 	int n_time_steps = 16;
 	int size = 3;
+	int size_fx = 5;
 
 }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PricingLibrary.Utilities.MarketDataFeed;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,95 +13,100 @@ namespace WebComponent.Controllers
 {
     public class UnderlyingController : Controller
     {
+
+        public Utilities.Path path = new Utilities.Path();
+
         // GET: Underlying
+        [HttpGet]
         public ActionResult Index()
         {
-            HangSeng();
-            Stoxx50();
-            SP500();
-
+            ViewBag.Modele = HomeController.modele;
+            ViewBag.UserDate = HomeController.userDate.ToString("D", CultureInfo.CreateSpecificCulture("fr-FR"));
+            if (HomeController.modele == false)
+            {
+                data();
+            } else
+            {
+                dataFX();
+            }
+            
             return View();
         }
 
 
-        private void HangSeng()
+        [HttpPost]
+        public ActionResult Index(PriceFormModel priceFormModel)
+        {
+            ViewBag.Modele = HomeController.modele;
+            ViewBag.UserDate = HomeController.userDate.ToString("D", CultureInfo.CreateSpecificCulture("fr-FR"));
+            int max = HomeController.hedging.market.PreviousFeeds(HomeController.hedging.market.feeds, HomeController.hedging.startdate).Count + 30;
+            if (priceFormModel.EstimationWindow > max || priceFormModel.EstimationWindow <= 2)
+            {
+                ViewBag.MessageErreur = "La fenêtre d'estimation doit être inferieur à : " + max + ", et superieur à : 3.";
+            }
+            else
+            {
+                HomeController.hedging.estimationWindow = priceFormModel.EstimationWindow;
+                HomeController.hedging.market.completeMarket(HomeController.hedging.maturity_date, priceFormModel.EstimationWindow);
+
+                if (HomeController.modele == false)
+                {
+                    data();
+                }
+                else
+                {
+                    dataFX();
+                }
+            }
+            return View();
+        }
+
+        private void data()
         {
 
-            List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\anas\source\repos\PEPS\WebComponent\Content\csv\HangSeng.csv"))
+            List<DataFeed> data = HomeController.hedging.market.feeds;
+            List<DataPoint> HGPoints = new List<DataPoint>();
+            List<DataPoint> SPPoints = new List<DataPoint>();
+            List<DataPoint> EURPoints = new List<DataPoint>();
+            foreach (var feed in data)
             {
-                NumberFormatInfo provider = new NumberFormatInfo();
-                provider.NumberDecimalSeparator = ".";
+                HGPoints.Add(new DataPoint(feed.Date.ToString("d"), (double) feed.PriceList["HANG SENG INDEX"]));
+                SPPoints.Add(new DataPoint(feed.Date.ToString("d"), (double)feed.PriceList["S&P 500"]));
+                EURPoints.Add(new DataPoint(feed.Date.ToString("d"), (double)feed.PriceList["ESTX 50"]));
+            }
+            ViewBag.HangSeng = JsonConvert.SerializeObject(HGPoints);
+            ViewBag.Stoxx50 = JsonConvert.SerializeObject(EURPoints);
+            ViewBag.SP500 = JsonConvert.SerializeObject(SPPoints);
+        }
 
-                int compteur = 0;
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
 
-                    if (compteur > 0)
-                    {
-                        var values = line.Split(',');
-                        dataPoints.Add(new DataPoint(values[0], Convert.ToDouble(values[1], provider)));
-                    }
-                    compteur++;
-                }
+        private void dataFX()
+        {
+
+            List<DataFeed> data = HomeController.hedging.market.feeds;
+            List<DataPoint> HGPoints = new List<DataPoint>();
+            List<DataPoint> SPPoints = new List<DataPoint>();
+            List<DataPoint> EURPoints = new List<DataPoint>();
+            List<DataPoint> USDPoints = new List<DataPoint>();
+            List<DataPoint> HKDPoints = new List<DataPoint>();
+            foreach (var feed in data)
+            {
+                HGPoints.Add(new DataPoint(feed.Date.ToString("d"), (double)feed.PriceList["HANG SENG INDEX"]));
+                SPPoints.Add(new DataPoint(feed.Date.ToString("d"), (double)feed.PriceList["S&P 500"]));
+                EURPoints.Add(new DataPoint(feed.Date.ToString("d"), (double)feed.PriceList["ESTX 50"]));
+                USDPoints.Add(new DataPoint(feed.Date.ToString("d"), (double)feed.PriceList["USDEUR"]));
+                HKDPoints.Add(new DataPoint(feed.Date.ToString("d"), (double)feed.PriceList["HKDEUR"]));
             }
 
 
-            ViewBag.HangSeng = JsonConvert.SerializeObject(dataPoints);
+            ViewBag.HangSeng = JsonConvert.SerializeObject(HGPoints);
+            ViewBag.Stoxx50 = JsonConvert.SerializeObject(EURPoints);
+            ViewBag.SP500 = JsonConvert.SerializeObject(SPPoints);
+            ViewBag.USD = JsonConvert.SerializeObject(USDPoints);
+            ViewBag.HKD = JsonConvert.SerializeObject(HKDPoints);
         }
 
-        private void Stoxx50()
-        {
-            List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\anas\source\repos\PEPS\WebComponent\Content\csv\Stoxx50.csv"))
-            {
-                NumberFormatInfo provider = new NumberFormatInfo();
-                provider.NumberDecimalSeparator = ".";
 
-                int compteur = 0;
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-
-                    if (compteur > 0)
-                    {
-                        var values = line.Split(',');
-                        dataPoints.Add(new DataPoint(values[0], Convert.ToDouble(values[1], provider)));
-                    }
-                    compteur++;
-                }
-            }
-
-
-            ViewBag.Stoxx50 = JsonConvert.SerializeObject(dataPoints);
-        }
-
-        private void SP500()
-        {
-            List<DataPoint> dataPoints = new List<DataPoint>();
-            using (var reader = new StreamReader(@"C:\Users\anas\source\repos\PEPS\WebComponent\Content\csv\S&P500.csv"))
-            {
-                NumberFormatInfo provider = new NumberFormatInfo();
-                provider.NumberDecimalSeparator = ".";
-
-                int compteur = 0;
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-
-                    if (compteur > 0)
-                    {
-                        var values = line.Split(',');
-                        dataPoints.Add(new DataPoint(values[0], Convert.ToDouble(values[1], provider)));
-                    }
-                    compteur++;
-                }
-            }
-
-
-            ViewBag.SP500 = JsonConvert.SerializeObject(dataPoints);
-        }
 
     }
 }

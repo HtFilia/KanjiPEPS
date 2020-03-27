@@ -14,17 +14,26 @@ namespace PricingKanji.Model
 
         public Dictionary<string, double> composition;
         public double Value { get; set; }
+        public double PrevValue { get; set; }
 
-        public Portfolio()
+        public Portfolio(bool FX)
         {
 
             this.composition = new Dictionary<string, double>();
             composition.Add("ESTX 50", 0);
+            if (FX)
+            {
+                composition.Add("USDEUR", 0);
+            }
             composition.Add("S&P 500", 0);
+            if (FX)
+            {
+                composition.Add("HKDEUR", 0);
+            }
             composition.Add("HANG SENG INDEX", 0);
         }
 
-        
+
         public void UpdateComposition(double[] deltas, DataFeed feed, DataFeed prevFeed, double optionPrice, DateTime startdate, Market market)
         {
 
@@ -35,7 +44,7 @@ namespace PricingKanji.Model
             }
             else
             {
-                Value = GetValue(feed, prevFeed, startdate, market);
+                GetValue(feed, prevFeed, startdate, market);
             }
             // updates the deltas of the stocks.
             Dictionary<string, double> newComposition = new Dictionary<string, double>();
@@ -47,26 +56,27 @@ namespace PricingKanji.Model
             }
 
             composition = newComposition;
+            PrevValue = Value;
         }
 
-        public double GetValue(DataFeed feed, DataFeed prevFeed, DateTime startdate, Market market)
+        public void GetValue(DataFeed feed, DataFeed prevFeed, DateTime startdate, Market market)
         {
-                double stockvalue = 0;
-                foreach (string stock in composition.Keys)
-                {
-                    stockvalue += composition[stock] * (double)feed.PriceList[stock];
-                }
-
-                double prev_stockvalue = 0;
-                foreach (string stock in composition.Keys)
-                {
-                    prev_stockvalue += composition[stock] * (double)prevFeed.PriceList[stock];
-                }
-
-                double investment_time = Utilities.ComputeTime(prevFeed.Date, feed.Date, market);
-                double factor = Math.Exp(Market.r * investment_time);
-                double riskfree_part = factor * (Value - prev_stockvalue);
-                return stockvalue + riskfree_part;
+            double stockvalue = 0;
+            foreach (string stock in composition.Keys)
+            {
+                stockvalue += composition[stock] * (double)feed.PriceList[stock];
             }
+
+            double prev_stockvalue = 0;
+            foreach (string stock in composition.Keys)
+            {
+                prev_stockvalue += composition[stock] * (double)prevFeed.PriceList[stock];
+            }
+
+            double investment_time = Utilities.ComputeTime(prevFeed.Date, feed.Date, market);
+            double factor = Math.Exp(Market.r * investment_time);
+            double riskfree_part = factor * (PrevValue - prev_stockvalue);
+            Value = stockvalue + riskfree_part;
+        }
     }
 }

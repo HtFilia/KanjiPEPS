@@ -50,11 +50,12 @@ namespace PricingKanji.Model
             for (int k = 0; k < nbValues-1; k++)
             {
                 tmp = Utilities.GetRow(logreturns, k);
-                tmp = Utilities.subVect(tmp, mean);
-                matrix=Utilities.addMatrix(matrix,Utilities.DotProduct(tmp,tmp));
+                tmp = Utilities.SubVect(tmp, mean);
+                matrix=Utilities.AddMatrix(matrix,Utilities.DotProduct(tmp,tmp));
             }
-            Utilities.multiplyScalar(matrix, 1.0 / (nbValues - 2));
+            Utilities.MultiplyScalar(matrix, 1.0 / (nbValues - 2));
             return matrix;
+
         }
 
         public static double[] getVolatilities(List<DataFeed> dataFeeds)

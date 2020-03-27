@@ -34,8 +34,8 @@ void validate_quanto(PnlRng* rng) {
 	int n_freqs = 4;
 	const double* freqs_ptr = new double[n_freqs] {1, 5, 10, 30};
 	PnlVect* freqs = pnl_vect_create_from_ptr(n_freqs, freqs_ptr);
-	histogram_erorrs_quanto(mc, model, rng, M, freqs, n_scenarios);
-	//validate_price_quanto(simulated_path, model, mc, n_scenarios, rho);
+	//histogram_erorrs_quanto(mc, model, rng, M, freqs, n_scenarios);
+	validate_price_quanto(simulated_path, model, mc, n_scenarios, rho);
 	//validate_delta_quanto(simulated_path, model, mc, n_scenarios, rho);
 
 }

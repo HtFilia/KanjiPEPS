@@ -13,13 +13,26 @@ namespace PricingKanji.Model
     public class Market
     {
         public static double r = 0.001;
+        public static double r_usd = 0.001;
+        public static double r_hkd = 0.001;
         public static double businessDdaysPerYear = 252.0;
+        public List<DataFeed> pastFeeds;
         public List<DataFeed> feeds;
-        public Market(DateTime userDate)
+        public static bool FX;
+        public Market(DateTime userDate, bool FX_)
         {
+            FX = FX_;
             feeds = new List<DataFeed>();
             DataReader reader = new DataReader();
-            List<DataFeed> data = reader.ReadData();
+            List<DataFeed> data;
+            if (FX)
+            {
+                data = reader.ReadDataFX();
+            }
+            else
+            {
+                data = reader.ReadData();
+            }
             foreach (DataFeed feed in data)
             {
                 if (feed.Date.CompareTo(userDate) <= 0)
@@ -27,7 +40,9 @@ namespace PricingKanji.Model
                     feeds.Add(feed);
                 }
             }
+            pastFeeds = feeds;
         }
+
 
         public Market(List<DataFeed> feeds_)
         {
@@ -47,8 +62,8 @@ namespace PricingKanji.Model
 
         public void completeMarket(DateTime maturity, int estimationwindow)
         {
-            List<DataFeed> simulatedFeeds = Market.simulateMarket(feeds, maturity, estimationwindow);
-            feeds = feeds.Concat(simulatedFeeds).ToList();
+            List<DataFeed> simulatedFeeds = Market.simulateMarket(pastFeeds, maturity, estimationwindow);
+            feeds = pastFeeds.Concat(simulatedFeeds).ToList();
         }
 
         // Returns a list of simulated datafeeds for a certain option starting from startdate
@@ -77,11 +92,11 @@ namespace PricingKanji.Model
                 k++;
             }
             double[] spots = Market.marketSpots(feeds.Last());
-            wc.SimulMarket(t_in_years, matu_in_years, nbSimulatedDates + 1, spots, estimated_trend, estimated_volatilities, contigous_correlation, r);
-            double[] path = wc.getPath();
+            wc.SimulMarket(t_in_years, matu_in_years, nbSimulatedDates + 1, spots, estimated_trend, estimated_volatilities, contigous_correlation, r, r_usd, r_hkd, FX);
+            double[] path = wc.getPath(FX);
             DataFeed firstFeed = feeds.First();
             int size = firstFeed.PriceList.Count;
-            List<string> names = new List<string>(firstFeed.PriceList.Keys);
+            List<string> names = firstFeed.PriceList.Keys.ToList();
             for (int i = 1; i <= nbSimulatedDates; i++)
             {
                 simulatedDate = Utilities.AddBusinessDays(simulatedDate, 1);
@@ -108,7 +123,7 @@ namespace PricingKanji.Model
             throw new Exception("Date introuvable sur le marché");
         }
 
-        public List<DataFeed> KanjiFeeds(List<DataFeed> feeds, DateTime startdate, DateTime maturity)
+        public List<DataFeed> KanjiFeeds(List<DataFeed> feeds, DateTime startdate, DateTime maturity, bool FX)
         {
             List<DataFeed> effective_feeds = new List<DataFeed>();
             foreach (DataFeed feed in feeds)
@@ -116,6 +131,16 @@ namespace PricingKanji.Model
                 if (feed.Date.CompareTo(startdate) >= 0 && feed.Date.CompareTo(maturity) <= 0)
                 {
                     effective_feeds.Add(feed);
+                }
+            }
+            if (FX)
+            {
+                double t = 0;
+                foreach (DataFeed feed in effective_feeds)
+                {
+                    feed.PriceList["USDEUR"] *= (decimal)Math.Exp(Market.r_usd * t);
+                    feed.PriceList["HKDEUR"] *= (decimal)Math.Exp(Market.r_hkd * t);
+                    t += 1.0 / businessDdaysPerYear;
                 }
             }
             return effective_feeds;
@@ -134,6 +159,19 @@ namespace PricingKanji.Model
             return previous_feeds;
         }
 
-
+        public List<DataFeed> domesticFeeds(List<DataFeed> feeds)
+        {
+            List<DataFeed> domestic_feeds = new List<DataFeed>(feeds);
+            double t = 0;
+            foreach (DataFeed feed in domestic_feeds)
+            {
+                feed.PriceList["USDEUR"] /= (decimal)Math.Exp(Market.r_usd * t);
+                feed.PriceList["HKDEUR"] /= (decimal)Math.Exp(Market.r_hkd * t);
+                feed.PriceList["S&P 500"] /= feed.PriceList["USDEUR"];
+                feed.PriceList["HANG SENG INDEX"] /= feed.PriceList["HKDEUR"];
+                t += 1.0 / businessDdaysPerYear;
+            }
+            return domestic_feeds;
+        }
     }
 }
