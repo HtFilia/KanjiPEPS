@@ -20,7 +20,7 @@ public:
 	/**
 * Constructeur de l'option performance
 *
-* @param[in] T maturité de l'option
+* @param[in] T maturitÃ© de l'option
 * @param[in] nbTimeSteps  nombre de jours de simulation
 * @param[in] size nombre des sous-jacents
  * @param[in] payOffCoeffs vecteur des coefficients de payoffs
@@ -44,7 +44,7 @@ public:
 	}
 
 	/**
-* Payoff de l'option performance à partir du marché
+* Payoff de l'option performance Ã  partir du marchÃ©
 *
 * @param[in] path matrices des trajectoires des sous-jacents
 */
