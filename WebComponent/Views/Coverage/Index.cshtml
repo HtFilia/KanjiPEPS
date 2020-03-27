@@ -276,10 +276,13 @@
 
 
     function changeactive(a) {
-        $(a).parent().parent().children("li").children("a").each(function () {
-            $(this).removeClass("active show")
+        $(a).parent().parent().parent().children("ul").each(function () {
+            $(this).children("li").children("a").each(function () {
+                $(this).removeClass("active show")
+            })
         })
         $(a).addClass("active show")
+
     }
 
 

@@ -4,15 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Diagnostics;
 
 namespace PricingKanji.Model
 {
     public static class Utilities
     {
+        public static string GetProjectPath()
+        {
+            return AppDomain.CurrentDomain.BaseDirectory + "\\..\\";
+        }
 
-        public const string path = @"C:\Users\Fibo\source\repos\HtFilia\KanjiPEPS";
-
-        public static bool containsDate(List<DataFeed> list, DateTime date)
+        public static bool ContainsDate(List<DataFeed> list, DateTime date)
         {
             foreach (var feed in list)
             {
@@ -54,7 +58,7 @@ namespace PricingKanji.Model
         }
 
         // Returns a date which is businessDayCount business days before the startdate
-        public static DateTime countBusinessDaysInverse(DateTime startDate, int businessDayCount)
+        public static DateTime CountBusinessDaysInverse(DateTime startDate, int businessDayCount)
         {
             DateTime tmp = startDate;
             int counter = 0;
@@ -70,7 +74,7 @@ namespace PricingKanji.Model
         }
 
         // method transforming the weight of each share to a weight
-        public static double[] normalizeWeights(List<int> weights)
+        public static double[] NormalizeWeights(List<int> weights)
         {
             double[] result = new double[weights.Count];
             double s = weights.Sum();
@@ -97,7 +101,7 @@ namespace PricingKanji.Model
             }
             return c;
         }
-        public static double[,] addMatrix(double[,] a, double[,] b)
+        public static double[,] AddMatrix(double[,] a, double[,] b)
         {
             double[,] matrix = new double[a.GetLength(0),a.GetLength(1)];
             for (int i = 0; i < a.GetLength(0); i++)
@@ -110,7 +114,7 @@ namespace PricingKanji.Model
             return matrix;
         }
 
-        public static double[] subVect(double[] a, double[] b)
+        public static double[] SubVect(double[] a, double[] b)
         {
             int n = a.Length;
             double[] vect = new double[n];
@@ -121,7 +125,7 @@ namespace PricingKanji.Model
             return vect;
         }
 
-        public static void multiplyScalar(double[,]a, double scalar)
+        public static void MultiplyScalar(double[,]a, double scalar)
         {
             for (int i = 0; i < a.GetLength(0); i++)
             {
